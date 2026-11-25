@@ -76,6 +76,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -88,7 +89,7 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${syne.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-[#070709] text-[#EDEDEF] font-sans antialiased selection:bg-white selection:text-black relative">
+      <body className="min-h-dvh bg-[#070709] text-[#EDEDEF] font-sans antialiased selection:bg-white selection:text-black relative overflow-x-clip">
         {children}
       </body>
     </html>

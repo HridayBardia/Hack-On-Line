@@ -162,7 +162,7 @@ export function ScrollProgressHUD() {
   return (
     <div
       aria-label="Scroll Telemetry HUD"
-      className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2.5 font-mono select-none"
+      className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] right-2.5 sm:right-6 z-50 flex flex-col items-end gap-2.5 font-mono select-none max-w-[calc(100vw-1.25rem)]"
     >
       {/* Expanded Control Matrix Drawer */}
       <AnimatePresence>
@@ -172,7 +172,7 @@ export function ScrollProgressHUD() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 15 }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
-            className="w-72 rounded-2xl border border-white/20 bg-zinc-950/90 p-4 shadow-[0_16px_50px_rgba(0,0,0,0.85)] backdrop-blur-2xl ring-1 ring-white/10"
+            className="w-72 max-w-[calc(100vw-1.5rem)] rounded-2xl border border-white/20 bg-zinc-950/95 p-3.5 sm:p-4 shadow-[0_16px_50px_rgba(0,0,0,0.85)] backdrop-blur-2xl ring-1 ring-white/10 max-h-[75dvh] overflow-y-auto"
           >
             {/* Header Telemetry Status */}
             <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
@@ -319,12 +319,13 @@ export function ScrollProgressHUD() {
         <button
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="size-6 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-zinc-300 hover:text-white transition-all cursor-pointer"
+          aria-label={isExpanded ? "Collapse telemetry" : "Expand telemetry"}
+          className="size-8 min-w-8 min-h-8 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-zinc-300 hover:text-white transition-all cursor-pointer"
         >
           {isExpanded ? (
-            <Minimize2 className="size-3" />
+            <Minimize2 className="size-3.5" />
           ) : (
-            <Maximize2 className="size-3" />
+            <Maximize2 className="size-3.5" />
           )}
         </button>
       </motion.div>

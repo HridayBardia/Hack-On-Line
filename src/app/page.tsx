@@ -58,7 +58,7 @@ export default function Home() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-[#070709] text-[#F4F4F6] selection:bg-white selection:text-black">
+    <div className="relative min-h-dvh bg-[#070709] text-[#F4F4F6] selection:bg-white selection:text-black overflow-x-clip">
       {/* Ambient Backdrop */}
       <AmbientBackground />
 
@@ -68,7 +68,7 @@ export default function Home() {
       />
 
       {/* Main Content Flow */}
-      <main className="relative z-10 w-full">
+      <main className="relative z-10 w-full overflow-x-clip">
         {/* 1. Hero (Above the fold: immediate render) */}
         <Hero onOpenRegister={() => setIsRegisterModalOpen(true)} />
 

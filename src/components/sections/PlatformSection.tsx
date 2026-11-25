@@ -372,9 +372,9 @@ export function PlatformSection() {
 
                                 {/* Terminal Command Prompt */}
                                 <div className="p-4 sm:p-5 text-xs">
-                                    <div className="flex items-center gap-2 text-zinc-400 pb-3 border-b border-white/10 mb-4">
-                                        <span className="text-emerald-400 font-bold">$</span>
-                                        <span className="text-zinc-200 font-bold">{currentEngine.terminalData.command}</span>
+                                    <div className="flex items-start gap-2 text-zinc-400 pb-3 border-b border-white/10 mb-4 break-all">
+                                        <span className="text-emerald-400 font-bold shrink-0">$</span>
+                                        <span className="text-zinc-200 font-bold break-all">{currentEngine.terminalData.command}</span>
                                     </div>
 
                                     {/* Terminal Outputs (Direct Static High-Tech Render) */}

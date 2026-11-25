@@ -205,7 +205,7 @@ export function TracksSection() {
       className="relative w-full min-h-screen bg-[#050508] text-white overflow-hidden"
     >
       {/* Sticky Fullscreen Container */}
-      <div className="relative w-full h-screen flex flex-col justify-between py-6 sm:py-8 px-4 sm:px-10 overflow-hidden">
+      <div className="relative w-full min-h-dvh sm:h-[100dvh] flex flex-col justify-between py-4 sm:py-8 px-3 sm:px-10 overflow-hidden">
 
         {/* Top Header & Telemetry Bar */}
         <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-white/10 shrink-0">
@@ -247,17 +247,17 @@ export function TracksSection() {
         </div>
 
         {/* Center Horizontal Ribbon of All 5 Tracks */}
-        <div className="relative z-10 w-full flex items-center my-auto overflow-x-auto sm:overflow-visible no-scrollbar py-4">
+        <div className="relative z-10 w-full flex items-center my-auto overflow-x-auto sm:overflow-visible no-scrollbar py-3 sm:py-4 snap-x snap-mandatory">
           <div
             ref={trackTrackRef}
-            className="flex items-center gap-6 sm:gap-8 px-4 sm:px-8 shrink-0"
+            className="flex items-center gap-4 sm:gap-8 px-3 sm:px-8 shrink-0"
           >
             {tracks.map((track) => {
               const Icon = track.icon;
               return (
                 <div
                   key={track.id}
-                  className="w-[320px] sm:w-[440px] h-[450px] sm:h-[490px] shrink-0 luxury-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative group select-none overflow-hidden transition-all duration-300 hover:border-white/30"
+                  className="w-[275px] xs:w-[310px] sm:w-[440px] max-w-[calc(100vw-2.5rem)] h-[440px] sm:h-[490px] shrink-0 luxury-card rounded-3xl p-5 sm:p-8 flex flex-col justify-between relative group select-none overflow-hidden transition-all duration-300 hover:border-white/30 snap-center"
                 >
                   {/* Giant Watermark Track Number */}
                   <span className="pointer-events-none absolute -bottom-6 -right-3 text-[140px] sm:text-[180px] font-black font-mono text-white/[0.03] select-none leading-none group-hover:text-white/[0.06] transition-colors">
@@ -367,11 +367,12 @@ export function TracksSection() {
 
       {/* Track Detail Modal */}
       {selectedModalTrack && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl luxury-card p-6 sm:p-8 rounded-3xl border border-white/20 shadow-2xl overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xl animate-in fade-in duration-200">
+          <div className="relative w-full max-w-2xl luxury-card p-5 sm:p-8 rounded-3xl border border-white/20 shadow-2xl overflow-y-auto max-h-[90dvh]">
             <button
               onClick={() => setSelectedModalTrack(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+              aria-label="Close track detail modal"
+              className="absolute top-4 right-4 min-w-11 min-h-11 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer flex items-center justify-center z-10"
             >
               <X className="w-5 h-5" />
             </button>

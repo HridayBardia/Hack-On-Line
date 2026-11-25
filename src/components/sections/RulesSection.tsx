@@ -139,7 +139,7 @@ export function RulesSection() {
       ref={sectionRef}
       id="rules"
       aria-label="Evaluation Matrix & Judging"
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32 scroll-mt-28 select-none relative z-10"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-32 scroll-mt-28 select-none relative z-10 overflow-x-clip"
     >
       {/* Header with Scroll Stagger */}
       <motion.div
@@ -172,10 +172,10 @@ export function RulesSection() {
           </div>
 
           {/* Stage Selector Buttons */}
-          <div className="flex items-center gap-2 p-1 rounded-xl bg-black/80 border-2 border-white/15 shadow-lg">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 p-1 rounded-xl bg-black/80 border-2 border-white/15 shadow-lg w-full sm:w-auto">
             <button
               onClick={() => setSelectedStage(0)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-black transition-all cursor-pointer flex items-center gap-2 ${selectedStage === 0
+              className={`flex-1 sm:flex-none text-center px-3 sm:px-3.5 py-2 min-h-11 rounded-lg text-xs font-mono font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${selectedStage === 0
                 ? "bg-violet-600 text-white shadow-[0_0_15px_rgba(139,92,246,0.5)] scale-[1.02]"
                 : "text-zinc-400 hover:text-white"
                 }`}
@@ -185,7 +185,7 @@ export function RulesSection() {
             </button>
             <button
               onClick={() => setSelectedStage(1)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-black transition-all cursor-pointer flex items-center gap-2 ${selectedStage === 1
+              className={`flex-1 sm:flex-none text-center px-3 sm:px-3.5 py-2 min-h-11 rounded-lg text-xs font-mono font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${selectedStage === 1
                 ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.5)] scale-[1.02]"
                 : "text-zinc-400 hover:text-white"
                 }`}
@@ -230,7 +230,7 @@ export function RulesSection() {
                   delay: round.stageId * 0.1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className={`p-8 sm:p-9 rounded-3xl flex flex-col justify-between group overflow-hidden relative cursor-pointer transition-all duration-300 border-2 ${isSelected
+                className={`p-5 sm:p-8 md:p-9 rounded-3xl flex flex-col justify-between group overflow-hidden relative cursor-pointer transition-all duration-300 border-2 ${isSelected
                   ? "bg-[#05060C] border-white/40 ring-1 ring-white/20 shadow-[0_0_40px_rgba(255,255,255,0.12)]"
                   : "bg-[#030408]/80 border-white/10 hover:border-white/25 hover:bg-[#06070E]"
                   }`}
@@ -486,8 +486,8 @@ export function RulesSection() {
 
                 {isExpanded && (
                   <div className="mt-4 pt-4 border-t border-white/10 font-mono text-[11px] space-y-1.5 text-zinc-300 bg-black/60 p-3 rounded-xl border border-white/10">
-                    <div className="text-zinc-400">$ {rule.terminalCmd}</div>
-                    <div className="text-emerald-400 font-bold">✓ {rule.terminalExpected}</div>
+                    <div className="text-zinc-400 break-all">$ {rule.terminalCmd}</div>
+                    <div className="text-emerald-400 font-bold break-words">✓ {rule.terminalExpected}</div>
                   </div>
                 )}
               </motion.div>

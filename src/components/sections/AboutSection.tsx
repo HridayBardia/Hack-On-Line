@@ -208,10 +208,10 @@ export function AboutSection() {
 
       {/* View Mode Toggle: Standards Console vs Comparison Matrix */}
       <div className="pt-10 pb-6 flex items-center justify-between flex-wrap gap-4">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
           <button
             onClick={() => setComparisonMode("standard")}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-black transition-all cursor-pointer flex items-center gap-2 ${comparisonMode === "standard"
+            className={`w-full xs:w-auto px-4 py-2.5 min-h-11 rounded-xl text-xs font-mono font-black transition-all cursor-pointer flex items-center justify-center gap-2 ${comparisonMode === "standard"
               ? "bg-white text-zinc-950 shadow-lg scale-[1.02]"
               : "bg-white/5 text-zinc-400 hover:text-white border border-white/10"
               }`}
@@ -221,7 +221,7 @@ export function AboutSection() {
           </button>
           <button
             onClick={() => setComparisonMode("comparison")}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-black transition-all cursor-pointer flex items-center gap-2 ${comparisonMode === "comparison"
+            className={`w-full xs:w-auto px-4 py-2.5 min-h-11 rounded-xl text-xs font-mono font-black transition-all cursor-pointer flex items-center justify-center gap-2 ${comparisonMode === "comparison"
               ? "bg-white text-zinc-950 shadow-lg scale-[1.02]"
               : "bg-white/5 text-zinc-400 hover:text-white border border-white/10"
               }`}
@@ -392,7 +392,7 @@ export function AboutSection() {
                   </div>
 
                   {/* Flow Diagram with SVG Circuit Pulse */}
-                  <div className="grid grid-cols-4 gap-2 text-center text-[11px] font-mono">
+                  <div className="grid grid-cols-2 xs:grid-cols-4 gap-2 text-center text-[10px] sm:text-[11px] font-mono">
                     <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/15 flex flex-col items-center justify-center">
                       <Code2 className="w-4 h-4 text-cyan-400 mb-1" />
                       <span className="font-bold text-white">01. Repo</span>
@@ -420,21 +420,21 @@ export function AboutSection() {
                 </div>
 
                 {/* Live Holographic Terminal Console */}
-                <div className="relative z-10 p-5 rounded-2xl bg-[#000000] border-2 border-white/20 font-mono text-xs shadow-inner">
-                  <div className="flex items-center justify-between pb-3 border-b border-white/15 mb-3 text-zinc-400 text-[11px]">
+                <div className="relative z-10 p-4 sm:p-5 rounded-2xl bg-[#000000] border-2 border-white/20 font-mono text-xs shadow-inner">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-white/15 mb-3 text-zinc-400 text-[11px] gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                      <span className="font-bold text-zinc-200">{activeDoctrine.terminalTitle}</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0" />
+                      <span className="font-bold text-zinc-200 truncate">{activeDoctrine.terminalTitle}</span>
                     </div>
-                    <span className="text-[10px] text-cyan-400 font-bold">{activeDoctrine.telemetry}</span>
+                    <span className="text-[10px] text-cyan-400 font-bold shrink-0">{activeDoctrine.telemetry}</span>
                   </div>
 
-                  <div className="text-zinc-300 flex items-center gap-2 mb-2 font-bold">
-                    <span className="text-emerald-400">$</span>
+                  <div className="text-zinc-300 flex items-start gap-2 mb-2 font-bold break-all">
+                    <span className="text-emerald-400 shrink-0">$</span>
                     <span className="text-white">{activeDoctrine.terminalCmd}</span>
                   </div>
 
-                  <div className="space-y-1.5 pt-1 text-[11px]">
+                  <div className="space-y-1.5 pt-1 text-[11px] break-words">
                     {activeDoctrine.terminalOutput.map((out, i) => (
                       <div key={i} className={out.color}>
                         {out.text}

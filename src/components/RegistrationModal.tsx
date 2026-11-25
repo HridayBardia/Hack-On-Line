@@ -108,7 +108,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
             exit={{ scale: 0.95, opacity: 0, y: 8 }}
             transition={{ duration: 0.2 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-lg bg-zinc-950 border border-white/[0.12] rounded-3xl p-6 sm:p-8 shadow-2xl relative text-white font-sans overflow-hidden max-h-[90vh] overflow-y-auto"
+            className="w-full max-w-lg bg-zinc-950 border border-white/[0.12] rounded-3xl p-5 sm:p-8 shadow-2xl relative text-white font-sans overflow-y-auto max-h-[90dvh]"
           >
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-5">
@@ -130,10 +130,10 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
               </div>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                className="min-w-11 min-h-11 flex items-center justify-center p-2 rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
@@ -142,7 +142,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
               <button
                 type="button"
                 onClick={() => setActiveTab("DIRECT")}
-                className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
+                className={`flex-1 py-2.5 min-h-11 rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                   activeTab === "DIRECT"
                     ? "bg-white text-zinc-950 font-bold shadow-md"
                     : "text-zinc-400 hover:text-white"
@@ -153,7 +153,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
               <button
                 type="button"
                 onClick={() => setActiveTab("OVERVIEW")}
-                className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
+                className={`flex-1 py-2.5 min-h-11 rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                   activeTab === "OVERVIEW"
                     ? "bg-white text-zinc-950 font-bold shadow-md"
                     : "text-zinc-400 hover:text-white"
@@ -208,7 +208,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                           value={formData.teamName}
                           onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
                           placeholder="e.g. ZeroDay Architects"
-                          className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
+                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
                         />
                       </div>
 
@@ -222,7 +222,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                           value={formData.leaderName}
                           onChange={(e) => setFormData({ ...formData, leaderName: e.target.value })}
                           placeholder="e.g. Alex Turing"
-                          className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
+                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
                         />
                       </div>
                     </div>
@@ -238,7 +238,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                           value={formData.leaderEmail}
                           onChange={(e) => setFormData({ ...formData, leaderEmail: e.target.value })}
                           placeholder="builder@domain.com"
-                          className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
+                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
                         />
                       </div>
 
@@ -251,7 +251,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                           value={formData.githubHandle}
                           onChange={(e) => setFormData({ ...formData, githubHandle: e.target.value })}
                           placeholder="e.g. octocat"
-                          className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
+                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
                         />
                       </div>
                     </div>
@@ -264,7 +264,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                         <select
                           value={formData.trackId}
                           onChange={(e) => setFormData({ ...formData, trackId: e.target.value })}
-                          className="w-full px-3 py-2 rounded-xl bg-[#0e0f14] border border-white/10 text-xs text-white focus:outline-none focus:border-cyan-400 transition-colors"
+                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-[#0e0f14] border border-white/10 text-base sm:text-xs text-white focus:outline-none focus:border-cyan-400 transition-colors"
                         >
                           {TRACKS.map((t) => (
                             <option key={t.id} value={t.id}>
@@ -281,7 +281,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                         <select
                           value={formData.memberCount}
                           onChange={(e) => setFormData({ ...formData, memberCount: Number(e.target.value) })}
-                          className="w-full px-3 py-2 rounded-xl bg-[#0e0f14] border border-white/10 text-xs text-white focus:outline-none focus:border-cyan-400 transition-colors"
+                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-[#0e0f14] border border-white/10 text-base sm:text-xs text-white focus:outline-none focus:border-cyan-400 transition-colors"
                         >
                           <option value={1}>1 Solo Builder</option>
                           <option value={2}>2 Builders</option>
@@ -294,7 +294,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="luxury-button-primary w-full py-3 rounded-xl text-xs font-bold text-zinc-950 flex items-center justify-center gap-2 cursor-pointer mt-2"
+                      className="luxury-button-primary w-full py-3.5 min-h-11 rounded-xl text-sm sm:text-xs font-bold text-zinc-950 flex items-center justify-center gap-2 cursor-pointer mt-2"
                     >
                       {loading ? (
                         <>
@@ -345,7 +345,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                     href={unstopUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="apple-button-primary w-full py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
+                    className="apple-button-primary w-full py-3.5 min-h-11 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
                   >
                     <span>View Portal on Unstop</span>
                     <ExternalLink className="w-4 h-4" />

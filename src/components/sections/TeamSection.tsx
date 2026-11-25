@@ -194,7 +194,7 @@ export function TeamSection() {
     <section
       id="team"
       aria-label="Organizing Crew"
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 pt-32 sm:pt-44 pb-16 sm:pb-24 scroll-mt-40 relative z-10"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-44 pb-16 sm:pb-24 scroll-mt-28 relative z-10 overflow-x-clip"
     >
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between pb-8 border-b border-white/10 gap-6 mb-8 mt-2">
@@ -212,11 +212,11 @@ export function TeamSection() {
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-zinc-950/80 border border-white/15 backdrop-blur-2xl shadow-xl">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 p-1.5 rounded-2xl bg-zinc-950/80 border border-white/15 backdrop-blur-2xl shadow-xl w-full sm:w-auto">
           <button
             type="button"
             onClick={() => setActiveTab("ALL")}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === "ALL"
+            className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-2 min-h-11 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-center ${activeTab === "ALL"
               ? "bg-white text-zinc-950 shadow-md scale-[1.02]"
               : "text-zinc-400 hover:text-white"
               }`}
@@ -226,7 +226,7 @@ export function TeamSection() {
           <button
             type="button"
             onClick={() => setActiveTab("STEERING")}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === "STEERING"
+            className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-2 min-h-11 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-center ${activeTab === "STEERING"
               ? "bg-white text-zinc-950 shadow-md scale-[1.02]"
               : "text-zinc-400 hover:text-white"
               }`}
@@ -236,7 +236,7 @@ export function TeamSection() {
           <button
             type="button"
             onClick={() => setActiveTab("SUPPORT")}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === "SUPPORT"
+            className={`flex-1 sm:flex-none text-center px-3 sm:px-4 py-2 min-h-11 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-center ${activeTab === "SUPPORT"
               ? "bg-white text-zinc-950 shadow-md scale-[1.02]"
               : "text-zinc-400 hover:text-white"
               }`}

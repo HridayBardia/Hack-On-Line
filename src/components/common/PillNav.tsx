@@ -17,6 +17,28 @@ export function PillNav({ onOpenRegister }: PillNavProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [mobileMenuOpen]);
+
+  // Close mobile menu on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
+
   const navItems = [
     { id: "about", label: "About", href: "#about" },
     { id: "platform", label: "Platform", href: "#platform" },
@@ -199,56 +221,69 @@ export function PillNav({ onOpenRegister }: PillNavProps) {
           <div className="h-4 w-px bg-white/15 mx-1 hidden sm:block" />
 
           {/* Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={onOpenRegister}
-              className="luxury-button-primary px-4 py-1.5 rounded-full text-xs font-bold text-[#050508] transition-all flex items-center gap-1.5"
+              className="luxury-button-primary px-3 sm:px-4 py-2 min-h-11 rounded-full text-xs font-bold text-[#050508] transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <span>Register</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Toggle (44px touch target) */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-full text-zinc-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="md:hidden min-w-11 min-h-11 flex items-center justify-center p-2 rounded-full text-zinc-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Toggle Menu"
+              aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </nav>
       </header>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Menu Drawer & Backdrop */}
       {mobileMenuOpen && (
-        <div className="fixed top-20 inset-x-4 z-50 md:hidden luxury-card rounded-3xl p-5 shadow-2xl border border-white/15">
-          <div className="flex flex-col gap-1.5">
-            {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className="px-4 py-3 rounded-xl text-sm font-medium text-zinc-200 hover:text-white hover:bg-white/10 flex items-center justify-between transition-colors"
-              >
-                <span>{item.label}</span>
-                <span className="text-xs text-zinc-500">→</span>
-              </a>
-            ))}
-            <div className="pt-3 mt-1 border-t border-white/10">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onOpenRegister) onOpenRegister();
-                }}
-                className="luxury-button-primary w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
-              >
-                <span>Register on Unstop</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
+        <>
+          <div
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden animate-in fade-in duration-200"
+            aria-hidden="true"
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation Menu"
+            className="fixed top-20 inset-x-3 sm:inset-x-4 z-50 md:hidden luxury-card rounded-3xl p-4 sm:p-5 shadow-2xl border border-white/15 max-h-[calc(100dvh-6rem)] overflow-y-auto"
+          >
+            <div className="flex flex-col gap-1">
+              {navItems.map((item) => (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="px-4 py-3 min-h-11 rounded-xl text-sm font-medium text-zinc-200 hover:text-white hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
+                >
+                  <span>{item.label}</span>
+                  <span className="text-xs text-zinc-500 font-mono">→</span>
+                </a>
+              ))}
+              <div className="pt-3 mt-1 border-t border-white/10">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (onOpenRegister) onOpenRegister();
+                  }}
+                  className="luxury-button-primary w-full min-h-11 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                >
+                  <span>Register on Unstop</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

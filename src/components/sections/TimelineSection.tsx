@@ -140,7 +140,7 @@ export function TimelineSection() {
     <section
       id="timeline"
       aria-label="24-Hour Timeline"
-      className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-28 scroll-mt-28 select-none relative z-10"
+      className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-28 scroll-mt-28 select-none relative z-10 overflow-x-clip"
     >
       {/* Header */}
       <motion.div
@@ -209,9 +209,9 @@ export function TimelineSection() {
                 )}
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2.5">
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs sm:text-sm font-black text-white tracking-wider px-3.5 py-1.5 rounded-xl bg-black border-2 border-cyan-400 shadow-[0_0_16px_rgba(6,182,212,0.6)] flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <span className="font-mono text-xs sm:text-sm font-black text-white tracking-wider px-3 sm:px-3.5 py-1.5 rounded-xl bg-black border-2 border-cyan-400 shadow-[0_0_16px_rgba(6,182,212,0.6)] flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                     <span>{milestone.time}</span>
                   </span>
@@ -220,7 +220,7 @@ export function TimelineSection() {
                   </span>
                 </div>
                 <span
-                  className="font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full border self-start sm:self-auto tracking-wider uppercase"
+                  className="font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full border tracking-wider uppercase"
                   style={{
                     borderColor: `${milestone.accent}40`,
                     backgroundColor: `${milestone.accent}15`,
@@ -231,7 +231,7 @@ export function TimelineSection() {
                 </span>
               </div>
 
-              <div className="luxury-card p-6 sm:p-7 rounded-3xl group-hover:border-white/30 transition-all hover:translate-x-1 duration-300">
+              <div className="luxury-card p-4 sm:p-7 rounded-3xl group-hover:border-white/30 transition-all hover:translate-x-1 duration-300">
                 <div className="flex items-start gap-4">
                   <div
                     className="p-3 rounded-2xl border shrink-0 mt-0.5 shadow-sm transition-transform duration-300 group-hover:scale-105"

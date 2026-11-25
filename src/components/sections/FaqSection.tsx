@@ -67,7 +67,7 @@ export function FaqSection() {
     <section
       id="faq"
       aria-label="Frequently Asked Questions"
-      className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-28 scroll-mt-28 select-none relative z-10"
+      className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-28 scroll-mt-28 select-none relative z-10 overflow-x-clip"
     >
       {/* Header */}
       <motion.div
@@ -107,7 +107,7 @@ export function FaqSection() {
             >
               <button
                 onClick={() => toggle(faq.id)}
-                className="w-full py-5 px-6 sm:px-7 text-left flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
+                className="w-full py-4 sm:py-5 px-4 sm:px-7 min-h-11 text-left flex items-center justify-between gap-3 sm:gap-4 focus:outline-none cursor-pointer"
                 aria-expanded={isOpen}
               >
                 <div className="flex items-center gap-3">

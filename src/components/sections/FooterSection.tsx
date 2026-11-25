@@ -55,7 +55,7 @@ export function FooterSection() {
             </span>
           </div>
 
-          <div className="flex items-center gap-3 text-xs font-mono text-zinc-400">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-zinc-400">
             <div className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-zinc-500" />
               <span>{istTime || "10:00:00 IST"}</span>
@@ -66,7 +66,7 @@ export function FooterSection() {
         </div>
 
         {/* Directory Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16">
           {/* Col 1 */}
           <div>
             <div className="text-xs font-bold text-white uppercase tracking-wider mb-4">
@@ -176,7 +176,7 @@ export function FooterSection() {
                   href="https://mail.google.com/mail/?view=cm&fs=1&to=hackon.line2027@gmail.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors break-all"
                 >
                   Queries & Collabs: hackon.line2027@gmail.com
                 </a>
@@ -186,7 +186,7 @@ export function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+        <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500 text-center sm:text-left">
           <div>
             © 2027 Hack On-Line. All rights reserved. Built for builders.
           </div>
@@ -199,10 +199,10 @@ export function FooterSection() {
 
             <button
               onClick={scrollToTop}
-              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+              className="min-w-11 min-h-11 flex items-center justify-center p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
               aria-label="Back to top"
             >
-              <ArrowUp className="w-3.5 h-3.5" />
+              <ArrowUp className="w-4 h-4" />
             </button>
           </div>
         </div>
