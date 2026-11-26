@@ -11,9 +11,9 @@ const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hack On-Line 2027 // Strategic Partnership Dossier</title>
+  <title>Hack On-Line 2027 // Official Sponsorship Prospectus</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
 
     @page {
       size: A4 portrait;
@@ -29,689 +29,867 @@ const htmlContent = `<!DOCTYPE html>
     }
 
     body {
-      font-family: 'Newsreader', 'Georgia', serif;
-      background-color: #f8f9fa;
-      color: #111827;
-      line-height: 1.55;
-      font-size: 9.2pt;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #050508;
+      color: #f1f5f9;
+      line-height: 1.45;
+      font-size: 9pt;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Page container: exact A4 */
     .page {
       width: 210mm;
       height: 297mm;
       position: relative;
-      background: #ffffff;
-      padding: 16mm 20mm 15mm 20mm;
+      background: #050508;
+      padding: 14mm 16mm 13mm 16mm;
       overflow: hidden;
       page-break-after: always;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid #1e293b;
     }
 
     @media print {
       body {
-        background: transparent;
+        background: #050508;
       }
       .page {
         border-bottom: none;
       }
     }
 
-    /* Editorial Running Header */
-    .editorial-header {
+    /* Ambient Glows */
+    .glow-cyan {
+      position: absolute;
+      width: 140mm;
+      height: 140mm;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
+      pointer-events-none;
+      z-index: 1;
+    }
+
+    .glow-violet {
+      position: absolute;
+      width: 140mm;
+      height: 140mm;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+      pointer-events-none;
+      z-index: 1;
+    }
+
+    /* Laser Grid Overlay */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 16mm 16mm;
+      pointer-events-none;
+      z-index: 1;
+    }
+
+    .content-layer {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Running Header */
+    .hud-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      padding-bottom: 3mm;
-      border-bottom: 1.5px solid #111827;
+      align-items: center;
+      padding-bottom: 2.5mm;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       font-family: 'JetBrains Mono', monospace;
       font-size: 6.8pt;
-      color: #374151;
+      color: #94a3b8;
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
 
-    .editorial-header .bold-tag {
-      font-weight: 800;
-      color: #111827;
+    .hud-header .telemetry-pill {
       display: flex;
       align-items: center;
       gap: 6px;
+      color: #38bdf8;
+      font-weight: 700;
     }
 
-    /* Editorial Running Footer */
-    .editorial-footer {
+    .hud-header .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* Running Footer */
+    .hud-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 3.5mm;
-      border-top: 1px solid #111827;
+      padding-top: 2.5mm;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
       font-family: 'JetBrains Mono', monospace;
       font-size: 6.5pt;
-      color: #4b5563;
+      color: #64748b;
       letter-spacing: 0.08em;
     }
 
-    .editorial-footer .page-count {
+    .hud-footer .page-indicator {
       font-weight: 800;
-      color: #111827;
+      color: #38bdf8;
     }
 
     /* Typography */
-    h1, h2, h3 {
+    h1, h2, h3, h4 {
       font-family: 'Space Grotesk', -apple-system, sans-serif;
-      color: #000000;
-      letter-spacing: -0.03em;
+      color: #ffffff;
+      letter-spacing: -0.025em;
     }
 
-    .editorial-tag {
+    .eyebrow-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 6.8pt;
-      font-weight: 700;
+      font-size: 7pt;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.15em;
-      color: #1e3a8a;
-      display: block;
-      margin-bottom: 2mm;
-    }
-
-    .editorial-title {
-      font-size: 23pt;
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.035em;
-      color: #000000;
-      margin-bottom: 3mm;
-    }
-
-    .editorial-lead {
-      font-family: 'Newsreader', Georgia, serif;
-      font-size: 10.5pt;
-      font-style: italic;
-      color: #374151;
-      line-height: 1.5;
-      margin-bottom: 5mm;
-      padding-bottom: 3mm;
-      border-bottom: 0.5px solid #d1d5db;
-    }
-
-    /* 2-Column Newspaper Layout */
-    .two-col-story {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8mm;
-      text-align: justify;
-      hyphens: auto;
-    }
-
-    .two-col-story p {
-      margin-bottom: 3mm;
-      font-size: 8.8pt;
-      line-height: 1.55;
-      color: #1f2937;
-    }
-
-    .dropcap::first-letter {
-      float: left;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 34pt;
-      line-height: 0.75;
-      font-weight: 900;
-      margin-right: 3mm;
-      margin-top: 1mm;
-      color: #000000;
-    }
-
-    .pull-quote {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 13.5pt;
-      font-style: italic;
-      line-height: 1.35;
-      color: #000000;
-      border-left: 2.5px solid #000000;
-      padding-left: 4mm;
-      margin: 4mm 0;
-    }
-
-    .field-note {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.2pt;
-      line-height: 1.45;
-      background: #f3f4f6;
-      border-left: 2px solid #1e3a8a;
-      padding: 3mm 3.5mm;
-      margin: 3.5mm 0;
-      color: #1f2937;
-    }
-
-    /* Editorial Thin Divider */
-    .divider-thin {
-      height: 0.5px;
-      background: #d1d5db;
-      margin: 4mm 0;
-    }
-
-    .divider-heavy {
-      height: 2px;
-      background: #000000;
-      margin: 5mm 0;
-    }
-
-    /* ========================================================
-       PAGE 1: COVER BROADSIDE (MAGAZINE COVER STYLE)
-       ======================================================== */
-    .cover-top-masthead {
-      border-bottom: 3px double #000000;
-      padding-bottom: 4mm;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .masthead-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .masthead-logo {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
-    }
-
-    .masthead-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 15pt;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      color: #000000;
-    }
-
-    .masthead-issue {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.2pt;
-      font-weight: 600;
-      color: #4b5563;
-      text-align: right;
-      letter-spacing: 0.08em;
-    }
-
-    .cover-main-headline {
-      margin-top: 8mm;
-      margin-bottom: 5mm;
-    }
-
-    .headline-deck {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 8pt;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      color: #1e3a8a;
-      text-transform: uppercase;
-      margin-bottom: 2mm;
-    }
-
-    .headline-huge {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 34pt;
-      font-weight: 900;
-      line-height: 1.0;
-      letter-spacing: -0.04em;
-      color: #000000;
-      margin-bottom: 4mm;
-    }
-
-    .headline-sub {
-      font-family: 'Newsreader', Georgia, serif;
-      font-size: 12pt;
-      font-style: italic;
-      color: #374151;
-      line-height: 1.45;
-      max-width: 95%;
-      margin-bottom: 6mm;
-    }
-
-    .cover-story-summary {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 8mm;
-      margin-top: 4mm;
-      border-top: 1px solid #111827;
-      padding-top: 5mm;
-    }
-
-    .cover-story-summary p {
-      font-size: 9.5pt;
-      line-height: 1.6;
-      color: #1f2937;
-      text-align: justify;
-    }
-
-    .cover-index-box {
-      border-left: 1px solid #d1d5db;
-      padding-left: 6mm;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.2pt;
-    }
-
-    .index-header {
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #111827;
-      margin-bottom: 3mm;
-      border-bottom: 1px solid #111827;
-      padding-bottom: 1.5mm;
-    }
-
-    .index-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 2.2mm;
-      color: #4b5563;
-    }
-
-    .index-item span:first-child {
-      color: #111827;
-      font-weight: 600;
-    }
-
-    .cover-stats-ticker {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1.5px solid #111827;
-      border-bottom: 1.5px solid #111827;
-      padding: 4mm 0;
-      margin-top: 6mm;
-    }
-
-    .stat-ticker-cell {
-      padding: 0 4mm;
-      border-right: 1px solid #e5e7eb;
-    }
-
-    .stat-ticker-cell:last-child {
-      border-right: none;
-    }
-
-    .stat-ticker-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 19pt;
-      font-weight: 800;
-      color: #000000;
-      line-height: 1;
-      margin-bottom: 1mm;
-    }
-
-    .stat-ticker-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 6.5pt;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #4b5563;
-      letter-spacing: 0.06em;
-    }
-
-    /* ========================================================
-       PAGE 2: THE ANATOMY OF A CRUCIBLE
-       ======================================================== */
-    .pillar-narrative {
-      margin-top: 4mm;
-      display: flex;
-      flex-direction: column;
-      gap: 4mm;
-    }
-
-    .narrative-strip {
-      border-top: 1px solid #111827;
-      padding-top: 2.5mm;
-      display: grid;
-      grid-template-columns: 50mm 1fr;
-      gap: 6mm;
-    }
-
-    .strip-meta {
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .strip-num {
-      font-size: 14pt;
-      font-weight: 900;
-      color: #1e3a8a;
-      line-height: 1;
-      margin-bottom: 1mm;
-    }
-
-    .strip-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 9pt;
-      font-weight: 800;
-      color: #000000;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-    }
-
-    .strip-prose p {
-      font-size: 8.5pt;
-      color: #27272a;
-      line-height: 1.5;
-    }
-
-    /* ========================================================
-       PAGE 3: THE 5 BATTLEGROUNDS
-       ======================================================== */
-    .arenas-list {
-      display: flex;
-      flex-direction: column;
-      gap: 3.5mm;
-      margin-top: 3mm;
-    }
-
-    .arena-entry {
-      border-top: 1px solid #111827;
-      padding-top: 2mm;
-      display: grid;
-      grid-template-columns: 55mm 1fr;
-      gap: 6mm;
-    }
-
-    .arena-tag-col {
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .arena-code {
-      font-size: 7.2pt;
-      font-weight: 800;
-      color: #1e3a8a;
-    }
-
-    .arena-title-main {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 9.5pt;
-      font-weight: 800;
-      color: #000000;
-      line-height: 1.25;
-      margin-top: 0.5mm;
-    }
-
-    .arena-subhead {
-      font-size: 7.2pt;
-      color: #4b5563;
-      margin-top: 1mm;
-    }
-
-    .arena-body-col p {
-      font-size: 8.2pt;
-      color: #374151;
-      line-height: 1.45;
+      color: #38bdf8;
       margin-bottom: 1.5mm;
     }
 
-    .arena-chips {
+    .main-section-title {
+      font-size: 20pt;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 2mm;
+    }
+
+    .main-section-lead {
+      font-size: 8.5pt;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 4mm;
+      max-width: 95%;
+    }
+
+    /* Cyber Card Panels */
+    .cyber-card {
+      background: rgba(15, 17, 26, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 3.5mm 4mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cyber-card-highlight {
+      background: linear-gradient(135deg, rgba(20, 24, 38, 0.95) 0%, rgba(12, 14, 22, 0.95) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      border-radius: 8px;
+      padding: 3.5mm 4mm;
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.08);
+      position: relative;
+    }
+
+    /* Badges */
+    .cyber-badge {
       font-family: 'JetBrains Mono', monospace;
+      font-size: 6.5pt;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: inline-block;
+    }
+
+    .badge-cyan {
+      background: rgba(6, 182, 212, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(6, 182, 212, 0.4);
+    }
+
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .badge-violet {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+    }
+
+    .badge-amber {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .badge-pink {
+      background: rgba(236, 72, 153, 0.15);
+      color: #f472b6;
+      border: 1px solid rgba(236, 72, 153, 0.4);
+    }
+
+    /* ========================================================
+       PAGE 1: MONOLITHIC CYBER COVER
+       ======================================================== */
+    .cover-masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 4mm;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .cover-brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cover-logo-graphic {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.5));
+    }
+
+    .cover-brand-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17pt;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+
+    .cover-top-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.08em;
+    }
+
+    .cover-hero-box {
+      margin-top: 10mm;
+      margin-bottom: 6mm;
+    }
+
+    .cover-monolithic-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 40pt;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      margin-bottom: 3.5mm;
+      text-transform: uppercase;
+    }
+
+    .cover-monolithic-title span {
+      background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cover-deck-line {
+      font-family: 'Inter', sans-serif;
+      font-size: 11.5pt;
+      font-weight: 400;
+      color: #cbd5e1;
+      line-height: 1.5;
+      max-width: 92%;
+      margin-bottom: 8mm;
+    }
+
+    .cover-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3mm;
+      margin-bottom: 7mm;
+    }
+
+    .cover-stat-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 4mm 3mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+    }
+
+    .cover-stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 19pt;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+      margin-bottom: 1.5mm;
+    }
+
+    .cover-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.5pt;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .cover-stat-sub {
       font-size: 6.8pt;
-      color: #1e3a8a;
+      color: #34d399;
+      font-weight: 600;
+      margin-top: 1mm;
+    }
+
+    .cover-pillars-wrapper {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 5mm;
+    }
+
+    .cover-pillars-headline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.2pt;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 3.5mm;
+    }
+
+    .cover-pillars-flex {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4.5mm;
+    }
+
+    .cover-pillar-card h4 {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1mm;
+    }
+
+    .cover-pillar-card p {
+      font-size: 7.8pt;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    .cover-bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 4mm;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 7.2pt;
+      color: #94a3b8;
+    }
+
+    .cover-bottom-bar strong {
+      color: #ffffff;
+      font-size: 8.5pt;
+      display: block;
+      margin-bottom: 0.5mm;
+    }
+
+    /* ========================================================
+       PAGE 2: THE 5 BATTLEGROUND TRACKS & GROUND RULES
+       ======================================================== */
+    .doctrine-strip-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3mm;
+      margin-bottom: 5mm;
+    }
+
+    .doctrine-hud-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 2.5px solid #38bdf8;
+      border-radius: 6px;
+      padding: 3mm 3.5mm;
+    }
+
+    .doctrine-hud-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11pt;
+      font-weight: 900;
+      color: #38bdf8;
+      line-height: 1;
+      margin-bottom: 1mm;
+    }
+
+    .doctrine-hud-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1mm;
+    }
+
+    .doctrine-hud-desc {
+      font-size: 7.2pt;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    .arenas-vertical-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 2.8mm;
+    }
+
+    .arena-tech-row {
+      background: rgba(15, 17, 26, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 3.5px solid #38bdf8;
+      border-radius: 6px;
+      padding: 2.8mm 3.5mm;
+      display: grid;
+      grid-template-columns: 55mm 1fr;
+      gap: 4mm;
+      align-items: center;
+    }
+
+    .arena-left-meta {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .arena-track-id {
+      font-size: 6.8pt;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .arena-main-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9pt;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-top: 0.5mm;
+    }
+
+    .arena-right-details p {
+      font-size: 7.5pt;
+      color: #cbd5e1;
+      line-height: 1.35;
+      margin-bottom: 1.5mm;
+    }
+
+    .arena-tag-cluster {
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
     }
 
-    .arena-chips span {
-      background: #f1f5f9;
-      padding: 1.5px 5px;
-      border-radius: 2px;
-      border: 0.5px solid #cbd5e1;
+    .arena-tech-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.2pt;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #94a3b8;
     }
 
     /* ========================================================
-       PAGE 4: THE DIRECTORATE & COHORT
+       PAGE 3: AUDIENCE & SPONSOR VALUE
        ======================================================== */
-    .masthead-roster {
+    .demographics-dashboard {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4mm 8mm;
-      margin-top: 4mm;
-      border-top: 1px solid #111827;
-      padding-top: 4mm;
+      gap: 3.5mm;
+      margin-bottom: 4.5mm;
     }
 
-    .roster-member {
-      border-bottom: 0.5px dotted #9ca3af;
-      padding-bottom: 2.5mm;
+    .dash-box {
+      background: rgba(15, 17, 26, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 3.5mm 4mm;
     }
 
-    .roster-name-role {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1mm;
-    }
-
-    .roster-name {
+    .dash-box-header {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 9pt;
       font-weight: 800;
-      color: #000000;
+      color: #ffffff;
+      margin-bottom: 2.5mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 1.5mm;
     }
 
-    .roster-role {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 6.8pt;
-      font-weight: 700;
-      color: #1e3a8a;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .meter-row {
+      margin-bottom: 2mm;
     }
 
-    .roster-bio {
-      font-size: 7.5pt;
-      color: #4b5563;
-      line-height: 1.35;
+    .meter-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.2pt;
+      color: #cbd5e1;
+      margin-bottom: 0.8mm;
     }
 
-    /* Demographic breakdown editorial style */
-    .editorial-metrics-strip {
+    .meter-rail {
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .roi-four-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4mm;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      padding: 3.5mm;
-      margin-top: 4mm;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm;
     }
 
-    .metric-cell strong {
-      display: block;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 11pt;
-      color: #000000;
-      margin-bottom: 0.5mm;
+    .roi-panel {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 3mm 3.5mm;
+      border-top: 2.5px solid #38bdf8;
     }
 
-    .metric-cell span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 6.8pt;
-      color: #6b7280;
-      text-transform: uppercase;
+    .roi-panel h4 {
+      font-size: 8.8pt;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1mm;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* ========================================================
-       PAGE 5: SPONSORSHIP SYNDICATE (CLEAN EDITORIAL TABLE)
-       ======================================================== */
-    .prospectus-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 4mm;
-      font-size: 7.8pt;
-    }
-
-    .prospectus-table th {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 8pt;
-      font-weight: 800;
-      color: #000000;
-      border-top: 2px solid #000000;
-      border-bottom: 1.5px solid #000000;
-      padding: 2.5mm 2mm;
-      text-align: left;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .prospectus-table td {
-      padding: 2.2mm 2mm;
-      border-bottom: 0.5px solid #e5e7eb;
-      color: #1f2937;
-      vertical-align: top;
-    }
-
-    .prospectus-table tr:hover td {
-      background: #f9fafb;
-    }
-
-    .tier-title-col {
-      font-weight: 800;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 8.5pt;
-      color: #000000;
-    }
-
-    .tier-investment-col {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 800;
-      color: #1e3a8a;
-      white-space: nowrap;
-    }
-
-    .tier-desc-col {
+    .roi-panel p {
       font-size: 7.5pt;
-      color: #4b5563;
+      color: #94a3b8;
       line-height: 1.4;
     }
 
-    .tier-slots-col {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7pt;
-      font-weight: 700;
-      color: #047857;
-      white-space: nowrap;
-    }
-
-    .syndicate-rules {
-      margin-top: 4mm;
-      border-top: 1px solid #111827;
-      padding-top: 3mm;
+    /* ========================================================
+       PAGE 4: THE CREW
+       ======================================================== */
+    .crew-cyber-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6mm;
-      font-size: 7.5pt;
-      color: #4b5563;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3mm;
     }
 
-    .syndicate-rules strong {
-      color: #000000;
-      display: block;
-      margin-bottom: 1mm;
+    .crew-cyber-card {
+      background: rgba(15, 17, 26, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 3mm;
+      display: flex;
+      gap: 3mm;
+      align-items: flex-start;
+    }
+
+    .crew-avatar-orb {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #090a10;
+      border: 1.5px solid #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: 'Space Grotesk', sans-serif;
+      font-size: 11pt;
+      font-weight: 900;
+      color: #ffffff;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+    }
+
+    .crew-meta-box h4 {
+      font-size: 9pt;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .crew-meta-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.5pt;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+      margin: 0.5mm 0 1mm 0;
+    }
+
+    .crew-meta-desc {
+      font-size: 7.2pt;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    /* ========================================================
+       PAGE 5: SPONSORSHIP TIERS MATRIX
+       ======================================================== */
+    .tier-cards-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.8mm;
+      margin-bottom: 3.5mm;
+    }
+
+    .tier-box {
+      background: rgba(15, 17, 26, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      padding: 3mm 2.5mm;
+      text-align: center;
+    }
+
+    .tier-box.vip {
+      border: 1.5px solid #38bdf8;
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.15) 0%, rgba(15, 17, 26, 0.85) 100%);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    }
+
+    .tier-box-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10pt;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .tier-box-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11pt;
+      font-weight: 900;
+      color: #38bdf8;
+      margin-top: 1mm;
+    }
+
+    .tier-box-slots {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.2pt;
+      color: #34d399;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 0.5mm;
+    }
+
+    .matrix-cyber-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 7.2pt;
+    }
+
+    .matrix-cyber-table th {
+      background: #090a10;
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 7.5pt;
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 2mm 2.5mm;
+      text-align: center;
+    }
+
+    .matrix-cyber-table th:first-child {
+      text-align: left;
+      width: 40%;
+      background: #111422;
+    }
+
+    .matrix-cyber-table td {
+      padding: 2mm 2.5mm;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      color: #cbd5e1;
+    }
+
+    .matrix-cyber-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .matrix-cyber-table tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    .matrix-cyber-table .yes {
+      color: #34d399;
+      font-weight: 900;
+      font-size: 8pt;
+    }
+
+    .matrix-cyber-table .no {
+      color: #475569;
       font-size: 8pt;
     }
 
     /* ========================================================
        PAGE 6: ENGAGEMENT PROTOCOL & DIRECT LINES
        ======================================================== */
-    .protocol-steps {
+    .timeline-four-cols {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 4mm;
-      border-top: 1px solid #111827;
-      padding-top: 3.5mm;
-      margin-top: 4mm;
-      margin-bottom: 6mm;
+      gap: 3mm;
+      margin-bottom: 5mm;
     }
 
-    .protocol-step-num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 16pt;
+    .step-hud-card {
+      background: rgba(15, 17, 26, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 3mm;
+      position: relative;
+    }
+
+    .step-hud-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #38bdf8;
+    }
+
+    .step-num-big {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15pt;
       font-weight: 900;
-      color: #000000;
+      color: #38bdf8;
       line-height: 1;
-      margin-bottom: 1.5mm;
-    }
-
-    .protocol-step-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 8.5pt;
-      font-weight: 800;
-      color: #000000;
       margin-bottom: 1mm;
     }
 
-    .protocol-step-desc {
-      font-size: 7.5pt;
-      color: #4b5563;
-      line-height: 1.4;
-    }
-
-    .executive-contact-editorial {
-      border: 1.5px solid #111827;
-      padding: 5mm 6mm;
-      margin-bottom: 5mm;
-      background: #fafafa;
-    }
-
-    .contact-headline {
+    .step-card-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 11pt;
+      font-size: 8.5pt;
       font-weight: 800;
-      margin-bottom: 2mm;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      color: #ffffff;
+      margin-bottom: 1mm;
     }
 
-    .contact-grid {
+    .step-card-body {
+      font-size: 7.2pt;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    .executive-contact-banner {
+      background: linear-gradient(135deg, rgba(20, 24, 38, 0.95) 0%, rgba(10, 12, 18, 0.95) 100%);
+      border: 1.5px solid rgba(6, 182, 212, 0.4);
+      border-radius: 8px;
+      padding: 5mm 6mm;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: 4mm;
+    }
+
+    .contact-banner-header {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13pt;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 1.5mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .contact-banner-sub {
+      font-size: 8pt;
+      color: #94a3b8;
+      line-height: 1.45;
+      margin-bottom: 4mm;
+    }
+
+    .contact-direct-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6mm;
-      margin-top: 3mm;
+      gap: 5mm;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 3.5mm 4mm;
     }
 
-    .contact-card-ed {
+    .direct-officer-item {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 7.5pt;
+      font-size: 7.2pt;
     }
 
-    .contact-card-ed .title {
-      font-size: 6.8pt;
-      font-weight: 700;
-      color: #6b7280;
+    .direct-officer-item .post {
+      color: #64748b;
+      font-size: 6.5pt;
       text-transform: uppercase;
     }
 
-    .contact-card-ed .name {
+    .direct-officer-item .name {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 9.5pt;
       font-weight: 800;
-      color: #000000;
+      color: #ffffff;
       margin: 0.5mm 0;
     }
 
-    .contact-card-ed .email {
-      color: #1e3a8a;
+    .direct-officer-item .email {
+      color: #38bdf8;
       font-weight: 700;
     }
 
-    .manifesto-seal {
-      border-top: 0.5px solid #d1d5db;
-      padding-top: 3mm;
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-style: italic;
-      font-size: 10pt;
-      color: #4b5563;
-      text-align: center;
+    .terminal-closing-quote {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.2pt;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 3px solid #10b981;
+      padding: 2.5mm 3.5mm;
+      color: #94a3b8;
       line-height: 1.4;
     }
   </style>
@@ -719,582 +897,734 @@ const htmlContent = `<!DOCTYPE html>
 <body>
 
   <!-- ========================================================
-       PAGE 1: THE BROADSIDE (MAGAZINE COVER / MANIFESTO COVER)
+       PAGE 1: MONOLITHIC CYBER COVER
        ======================================================== -->
   <div class="page">
-    <div class="cover-top-masthead">
-      <div class="masthead-brand">
-        ${logoDataUri ? `<img src="${logoDataUri}" alt="Logo" class="masthead-logo">` : ''}
-        <span class="masthead-title">HACK ON-LINE</span>
-      </div>
-      <div class="masthead-issue">
-        CONFIDENTIAL DOSSIER // ISSUE 2027.01<br>
-        GLOBAL SPRINT DATE: JAN 30–31, 2027
-      </div>
-    </div>
+    <div class="glow-cyan" style="top: -20mm; right: -20mm;"></div>
+    <div class="glow-violet" style="bottom: 10mm; left: -20mm;"></div>
+    <div class="grid-overlay"></div>
 
-    <div class="cover-main-headline">
-      <div class="headline-deck">A PROSPECTUS FOR ENGINEERING LEADERS</div>
-      <div class="headline-huge">THE END OF THE<br>SLIDE DECK.</div>
-      <div class="headline-sub">
-        How 2,500 engineers, 24 hours of live Git commits, and five deep-tech arenas are resetting the standard for corporate technical sponsorship.
-      </div>
-    </div>
-
-    <div class="cover-story-summary">
-      <div>
-        <p class="dropcap">
-          Most tech hackathons have devolved into theater. Teams arrive with pre-built repositories, tweak a front-end wrapper, rehearse a three-minute pitch deck, and walk away with awards while writing zero original code. Corporate sponsors sit at branded tables, hand out stickers, and return to their offices with a spreadsheet of parsed resumes from students who cannot debug a production service.
-        </p>
-        <p style="margin-top: 3mm;">
-          Hack On-Line was engineered to kill that model. On January 30, 2027, 2,500+ verified builders enter a synchronized 24-hour sprint. Repositories must be initialized empty. Problem statements decrypt only fifteen minutes before the opening bell. Every pull request is timestamped and audited by automated AST verification engines and active industry engineering directors.
-        </p>
-      </div>
-
-      <div class="cover-index-box">
-        <div class="index-header">DOSSIER CONTENTS</div>
-        <div class="index-item"><span>01. The Manifesto</span><span>PAGE 02</span></div>
-        <div class="index-item"><span>02. The 5 Battlegrounds</span><span>PAGE 03</span></div>
-        <div class="index-item"><span>03. The Builder Cohort</span><span>PAGE 04</span></div>
-        <div class="index-item"><span>04. The Directorate</span><span>PAGE 04</span></div>
-        <div class="index-item"><span>05. Sponsorship Syndicate</span><span>PAGE 05</span></div>
-        <div class="index-item"><span>06. Protocol of Engagement</span><span>PAGE 06</span></div>
-
-        <div style="margin-top: 5mm; border-top: 1px dotted #9ca3af; padding-top: 3mm; font-size: 6.8pt; color: #4b5563;">
-          <strong>TARGET AUDIENCE:</strong> Chief Technology Officers, Heads of Talent, VP Engineering, Developer Relations Directors.
+    <div class="content-layer">
+      <div class="cover-masthead">
+        <div class="cover-brand-logo">
+          ${logoDataUri ? `<img src="${logoDataUri}" alt="Logo" class="cover-logo-graphic">` : ''}
+          <span class="cover-brand-title">HACK ON-LINE</span>
+        </div>
+        <div class="cover-top-badge">
+          GLOBAL PROSPECTUS // ISSUE 2027
         </div>
       </div>
-    </div>
 
-    <div class="cover-stats-ticker">
-      <div class="stat-ticker-cell">
-        <div class="stat-ticker-num">2,500+</div>
-        <div class="stat-ticker-label">Screened Engineers</div>
-      </div>
-      <div class="stat-ticker-cell">
-        <div class="stat-ticker-num">24:00</div>
-        <div class="stat-ticker-label">Continuous Sprint</div>
-      </div>
-      <div class="stat-ticker-cell">
-        <div class="stat-ticker-num">0%</div>
-        <div class="stat-ticker-label">Equity Extracted</div>
-      </div>
-      <div class="stat-ticker-cell">
-        <div class="stat-ticker-num">100%</div>
-        <div class="stat-ticker-label">Fresh Commits Only</div>
-      </div>
-    </div>
+      <div class="cover-hero-box">
+        <div class="eyebrow-tag">
+          <span style="color:#10b981;">●</span>
+          <span>THE PREMIER 24-HOUR VIRTUAL DEVELOPER SPRINT</span>
+        </div>
 
-    <div class="editorial-footer">
-      <div>HACK ON-LINE 2027 // PROSPECTUS</div>
-      <div>DISTRIBUTED & VIRTUAL</div>
-      <div class="page-count">01 / 06</div>
+        <div class="cover-monolithic-title">
+          WHERE TOP BUILDERS<br><span>ACTUALLY SHIP.</span>
+        </div>
+
+        <div class="cover-deck-line">
+          Hack On-Line is a high-velocity developer engineering competition connecting 2,500+ top software architects, systems builders, and AI researchers with forward-thinking tech enterprises. Zero pitch-deck theater. Fresh Git commits only. 100% builder IP ownership.
+        </div>
+
+        <div class="cover-stat-grid">
+          <div class="cover-stat-card">
+            <div class="cover-stat-value">2,500+</div>
+            <div class="cover-stat-label">Vetted Engineers</div>
+            <div class="cover-stat-sub">Premier Tech Hubs</div>
+          </div>
+          <div class="cover-stat-card">
+            <div class="cover-stat-value">24:00</div>
+            <div class="cover-stat-label">Live Sprint</div>
+            <div class="cover-stat-sub">Synchronous Ingest</div>
+          </div>
+          <div class="cover-stat-card">
+            <div class="cover-stat-value">5 Tracks</div>
+            <div class="cover-stat-label">Deep-Tech Arenas</div>
+            <div class="cover-stat-sub">T-15m Decryption</div>
+          </div>
+          <div class="cover-stat-card">
+            <div class="cover-stat-value">100%</div>
+            <div class="cover-stat-label">Builder IP Rights</div>
+            <div class="cover-stat-sub">Zero Equity Taken</div>
+          </div>
+        </div>
+
+        <div class="cover-pillars-wrapper">
+          <div class="cover-pillars-headline">// WHY LEADING TECH COMPANIES PARTNER WITH US</div>
+          <div class="cover-pillars-flex">
+            <div class="cover-pillar-card">
+              <h4>Direct Code-First Hiring</h4>
+              <p>Evaluate candidates by inspecting actual live Git pull requests, system architectures, and code hygiene written under pressure.</p>
+            </div>
+            <div class="cover-pillar-card">
+              <h4>API & Developer Tool Adoption</h4>
+              <p>Challenge hundreds of engineering teams to build production-grade prototypes with your SDKs, APIs, and cloud services.</p>
+            </div>
+            <div class="cover-pillar-card">
+              <h4>Engineering Mindshare</h4>
+              <p>Position your company as an authentic technology leader championing real engineering meritocracy and open innovation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cover-bottom-bar">
+        <div>
+          <strong>JANUARY 30–31, 2027 // 100% VIRTUAL</strong>
+          <span>Primary Portals: Unstop & GitHub Organization</span>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 6.8pt; text-align: right;">
+          <span>CONFIDENTIAL PARTNERSHIP PACKET</span><br>
+          <span style="color:#38bdf8;">HACK ON-LINE EXECUTIVE STEERING COMMITTEE</span>
+        </div>
+      </div>
     </div>
   </div>
 
 
   <!-- ========================================================
-       PAGE 2: ACT I & II — THE MANIFESTO & THE CRUCIBLE
+       PAGE 2: DOCTRINE & THE 5 PROBLEM ARENAS
        ======================================================== -->
   <div class="page">
-    <div class="editorial-header">
-      <div class="bold-tag">SECTION 01 // DOCTRINE & ARCHITECTURE</div>
-      <div>THE GENESIS OF HACK ON-LINE</div>
-    </div>
+    <div class="glow-cyan" style="top: 40mm; left: -30mm;"></div>
+    <div class="grid-overlay"></div>
 
-    <div style="margin-top: 4mm;">
-      <span class="editorial-tag">ACT I: THE CRUCIBLE</span>
-      <h2 class="editorial-title">Why Authentic Engineering Can't Be Faked</h2>
-      <div class="editorial-lead">
-        "If a developer cannot defend their architecture in a terminal, their slide deck is meaningless."
+    <div class="content-layer">
+      <div class="hud-header">
+        <div class="telemetry-pill">
+          <span class="live-dot"></span>
+          <span>01 // ARCHITECTURE & SECTORS</span>
+        </div>
+        <div>HACK ON-LINE 2027</div>
       </div>
 
-      <div class="two-col-story">
-        <div>
-          <p class="dropcap">
-            Software engineering is suffering from an authenticity deficit. In an era where generative tools can fabricate a functional prototype in forty seconds and polished keynote templates can mask fundamentally broken logic, traditional hiring and competition frameworks have broken down.
-          </p>
-          <p>
-            When corporate leaders sponsor a hackathon, they are not seeking marketing theater. They need to answer three fundamental questions: Can this engineer construct reliable systems under severe temporal constraints? Do they understand edge-case failure modes? And how do they think when their primary framework crashes at midnight?
-          </p>
-          <div class="pull-quote">
-            "We built Hack On-Line because we were tired of watching great engineers lose to charismatic presenters with zero code behind their demo."
+      <div style="margin-top: 3mm;">
+        <div class="eyebrow-tag">THE ANTI-PITCH-DECK DOCTRINE</div>
+        <h2 class="main-section-title">Built for Production, Not Slides</h2>
+        <div class="main-section-lead">
+          Traditional hackathons have become marketing theater where teams rehearse three-minute presentations with zero working code. Hack On-Line enforces unyielding operational rules designed to benchmark real engineering execution.
+        </div>
+
+        <div class="doctrine-strip-grid">
+          <div class="doctrine-hud-box">
+            <div class="doctrine-hud-num">01</div>
+            <div class="doctrine-hud-title">The Empty Repo Mandate</div>
+            <div class="doctrine-hud-desc">Every team initializes an empty repository at 10:00 AM IST. Automated Git commit history inspections and AST difference checkers ensure all code is authored during the sprint.</div>
+          </div>
+
+          <div class="doctrine-hud-box" style="border-top-color:#10b981;">
+            <div class="doctrine-hud-num" style="color:#10b981;">02</div>
+            <div class="doctrine-hud-title">100% Builder Sovereign IP</div>
+            <div class="doctrine-hud-desc">We take zero equity and claim zero IP rights. Builders retain complete ownership, which attracts serious founders, open-source maintainers, and top-tier senior developers.</div>
+          </div>
+
+          <div class="doctrine-hud-box" style="border-top-color:#8b5cf6;">
+            <div class="doctrine-hud-num" style="color:#8b5cf6;">03</div>
+            <div class="doctrine-hud-title">T-15m Decryption Protocol</div>
+            <div class="doctrine-hud-desc">Specific challenge requirements and rubric benchmarks remain encrypted until fifteen minutes prior to kickoff (09:45 AM IST), ensuring zero back-channel rehearsals.</div>
           </div>
         </div>
 
-        <div>
-          <p>
-            Hack On-Line is structured as an unyielding technical sprint. We impose constraints that mirror high-stakes production emergencies: zero prior preparation, synchronized global start times, and relentless peer scrutiny.
-          </p>
-          <p>
-            Because we take zero equity and claim zero rights to participant intellectual property, the caliber of developers who participate is fundamentally different. Founders building real infrastructure, PhD students researching novel zero-knowledge cryptography, and systems programmers who refuse to participate in traditional collegiate hackathons make up our primary cohort.
-          </p>
-          <div class="field-note">
-            <strong>THE CITADEL PROTOCOL:</strong> Every submission is mirrored across automated Git testing rigs. Repositories with anomalous commit histories (e.g., massive 10,000-line single-commit paste jobs) are quarantined by our evaluation engine before a human judge ever sees them.
+        <div class="eyebrow-tag" style="margin-top: 2mm;">THE 5 DEEP-TECH ARENAS</div>
+        <div class="arenas-vertical-stack">
+          <!-- Track 01 -->
+          <div class="arena-tech-row" style="border-left-color: #10b981;">
+            <div class="arena-left-meta">
+              <span class="cyber-badge badge-emerald">TRACK 01 // AGTECH</span>
+              <div class="arena-main-heading">Precision Agriculture & Sensor Meshes</div>
+            </div>
+            <div class="arena-right-details">
+              <p>Edge IoT sensor meshes, automated irrigation dispatch, computer vision crop pathogen diagnostics, drone payload telemetry, and climate-resilient yield optimization.</p>
+              <div class="arena-tag-cluster">
+                <span class="arena-tech-tag">LoRaWAN / MQTT</span>
+                <span class="arena-tech-tag">Offline MobileNet</span>
+                <span class="arena-tech-tag">Satellite NDVI</span>
+                <span class="arena-tech-tag">Soil Moisture Telemetry</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 02 -->
+          <div class="arena-tech-row" style="border-left-color: #ec4899;">
+            <div class="arena-left-meta">
+              <span class="cyber-badge badge-pink">TRACK 02 // HEALTH</span>
+              <div class="arena-main-heading">Clinical Intelligence & Bio-Computing</div>
+            </div>
+            <div class="arena-right-details">
+              <p>Point-of-care clinical diagnostics, on-device biometric signal processing (ECG/PPG), privacy-preserving patient records, and real-time medical triage pipelines.</p>
+              <div class="arena-tag-cluster">
+                <span class="arena-tech-tag">FHIR & HL7 Adapters</span>
+                <span class="arena-tech-tag">Edge Signal DSP</span>
+                <span class="arena-tech-tag">Quantized TFLite</span>
+                <span class="arena-tech-tag">Federated Learning</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 03 -->
+          <div class="arena-tech-row" style="border-left-color: #06b6d4;">
+            <div class="arena-left-meta">
+              <span class="cyber-badge badge-cyan">TRACK 03 // SPACE</span>
+              <div class="arena-main-heading">Aerospace Telemetry & Satellite Edge</div>
+            </div>
+            <div class="arena-right-details">
+              <p>CubeSat flight computer architectures, orbital trajectory prediction, open space debris tracking, delay-tolerant satellite mesh networks, and onboard SAR imagery.</p>
+              <div class="arena-tag-cluster">
+                <span class="arena-tech-tag">SGP4 Ephemeris</span>
+                <span class="arena-tech-tag">Bundle Protocol (DTN)</span>
+                <span class="arena-tech-tag">Rust Embedded RTOS</span>
+                <span class="arena-tech-tag">SAR Flood Mapping</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 04 -->
+          <div class="arena-tech-row" style="border-left-color: #8b5cf6;">
+            <div class="arena-left-meta">
+              <span class="cyber-badge badge-violet">TRACK 04 // CRYPTO</span>
+              <div class="arena-main-heading">Zero-Knowledge & Privacy Protocols</div>
+            </div>
+            <div class="arena-right-details">
+              <p>High-integrity verifiable computation, zero-knowledge proofs, privacy-preserving rollups, decentralized identity schemes, and trust-minimized peer-to-peer protocols.</p>
+              <div class="arena-tag-cluster">
+                <span class="arena-tech-tag">Circom & Noir</span>
+                <span class="arena-tech-tag">Zk-SNARK Circuits</span>
+                <span class="arena-tech-tag">State Proofs</span>
+                <span class="arena-tech-tag">Encrypted Mempools</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 05 -->
+          <div class="arena-tech-row" style="border-left-color: #f59e0b;">
+            <div class="arena-left-meta">
+              <span class="cyber-badge badge-amber">TRACK 05 // CLIMATE</span>
+              <div class="arena-main-heading">Clean Energy Grids & Marginal Carbon</div>
+            </div>
+            <div class="arena-right-details">
+              <p>Renewable energy demand-response dispatch, distributed micro-grid load balancing, real-time carbon intensity telemetry, and planetary sensor meshes.</p>
+              <div class="arena-tag-cluster">
+                <span class="arena-tech-tag">Time-Series Telemetry</span>
+                <span class="arena-tech-tag">Smart Inverter MQTT</span>
+                <span class="arena-tech-tag">Carbon Intensity APIs</span>
+                <span class="arena-tech-tag">Storage Dispatch</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="divider-heavy"></div>
-
-      <span class="editorial-tag">ACT II: THE FOUR OPERATIONAL LAWS</span>
-      <div class="pillar-narrative">
-        <div class="narrative-strip">
-          <div class="strip-meta">
-            <div class="strip-num">01</div>
-            <div class="strip-name">The Empty Repo Law</div>
-          </div>
-          <div class="strip-prose">
-            <p>Every team begins from an initialized blank Git branch at 10:00 AM IST. Pre-existing boilerplate, uncommitted private libraries, and cloned commercial codebases are strictly disqualified via automated AST comparison engines.</p>
-          </div>
-        </div>
-
-        <div class="narrative-strip">
-          <div class="strip-meta">
-            <div class="strip-num">02</div>
-            <div class="strip-name">T-15m Decryption</div>
-          </div>
-          <div class="strip-prose">
-            <p>Specific challenge constraints and benchmark datasets remain cryptographically encrypted until fifteen minutes prior to the opening bell (09:45 AM IST), ensuring zero prior rehearsal or back-channel advantage.</p>
-          </div>
-        </div>
-
-        <div class="narrative-strip">
-          <div class="strip-meta">
-            <div class="strip-num">03</div>
-            <div class="strip-name">100% Builder Sovereign IP</div>
-          </div>
-          <div class="strip-prose">
-            <p>We believe builders should own their sweat. Participants retain 100% open-source or commercial ownership of their work. This respect for creator autonomy is why top-tier developers choose our arena.</p>
-          </div>
-        </div>
+      <div class="hud-footer">
+        <div>HACK ON-LINE 2027 // SPONSORSHIP PACKET</div>
+        <div>DOCTRINE & ARENAS</div>
+        <div class="page-indicator">PAGE 02 OF 06</div>
       </div>
-    </div>
-
-    <div class="editorial-footer">
-      <div>HACK ON-LINE 2027 // PROSPECTUS</div>
-      <div>DOCTRINE & ARCHITECTURE</div>
-      <div class="page-count">02 / 06</div>
     </div>
   </div>
 
 
   <!-- ========================================================
-       PAGE 3: ACT III — THE FIVE BATTLEGROUNDS
+       PAGE 3: AUDIENCE & SPONSOR ROI
        ======================================================== -->
   <div class="page">
-    <div class="editorial-header">
-      <div class="bold-tag">SECTION 02 // PROBLEM SECTORS</div>
-      <div>THE FIVE BATTLEGROUNDS</div>
-    </div>
+    <div class="glow-violet" style="top: 20mm; right: -30mm;"></div>
+    <div class="grid-overlay"></div>
 
-    <div style="margin-top: 4mm;">
-      <span class="editorial-tag">ACT III: THE FIVE BATTLEGROUNDS</span>
-      <h2 class="editorial-title">Five Arenas. Real Crises. Zero Toys.</h2>
-      <div class="editorial-lead">
-        We do not assign generic prompts like "Build an app for mental wellness." We frame rigorous, deep-tech engineering bottlenecks where enterprise software meets physical, biological, or cryptographic reality.
+    <div class="content-layer">
+      <div class="hud-header">
+        <div class="telemetry-pill">
+          <span class="live-dot"></span>
+          <span>02 // AUDIENCE & SPONSOR VALUE</span>
+        </div>
+        <div>HACK ON-LINE 2027</div>
       </div>
 
-      <div class="arenas-list">
-        <!-- ARENA 01 -->
-        <div class="arena-entry">
-          <div class="arena-tag-col">
-            <div class="arena-code">SECTOR 01 // AGTECH</div>
-            <div class="arena-title-main">Precision AgTech & Sensor Meshes</div>
-            <div class="arena-subhead">Edge IoT • LoRaWAN • Crop CV</div>
+      <div style="margin-top: 3.5mm;">
+        <div class="eyebrow-tag">TALENT SPECTRUM & DEMOGRAPHICS</div>
+        <h2 class="main-section-title">The Engineers Companies Want to Hire</h2>
+        <div class="main-section-lead">
+          Hack On-Line convenes 2,500+ builders across premier engineering institutions and autonomous developer ecosystems. Sponsoring provides an unfiltered channel into verified technical talent.
+        </div>
+
+        <div class="demographics-dashboard">
+          <div class="dash-box">
+            <div class="dash-box-header">
+              <span>TECHNICAL SPECIALIZATIONS</span>
+              <span style="font-family:'JetBrains Mono'; font-size:7pt; color:#38bdf8;">2,500+ BUILDERS</span>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-labels">
+                <span>Distributed Systems & Full-Stack</span>
+                <strong style="color:#38bdf8;">38%</strong>
+              </div>
+              <div class="meter-rail"><div class="meter-fill" style="width: 38%; background: #38bdf8;"></div></div>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-labels">
+                <span>AI / Machine Learning & Computer Vision</span>
+                <strong style="color:#34d399;">28%</strong>
+              </div>
+              <div class="meter-rail"><div class="meter-fill" style="width: 28%; background: #34d399;"></div></div>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-labels">
+                <span>Cloud Infra, DevOps & Security</span>
+                <strong style="color:#c084fc;">16%</strong>
+              </div>
+              <div class="meter-rail"><div class="meter-fill" style="width: 16%; background: #c084fc;"></div></div>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-labels">
+                <span>Embedded IoT, Firmware & Robotics</span>
+                <strong style="color:#fbbf24;">10%</strong>
+              </div>
+              <div class="meter-rail"><div class="meter-fill" style="width: 10%; background: #fbbf24;"></div></div>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-labels">
+                <span>Zero-Knowledge & Crypto Systems</span>
+                <strong style="color:#f472b6;">8%</strong>
+              </div>
+              <div class="meter-rail"><div class="meter-fill" style="width: 8%; background: #f472b6;"></div></div>
+            </div>
           </div>
-          <div class="arena-body-col">
-            <p>
-              <strong>The Crisis:</strong> Modern agricultural sensing is crippled by remote connectivity dropouts and high cloud latency. How do automated micro-irrigation valves and crop-pathogen vision models execute locally on solar-powered microcontrollers under zero-bandwidth constraints?
-            </p>
-            <div class="arena-chips">
-              <span>MQTT Telemetry</span>
-              <span>Lightweight MobileNet</span>
-              <span>Soil Moisture Tension</span>
-              <span>Satellite NDVI Ingest</span>
+
+          <div class="dash-box">
+            <div class="dash-box-header">
+              <span>ACADEMIC & COMMUNITY REACH</span>
+              <span style="font-family:'JetBrains Mono'; font-size:7pt; color:#34d399;">PAN-INDIA & GLOBAL</span>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:2.5mm; font-size:7.5pt;">
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:2.5mm; border-radius:5px;">
+                <strong style="color:#38bdf8; display:block; font-size:8.2pt;">Tier-1 Engineering Institutions</strong>
+                Participants represent leading institutes including IITs (Bombay, Delhi, Madras, Kharagpur), NITs, BITS Pilani, IIITs, and select international virtual hubs.
+              </div>
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:2.5mm; border-radius:5px;">
+                <strong style="color:#34d399; display:block; font-size:8.2pt;">Pre-Screened Capability</strong>
+                Participants self-select for a rigorous 24-hour sprint that explicitly forbids slide decks, filtering out passive attendees and attracting high-output builders.
+              </div>
+              <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:2.5mm; border-radius:5px;">
+                <strong style="color:#c084fc; display:block; font-size:8.2pt;">Multidisciplinary Teams</strong>
+                Average team size of 3 builders with balanced architectures: Systems Backend, Modern Frontend, and Domain AI/Data specialists.
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- ARENA 02 -->
-        <div class="arena-entry">
-          <div class="arena-tag-col">
-            <div class="arena-code">SECTOR 02 // HEALTHCARE</div>
-            <div class="arena-title-main">Clinical Intelligence & Bio-Computing</div>
-            <div class="arena-subhead">Edge Signal DSP • FHIR • Privacy</div>
+        <div class="eyebrow-tag">STRATEGIC RETURN ON INVESTMENT</div>
+        <div class="roi-four-grid">
+          <div class="roi-panel">
+            <h4>
+              <span style="color:#38bdf8;">01 //</span> Direct Code-First Hiring
+            </h4>
+            <p>Skip generic resume keyword matching. Evaluate candidates based on live Git commit velocity, pull request hygiene, and real architectural defense presentations.</p>
           </div>
-          <div class="arena-body-col">
-            <p>
-              <strong>The Crisis:</strong> High-risk medical telemetry (ECG/EEG) cannot be shipped to third-party cloud servers without severe HIPAA and patient privacy liability. Builders must architect on-device DSP triage filters and federated models that preserve total patient anonymity.
-            </p>
-            <div class="arena-chips">
-              <span>FHIR / HL7 Adapters</span>
-              <span>Quantized TFLite</span>
-              <span>ECG Arrhythmia DSP</span>
-              <span>Federated Learning</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- ARENA 03 -->
-        <div class="arena-entry">
-          <div class="arena-tag-col">
-            <div class="arena-code">SECTOR 03 // AEROSPACE</div>
-            <div class="arena-title-main">Orbital Mechanics & Satellite Edge</div>
-            <div class="arena-subhead">CubeSat RTOS • SGP4 • DTN</div>
+          <div class="roi-panel" style="border-top-color:#34d399;">
+            <h4>
+              <span style="color:#34d399;">02 //</span> Developer Tool & API Ingest
+            </h4>
+            <p>Challenge hundreds of developers to deploy your APIs, cloud services, and developer SDKs under pressure, generating working open-source reference implementations.</p>
           </div>
-          <div class="arena-body-col">
-            <p>
-              <strong>The Crisis:</strong> Low-Earth orbit satellites experience contact windows as short as 6 minutes per pass. Teams build flight-software architectures using delay-tolerant protocols, orbital debris trajectory collision evaluators, and onboard synthetic aperture radar (SAR) flood mapping.
-            </p>
-            <div class="arena-chips">
-              <span>SGP4 Ephemeris</span>
-              <span>Bundle Protocol (DTN)</span>
-              <span>Embedded Rust / RTOS</span>
-              <span>SAR Flood Analytics</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- ARENA 04 -->
-        <div class="arena-entry">
-          <div class="arena-tag-col">
-            <div class="arena-code">SECTOR 04 // CRYPTOGRAPHY</div>
-            <div class="arena-title-main">Zero-Knowledge & Privacy Protocols</div>
-            <div class="arena-subhead">Circom / Noir • Account Abstraction</div>
+          <div class="roi-panel" style="border-top-color:#c084fc;">
+            <h4>
+              <span style="color:#c084fc;">03 //</span> Dedicated Problem Bounties
+            </h4>
+            <p>Frame a sponsored track addressing your enterprise's active technical bottlenecks. Walk away with dozens of creative, functional prototypes within 24 hours.</p>
           </div>
-          <div class="arena-body-col">
-            <p>
-              <strong>The Crisis:</strong> Transparent distributed ledgers leak business logic, proprietary financial telemetry, and employee identities. Participants synthesize custom zk-SNARK circuits to prove correct computation and balance verification without exposing state data.
-            </p>
-            <div class="arena-chips">
-              <span>Zk-SNARK Circuits</span>
-              <span>Noir / Circom</span>
-              <span>Encrypted Mempools</span>
-              <span>Verifiable Random Beacons</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- ARENA 05 -->
-        <div class="arena-entry">
-          <div class="arena-tag-col">
-            <div class="arena-code">SECTOR 05 // CLIMATE</div>
-            <div class="arena-title-main">Clean Energy Grids & Marginal Emissions</div>
-            <div class="arena-subhead">Time-Series • Micro-Grid Load Balancing</div>
-          </div>
-          <div class="arena-body-col">
-            <p>
-              <strong>The Crisis:</strong> Massive compute clusters consume gigawatt-hours during peak fossil-fuel grid strain. Teams design dynamic dispatch schedulers that track real-time marginal carbon emissions and balance micro-solar batteries across distributed nodes.
-            </p>
-            <div class="arena-chips">
-              <span>Smart Inverter MQTT</span>
-              <span>Carbon Intensity APIs</span>
-              <span>Peak-Load Storage Dispatch</span>
-              <span>Urban Heat Mitigation</span>
-            </div>
+          <div class="roi-panel" style="border-top-color:#fbbf24;">
+            <h4>
+              <span style="color:#fbbf24;">04 //</span> Premium Developer Mindshare
+            </h4>
+            <p>Showcase your technical leadership via opening keynote addresses, live technical workshops, and direct multi-channel marketing to 50,000+ developer impressions.</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="editorial-footer">
-      <div>HACK ON-LINE 2027 // PROSPECTUS</div>
-      <div>FIVE PROBLEM ARENAS</div>
-      <div class="page-count">03 / 06</div>
+      <div class="hud-footer">
+        <div>HACK ON-LINE 2027 // SPONSORSHIP PACKET</div>
+        <div>DEMOGRAPHICS & VALUE</div>
+        <div class="page-indicator">PAGE 03 OF 06</div>
+      </div>
     </div>
   </div>
 
 
   <!-- ========================================================
-       PAGE 4: ACT IV — THE BUILDERS & THE DIRECTORATE
+       PAGE 4: THE ORGANIZING CREW
        ======================================================== -->
   <div class="page">
-    <div class="editorial-header">
-      <div class="bold-tag">SECTION 03 // HUMAN CAPITAL & GOVERNANCE</div>
-      <div>THE COHORT & THE DIRECTORATE</div>
-    </div>
+    <div class="glow-cyan" style="bottom: 10mm; right: -30mm;"></div>
+    <div class="grid-overlay"></div>
 
-    <div style="margin-top: 4mm;">
-      <span class="editorial-tag">ACT IV: THE COHORT</span>
-      <h2 class="editorial-title">The Talent That Bypasses LinkedIn</h2>
-      <div class="editorial-lead">
-        The most capable engineers rarely respond to cold recruiter inboxes. They spend their weekends in high-velocity build environments. Sponsoring Hack On-Line places your engineering leadership inside the war room with them.
+    <div class="content-layer">
+      <div class="hud-header">
+        <div class="telemetry-pill">
+          <span class="live-dot"></span>
+          <span>03 // THE GOVERNING COMMITTEE</span>
+        </div>
+        <div>HACK ON-LINE 2027</div>
       </div>
 
-      <div class="editorial-metrics-strip">
-        <div class="metric-cell">
-          <strong>38% Systems & Backend</strong>
-          <span>Distributed primitives, Rust, Go, microservice resilience</span>
+      <div style="margin-top: 3.5mm;">
+        <div class="eyebrow-tag">EXECUTIVE LEADERSHIP</div>
+        <h2 class="main-section-title">Governed by Technical Engineers</h2>
+        <div class="main-section-lead">
+          Hack On-Line is steered by developers and operations architects who hold the event to rigorous technical and institutional standards, ensuring flawless partner execution.
         </div>
-        <div class="metric-cell">
-          <strong>28% AI/ML & Vision</strong>
-          <span>Edge model quantization, neural DSP, autonomous CV</span>
-        </div>
-        <div class="metric-cell">
-          <strong>34% Infra, ZK & Hardware</strong>
-          <span>Cloud architecture, zero-knowledge circuits, IoT firmware</span>
+
+        <div class="crew-cyber-grid">
+          <!-- Hriday Bardia -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#ff8c66; color:#ff8c66;">HB</div>
+            <div class="crew-meta-box">
+              <h4>Hriday Bardia</h4>
+              <div class="crew-meta-role">Lead Organizing Director</div>
+              <div class="crew-meta-desc">Overseeing overarching hackathon strategy, institutional execution, schedule rigor, and global developer experience across 24H.</div>
+            </div>
+          </div>
+
+          <!-- Khush Salecha -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#06b6d4; color:#06b6d4;">KS</div>
+            <div class="crew-meta-box">
+              <h4>Khush Salecha</h4>
+              <div class="crew-meta-role">Head of Operations & Logistics</div>
+              <div class="crew-meta-desc">Directing virtual pipeline execution, synchronous schedule coordination, timeline governance, and platform reliability.</div>
+            </div>
+          </div>
+
+          <!-- K Jitesh Kumar Reddy -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#8b5cf6; color:#8b5cf6;">KR</div>
+            <div class="crew-meta-box">
+              <h4>K Jitesh Kumar Reddy</h4>
+              <div class="crew-meta-role">Head of Technical Evaluation</div>
+              <div class="crew-meta-desc">Architecting automated Git commit validation, benchmark parameters, and rubric calibration for engineering jury panels.</div>
+            </div>
+          </div>
+
+          <!-- Varad Kanade -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#10b981; color:#10b981;">VK</div>
+            <div class="crew-meta-box">
+              <h4>Varad Kanade</h4>
+              <div class="crew-meta-role">Head of Engineering Systems</div>
+              <div class="crew-meta-desc">Managing high-availability submission portals, live scoreboards, API mock environments, and real-time infrastructure.</div>
+            </div>
+          </div>
+
+          <!-- Narayan Priyadarshi -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#f59e0b; color:#f59e0b;">NP</div>
+            <div class="crew-meta-box">
+              <h4>Narayan Priyadarshi</h4>
+              <div class="crew-meta-role">Head of Dev Community</div>
+              <div class="crew-meta-desc">Leading developer engagement, participant support, mentor coordination, and round-the-clock builder assistance.</div>
+            </div>
+          </div>
+
+          <!-- Ayush Singh Chauhan -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#ff8c66; color:#ff8c66;">AC</div>
+            <div class="crew-meta-box">
+              <h4>Ayush Singh Chauhan</h4>
+              <div class="crew-meta-role">Head of Strategic Partnerships</div>
+              <div class="crew-meta-desc">Driving strategic corporate alliances, industry reviewer networks, university chapters, and sponsor value delivery.</div>
+            </div>
+          </div>
+
+          <!-- Ved Raj -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#06b6d4; color:#06b6d4;">VR</div>
+            <div class="crew-meta-box">
+              <h4>Ved Raj</h4>
+              <div class="crew-meta-role">Lead Operations Support</div>
+              <div class="crew-meta-desc">Directing live participant escalation triage, technical support pipelines, environment diagnostics, and operational logistics.</div>
+            </div>
+          </div>
+
+          <!-- Satwik Kumar Guru -->
+          <div class="crew-cyber-card">
+            <div class="crew-avatar-orb" style="border-color:#8b5cf6; color:#8b5cf6;">SG</div>
+            <div class="crew-meta-box">
+              <h4>Satwik Kumar Guru</h4>
+              <div class="crew-meta-role">Technical Operations Support</div>
+              <div class="crew-meta-desc">Supporting builder environment setups, continuous runtime diagnostic verification, submission ingest, and escalation resolution.</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="divider-heavy" style="margin-top: 5mm; margin-bottom: 4mm;"></div>
-
-      <span class="editorial-tag">THE GOVERNING DIRECTORATE</span>
-      <div style="font-size: 8pt; color: #4b5563; margin-bottom: 2mm;">
-        Hack On-Line is steered by active developers and operations architects who demand uncompromised institutional rigor:
+      <div class="hud-footer">
+        <div>HACK ON-LINE 2027 // SPONSORSHIP PACKET</div>
+        <div>EXECUTIVE LEADERSHIP</div>
+        <div class="page-indicator">PAGE 04 OF 06</div>
       </div>
-
-      <div class="masthead-roster">
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">Hriday Bardia</span>
-            <span class="roster-role">Lead Organizing Director</span>
-          </div>
-          <div class="roster-bio">Executive direction, institutional strategy, evaluation governance, and global developer ecosystem orchestration.</div>
-        </div>
-
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">Khush Salecha</span>
-            <span class="roster-role">Head of Operations & Logistics</span>
-          </div>
-          <div class="roster-bio">Synchronous timeline execution, virtual pipeline reliability, and platform operational governance.</div>
-        </div>
-
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">K Jitesh Kumar Reddy</span>
-            <span class="roster-role">Head of Technical Evaluation</span>
-          </div>
-          <div class="roster-bio">Automated Git commit audit systems, rubric calibration, and engineering jury panel governance.</div>
-        </div>
-
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">Varad Kanade</span>
-            <span class="roster-role">Head of Engineering Systems</span>
-          </div>
-          <div class="roster-bio">Submission infrastructure, high-availability live telemetry scoreboards, and platform resilience.</div>
-        </div>
-
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">Narayan Priyadarshi</span>
-            <span class="roster-role">Head of Dev Community</span>
-          </div>
-          <div class="roster-bio">Builder engagement, round-the-clock participant mentorship coordination, and developer advocacy.</div>
-        </div>
-
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">Ayush Singh Chauhan</span>
-            <span class="roster-role">Head of Strategic Partnerships</span>
-          </div>
-          <div class="roster-bio">Corporate ecosystem alliances, industry reviewer networks, and direct sponsor value realization.</div>
-        </div>
-
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">Ved Raj</span>
-            <span class="roster-role">Lead Operations Support</span>
-          </div>
-          <div class="roster-bio">Live participant escalation triage, technical helpdesk pipelines, and runtime operational support.</div>
-        </div>
-
-        <div class="roster-member">
-          <div class="roster-name-role">
-            <span class="roster-name">Satwik Kumar Guru</span>
-            <span class="roster-role">Technical Operations Support</span>
-          </div>
-          <div class="roster-bio">Runtime diagnostics verification, submission ingest tracking, and developer troubleshooting.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="editorial-footer">
-      <div>HACK ON-LINE 2027 // PROSPECTUS</div>
-      <div>BUILDERS & GOVERNANCE</div>
-      <div class="page-count">04 / 06</div>
     </div>
   </div>
 
 
   <!-- ========================================================
-       PAGE 5: ACT V — THE PARTNERSHIP SYNDICATE
+       PAGE 5: SPONSORSHIP TIERS MATRIX
        ======================================================== -->
   <div class="page">
-    <div class="editorial-header">
-      <div class="bold-tag">SECTION 04 // SPONSORSHIP SYNDICATE</div>
-      <div>THE TERMS OF ALLIANCE</div>
-    </div>
+    <div class="glow-cyan" style="top: -20mm; left: -20mm;"></div>
+    <div class="grid-overlay"></div>
 
-    <div style="margin-top: 4mm;">
-      <span class="editorial-tag">ACT V: THE PARTNERSHIP THESIS</span>
-      <h2 class="editorial-title">Capital Investment & Strategic Yield</h2>
-      <div class="editorial-lead">
-        We do not offer logo placement on lanyards. Every sponsorship position is structured to yield verifiable recruitment pipelines, live software integrations, and authentic technical visibility.
+    <div class="content-layer">
+      <div class="hud-header">
+        <div class="telemetry-pill">
+          <span class="live-dot"></span>
+          <span>04 // PARTNERSHIP SYNDICATE</span>
+        </div>
+        <div>HACK ON-LINE 2027</div>
       </div>
 
-      <table class="prospectus-table">
-        <thead>
-          <tr>
-            <th style="width: 28%;">SYNDICATE POSITION</th>
-            <th style="width: 18%;">INVESTMENT</th>
-            <th style="width: 14%;">SLOTS</th>
-            <th style="width: 40%;">CORE STRATEGIC DELIVERABLES</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="tier-title-col">
-              TITLE PARTNER<br>
-              <span style="font-size:7pt; color:#6b7280; font-weight:normal;">Exclusive Co-Host</span>
-            </td>
-            <td class="tier-investment-col">₹5,00,000<br><span style="font-size:6.5pt; color:#6b7280;">$6,200 USD</span></td>
-            <td class="tier-slots-col">1 EXCLUSIVE</td>
-            <td class="tier-desc-col">
-              <strong>"Hack On-Line 2027 Presented by [Your Brand]"</strong>. Exclusive ownership of a named Problem Arena. 15-minute keynote address at Kickoff. Full access to complete 2,500+ candidate resume book and Git commit logs. 4 seats on final evaluation jury. Dedicated pre-event 45m technical workshop.
-            </td>
-          </tr>
-
-          <tr>
-            <td class="tier-title-col">
-              PLATINUM PARTNER<br>
-              <span style="font-size:7pt; color:#6b7280; font-weight:normal;">Track Sponsor</span>
-            </td>
-            <td class="tier-investment-col">₹2,50,000<br><span style="font-size:6.5pt; color:#6b7280;">$3,100 USD</span></td>
-            <td class="tier-slots-col">2 POSITIONS</td>
-            <td class="tier-desc-col">
-              Dedicated Challenge Track Bounty with custom problem prompt. 8-minute keynote presentation. Complete opt-in candidate dossier access. 2 evaluation jury seats. 30-minute pre-hackathon developer tech talk. Dedicated Slack/Discord support channel.
-            </td>
-          </tr>
-
-          <tr>
-            <td class="tier-title-col">
-              GOLD PARTNER<br>
-              <span style="font-size:7pt; color:#6b7280; font-weight:normal;">API & Tooling Partner</span>
-            </td>
-            <td class="tier-investment-col">₹1,25,000<br><span style="font-size:6.5pt; color:#6b7280;">$1,550 USD</span></td>
-            <td class="tier-slots-col">4 POSITIONS</td>
-            <td class="tier-desc-col">
-              Dedicated API / DevTool integration bounty. Access to Top 100 finalist candidate profiles and GitHub repositories. 1 evaluation jury seat. 15-minute product demonstration slot during developer onboarding.
-            </td>
-          </tr>
-
-          <tr>
-            <td class="tier-title-col">
-              SILVER PARTNER<br>
-              <span style="font-size:7pt; color:#6b7280; font-weight:normal;">Ecosystem Supporter</span>
-            </td>
-            <td class="tier-investment-col">₹60,000<br><span style="font-size:6.5pt; color:#6b7280;">$750 USD</span></td>
-            <td class="tier-slots-col">FLEXIBLE</td>
-            <td class="tier-desc-col">
-              Access to Top 25 finalist team dossiers. Mentor desk representation throughout the 24H sprint. Brand presence across Unstop portal and official closing ceremony broadcast.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="syndicate-rules">
-        <div>
-          <strong>IN-KIND & CLOUD INFRASTRUCTURE PARTNERS</strong>
-          We welcome strategic tooling alliances offering cloud compute credits (AWS, GCP, Azure), API keys, developer subscriptions, or hardware test-bench units. In-kind partners receive customized branding and direct developer integration workshops based on fair credit value.
+      <div style="margin-top: 3.5mm;">
+        <div class="eyebrow-tag">SPONSORSHIP PACKAGES</div>
+        <h2 class="main-section-title">Transparent, High-Yield Partnership Tiers</h2>
+        <div class="main-section-lead">
+          We offer structured partnership tiers tailored to your talent acquisition targets, developer API adoption goals, and brand leadership priorities.
         </div>
-        <div>
-          <strong>THE CODE-FIRST HIRING GUARANTEE</strong>
-          Sponsors receive raw, unedited Git telemetry: commit frequencies, test passes, pull request comments, and architectural schemas for every candidate. You evaluate builders based on how they actually write software under pressure.
+
+        <div class="tier-cards-row">
+          <div class="tier-box vip">
+            <span class="cyber-badge badge-cyan" style="margin-bottom:1mm;">TITLE PARTNER</span>
+            <div class="tier-box-name">Visionary</div>
+            <div class="tier-box-price">₹5,00,000</div>
+            <div class="tier-box-slots">EXCLUSIVE (1 SLOT)</div>
+          </div>
+
+          <div class="tier-box">
+            <span class="cyber-badge badge-violet" style="margin-bottom:1mm;">PLATINUM</span>
+            <div class="tier-box-name">Innovator</div>
+            <div class="tier-box-price">₹2,50,000</div>
+            <div class="tier-box-slots">LIMITED (2 SLOTS)</div>
+          </div>
+
+          <div class="tier-box">
+            <span class="cyber-badge badge-emerald" style="margin-bottom:1mm;">GOLD</span>
+            <div class="tier-box-name">Accelerator</div>
+            <div class="tier-box-price">₹1,25,000</div>
+            <div class="tier-box-slots">LIMITED (4 SLOTS)</div>
+          </div>
+
+          <div class="tier-box">
+            <span class="cyber-badge badge-amber" style="margin-bottom:1mm;">SILVER</span>
+            <div class="tier-box-name">Ecosystem</div>
+            <div class="tier-box-price">₹60,000</div>
+            <div class="tier-box-slots">FLEXIBLE</div>
+          </div>
+        </div>
+
+        <table class="matrix-cyber-table">
+          <thead>
+            <tr>
+              <th>DELIVERABLES MATRIX</th>
+              <th style="background:#0284c7; color:#ffffff;">TITLE (₹5L)</th>
+              <th>PLATINUM (₹2.5L)</th>
+              <th>GOLD (₹1.25L)</th>
+              <th>SILVER (₹60K)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Official Co-Branding ("Presented by [Brand]")</td>
+              <td class="yes">✓ EXCLUSIVE</td>
+              <td class="no">—</td>
+              <td class="no">—</td>
+              <td class="no">—</td>
+            </tr>
+            <tr>
+              <td>Dedicated Problem Track & Naming Rights</td>
+              <td class="yes">✓ FULL TRACK</td>
+              <td class="yes">✓ BOUNTY TRACK</td>
+              <td class="no">—</td>
+              <td class="no">—</td>
+            </tr>
+            <tr>
+              <td>Keynote Speaking Slot at Opening / Closing</td>
+              <td class="yes">15 MINS</td>
+              <td class="yes">8 MINS</td>
+              <td class="no">—</td>
+              <td class="no">—</td>
+            </tr>
+            <tr>
+              <td>Pre-Hackathon Technical Workshop / Product Demo</td>
+              <td class="yes">✓ 45 MINS</td>
+              <td class="yes">✓ 30 MINS</td>
+              <td class="yes">✓ 15 MINS</td>
+              <td class="no">—</td>
+            </tr>
+            <tr>
+              <td>Complete Opt-In Resume Book & Git Dossiers</td>
+              <td class="yes">✓ ALL BUILDERS</td>
+              <td class="yes">✓ ALL BUILDERS</td>
+              <td class="yes">TOP 100 TEAMS</td>
+              <td class="yes">TOP 25 TEAMS</td>
+            </tr>
+            <tr>
+              <td>Direct Fast-Track Hiring & Interview Ingest</td>
+              <td class="yes">✓ UNLIMITED</td>
+              <td class="yes">✓ PRIORITY</td>
+              <td class="yes">✓ STANDARD</td>
+              <td class="no">—</td>
+            </tr>
+            <tr>
+              <td>Evaluation Jury & Finalist Judge Seats</td>
+              <td class="yes">4 JUDGES</td>
+              <td class="yes">2 JUDGES</td>
+              <td class="yes">1 JUDGE</td>
+              <td class="no">—</td>
+            </tr>
+            <tr>
+              <td>Dedicated Discord & Slack Mentor Channels</td>
+              <td class="yes">✓ DEDICATED</td>
+              <td class="yes">✓ DEDICATED</td>
+              <td class="yes">✓ SHARED</td>
+              <td class="yes">✓ SHARED</td>
+            </tr>
+            <tr>
+              <td>Sponsored API / Developer Tool Bounty Track</td>
+              <td class="yes">✓ INCLUDED</td>
+              <td class="yes">✓ INCLUDED</td>
+              <td class="yes">✓ OPTIONAL</td>
+              <td class="no">—</td>
+            </tr>
+            <tr>
+              <td>Digital Logo Visibility & Media Impressions</td>
+              <td class="yes">TIER L1 (MAX)</td>
+              <td class="yes">TIER L2</td>
+              <td class="yes">TIER L3</td>
+              <td class="yes">TIER L4</td>
+            </tr>
+            <tr>
+              <td>Targeted Direct Email & Social Announcements</td>
+              <td class="yes">3 BLASTS</td>
+              <td class="yes">2 BLASTS</td>
+              <td class="yes">1 BLAST</td>
+              <td class="no">—</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top: 3.5mm; font-size: 7.2pt; color: #94a3b8; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 2.5mm 3.5mm;">
+          <strong style="color: #38bdf8;">Custom In-Kind & Tooling Partnerships:</strong> We actively partner with cloud providers, API platforms, and hardware manufacturers offering compute credits (AWS/GCP/Azure), API tokens, dev tools, or participant hardware kits.
         </div>
       </div>
-    </div>
 
-    <div class="editorial-footer">
-      <div>HACK ON-LINE 2027 // PROSPECTUS</div>
-      <div>PARTNERSHIP SYNDICATE</div>
-      <div class="page-count">05 / 06</div>
+      <div class="hud-footer">
+        <div>HACK ON-LINE 2027 // SPONSORSHIP PACKET</div>
+        <div>TIERS & MATRIX</div>
+        <div class="page-indicator">PAGE 05 OF 06</div>
+      </div>
     </div>
   </div>
 
 
   <!-- ========================================================
-       PAGE 6: ACT VI — THE ONBOARDING PROTOCOL & DIRECT LINES
+       PAGE 6: ENGAGEMENT PROTOCOL & DIRECT LINES
        ======================================================== -->
   <div class="page">
-    <div class="editorial-header">
-      <div class="bold-tag">SECTION 05 // ONBOARDING & ENGAGEMENT</div>
-      <div>THE PROTOCOL OF ALLIANCE</div>
-    </div>
+    <div class="glow-violet" style="bottom: -20mm; right: -20mm;"></div>
+    <div class="grid-overlay"></div>
 
-    <div style="margin-top: 4mm;">
-      <span class="editorial-tag">ACT VI: THE ONBOARDING PROTOCOL</span>
-      <h2 class="editorial-title">How to Enter the War Room</h2>
-      <div class="editorial-lead">
-        We maintain a streamlined, low-friction integration process designed to respect your corporate calendar. From agreement signing to live sprint deployment, our technical team handles all documentation and logistics.
+    <div class="content-layer">
+      <div class="hud-header">
+        <div class="telemetry-pill">
+          <span class="live-dot"></span>
+          <span>05 // ENGAGEMENT PROTOCOL</span>
+        </div>
+        <div>HACK ON-LINE 2027</div>
       </div>
 
-      <div class="protocol-steps">
-        <div>
-          <div class="protocol-step-num">01</div>
-          <div class="protocol-step-title">Alignment Call</div>
-          <div class="protocol-step-desc">A focused 20-minute discussion to map your hiring targets, developer API priorities, and preferred problem sector.</div>
+      <div style="margin-top: 3.5mm;">
+        <div class="eyebrow-tag">ONBOARDING TIMELINE</div>
+        <h2 class="main-section-title">Streamlined Partner Integration</h2>
+        <div class="main-section-lead">
+          Our organizing team manages all logistical, technical, and promotional workflows to make partnership execution seamless and time-efficient.
         </div>
 
-        <div>
-          <div class="protocol-step-num">02</div>
-          <div class="protocol-step-title">Track Calibration</div>
-          <div class="protocol-step-desc">Co-authoring your custom challenge prompt, API documentation links, and rubric scoring benchmarks with our technical committee.</div>
-        </div>
-
-        <div>
-          <div class="protocol-step-num">03</div>
-          <div class="protocol-step-title">Developer Ingest</div>
-          <div class="protocol-step-desc">Broadcasting your technical presence to 2,500+ builders via targeted announcements, documentation links, and pre-event workshops.</div>
-        </div>
-
-        <div>
-          <div class="protocol-step-num">04</div>
-          <div class="protocol-step-title">The 24H Sprint</div>
-          <div class="protocol-step-desc">Live mentorship, keynote address, evaluation defense judging, and immediate post-event delivery of complete candidate dossiers.</div>
-        </div>
-      </div>
-
-      <div class="executive-contact-editorial">
-        <div class="contact-headline">DIRECT EXECUTIVE COMMUNICATION</div>
-        <p style="font-size: 8.2pt; color: #374151; line-height: 1.45;">
-          To reserve an exclusive track position or discuss a tailored corporate partnership, connect directly with our organizing leadership:
-        </p>
-
-        <div class="contact-grid">
-          <div class="contact-card-ed">
-            <div class="title">Lead Organizing Director</div>
-            <div class="name">Hriday Bardia</div>
-            <div class="email">hridaybardia07@gmail.com</div>
-            <div style="color: #6b7280; font-size: 6.8pt; margin-top: 0.5mm;">Strategy, Governance & Institutional Alliances</div>
+        <div class="timeline-four-cols">
+          <div class="step-hud-card">
+            <div class="step-num-big">01</div>
+            <div class="step-card-title">Discovery Call</div>
+            <div class="step-card-body">A 20-minute briefing to align on talent acquisition goals, API integrations, and sector selection.</div>
           </div>
 
-          <div class="contact-card-ed">
-            <div class="title">Head of Strategic Partnerships</div>
-            <div class="name">Ayush Singh Chauhan</div>
-            <div class="email">ayushchauhan2707@gmail.com</div>
-            <div style="color: #6b7280; font-size: 6.8pt; margin-top: 0.5mm;">Sponsor Onboarding & Corporate Deliverables</div>
+          <div class="step-hud-card">
+            <div class="step-num-big">02</div>
+            <div class="step-card-title">Track Calibration</div>
+            <div class="step-card-body">Co-authoring challenge prompts, API documentation links, and rubric evaluation benchmarks.</div>
+          </div>
+
+          <div class="step-hud-card">
+            <div class="step-num-big">03</div>
+            <div class="step-card-title">Developer Ingest</div>
+            <div class="step-card-body">Broadcasting your brand to 2,500+ builders via targeted announcements and pre-event workshops.</div>
+          </div>
+
+          <div class="step-hud-card">
+            <div class="step-num-big">04</div>
+            <div class="step-card-title">Live Sprint & Handoff</div>
+            <div class="step-card-body">Keynote delivery, live mentoring, judging defense, and instant delivery of candidate dossiers and code.</div>
           </div>
         </div>
 
-        <div style="margin-top: 3.5mm; padding-top: 2.5mm; border-top: 0.5px solid #d1d5db; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 6.8pt; color: #4b5563;">
-          <span>WEB PORTAL: https://hack-on-line.com</span>
-          <span>PLATFORM: Unstop & GitHub</span>
-          <span>DATES: JAN 30–31, 2027</span>
+        <div class="executive-contact-banner">
+          <div class="contact-banner-header">
+            <span>PARTNER WITH HACK ON-LINE 2027</span>
+            <span style="font-family:'JetBrains Mono'; font-size:7.5pt; color:#38bdf8;">JANUARY 30–31, 2027</span>
+          </div>
+          <div class="contact-banner-sub">
+            Secure your track presence and gain direct access to premier engineering talent. Connect with our organizing leadership directly:
+          </div>
+
+          <div class="contact-direct-grid">
+            <div class="direct-officer-item">
+              <div class="post">Lead Organizing Director</div>
+              <div class="name">Hriday Bardia</div>
+              <div class="email">hridaybardia07@gmail.com</div>
+              <div style="color: #94a3b8; font-size: 6.5pt; margin-top: 0.5mm;">Strategy, Governance & Institutional Alliances</div>
+            </div>
+
+            <div class="direct-officer-item">
+              <div class="post">Head of Strategic Partnerships</div>
+              <div class="name">Ayush Singh Chauhan</div>
+              <div class="email">ayushchauhan2707@gmail.com</div>
+              <div style="color: #94a3b8; font-size: 6.5pt; margin-top: 0.5mm;">Sponsor Onboarding & Corporate Deliverables</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 3.5mm; padding-top: 2.5mm; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 6.8pt; color: #94a3b8;">
+            <span>WEB: https://hack-on-line.com</span>
+            <span>PORTAL: Unstop & GitHub</span>
+            <span>FORMAT: 100% Virtual Global Sprint</span>
+          </div>
+        </div>
+
+        <div class="terminal-closing-quote">
+          <span style="color:#10b981; font-weight:800;">$</span> "Software is not written in presentation slides. It is forged in terminal windows, tested under pressure, and proven in commits. Join us in setting a higher bar for the global engineering community."
         </div>
       </div>
 
-      <div class="manifesto-seal">
-        "Software is not written in presentation slides. It is forged in terminal windows, tested under pressure, and proven in commits. Join us in setting a higher bar for the global engineering community."
+      <div class="hud-footer">
+        <div>HACK ON-LINE 2027 // SPONSORSHIP PACKET</div>
+        <div>ONBOARDING & CONTACT</div>
+        <div class="page-indicator">PAGE 06 OF 06</div>
       </div>
-    </div>
-
-    <div class="editorial-footer">
-      <div>HACK ON-LINE 2027 // PROSPECTUS</div>
-      <div>ONBOARDING & DIRECTORY</div>
-      <div class="page-count">06 / 06</div>
     </div>
   </div>
 
@@ -1305,7 +1635,7 @@ const htmlContent = `<!DOCTYPE html>
 // Write HTML
 const outputHtmlPath = path.join(__dirname, '..', 'public', 'brochure.html');
 fs.writeFileSync(outputHtmlPath, htmlContent, 'utf8');
-console.log('Bespoke editorial HTML written to:', outputHtmlPath);
+console.log('Luxury cyber brochure HTML written to:', outputHtmlPath);
 
 // Render to PDF using Headless Chrome
 const tempPdfPath = path.join(process.env.TEMP || 'C:\\Users\\HRIDAY\\AppData\\Local\\Temp', 'Hack_On-Line_2027_Sponsorship_Brochure.pdf');
@@ -1315,7 +1645,7 @@ const rootPdfPath = path.join(__dirname, '..', 'Hack_On-Line_2027_Sponsorship_Br
 const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const htmlUrl = `file:///${outputHtmlPath.replace(/\\/g, '/')}`;
 
-console.log('Compiling bespoke editorial PDF via Chrome headless...');
+console.log('Compiling luxury cyber PDF via Chrome headless...');
 const cmd = `"${chromePath}" --headless --disable-gpu --no-sandbox "--print-to-pdf=${tempPdfPath}" --no-pdf-header-footer "${htmlUrl}"`;
 execSync(cmd, { stdio: 'inherit' });
 
