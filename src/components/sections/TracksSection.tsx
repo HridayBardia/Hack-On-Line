@@ -11,6 +11,7 @@ import {
   Radio,
   X,
   ChevronRight,
+  ChevronLeft,
   type LucideIcon,
 } from "lucide-react";
 
@@ -33,10 +34,12 @@ export interface TrackData {
 
 export function TracksSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const trackTrackRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const [selectedModalTrack, setSelectedModalTrack] = useState<TrackData | null>(null);
+  const [activeTrackIndex, setActiveTrackIndex] = useState(0);
 
   const tracks: TrackData[] = [
     {
@@ -153,14 +156,12 @@ export function TracksSection() {
     const trackTrack = trackTrackRef.current;
     if (!section || !trackTrack) return;
 
-    // Only apply horizontal scroll on screens >= 768px (tablets and desktops)
-    const isDesktop = window.innerWidth >= 768;
-    if (!isDesktop) return;
+    const mm = gsap.matchMedia();
 
-    let cachedDistance = Math.max(100, trackTrack.scrollWidth - window.innerWidth + 160);
+    mm.add("(min-width: 768px)", () => {
+      let cachedDistance = Math.max(100, trackTrack.scrollWidth - window.innerWidth + 160);
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
+      const trigger = ScrollTrigger.create({
         trigger: section,
         start: "top top",
         end: () => `+=${cachedDistance}`,
@@ -172,30 +173,66 @@ export function TracksSection() {
           cachedDistance = Math.max(100, trackTrack.scrollWidth - window.innerWidth + 160);
         },
         onUpdate: (self) => {
-          // Hardware-accelerated GPU translation without querying scrollWidth in the render loop
           trackTrack.style.transform = `translate3d(${-self.progress * cachedDistance}px, 0, 0)`;
 
-          // Fill progress bar
           if (progressBarRef.current) {
             progressBarRef.current.style.width = `${(self.progress * 100).toFixed(1)}%`;
           }
 
-          // Live track indicator
           if (counterRef.current) {
             const idx = Math.min(4, Math.floor(self.progress * 5));
             counterRef.current.innerText = `0${idx + 1} / 05`;
+            setActiveTrackIndex(idx);
           }
         },
       });
 
-      // Refresh ScrollTrigger after initial render to lock in exact dimensions
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 200);
-    }, section);
+      return () => {
+        trigger.kill();
+        trackTrack.style.transform = "";
+      };
+    });
 
-    return () => ctx.revert();
+    return () => mm.revert();
   }, []);
+
+  const handleMobileScroll = () => {
+    if (typeof window === "undefined" || window.innerWidth >= 768) return;
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const scrollLeft = container.scrollLeft;
+    const card = container.querySelector(".track-card") as HTMLElement | null;
+    if (!card) return;
+    const cardWidth = card.offsetWidth + 16;
+    const idx = Math.min(tracks.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+    if (idx !== activeTrackIndex) {
+      setActiveTrackIndex(idx);
+      if (counterRef.current) {
+        counterRef.current.innerText = `0${idx + 1} / 05`;
+      }
+      if (progressBarRef.current) {
+        progressBarRef.current.style.width = `${((idx + 1) / 5) * 100}%`;
+      }
+    }
+  };
+
+  const scrollToTrack = (index: number) => {
+    setActiveTrackIndex(index);
+    if (counterRef.current) {
+      counterRef.current.innerText = `0${index + 1} / 05`;
+    }
+    if (progressBarRef.current) {
+      progressBarRef.current.style.width = `${((index + 1) / 5) * 100}%`;
+    }
+    if (typeof window !== "undefined" && window.innerWidth < 768 && scrollContainerRef.current) {
+      const cards = scrollContainerRef.current.querySelectorAll<HTMLElement>(".track-card");
+      if (cards[index]) {
+        cards[index].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }
+    } else {
+      setSelectedModalTrack(tracks[index]);
+    }
+  };
 
   return (
     <section
@@ -205,12 +242,12 @@ export function TracksSection() {
       className="relative w-full min-h-screen bg-[#050508] text-white overflow-hidden"
     >
       {/* Sticky Fullscreen Container */}
-      <div className="relative w-full min-h-dvh sm:h-[100dvh] flex flex-col justify-between py-4 sm:py-8 px-3 sm:px-10 overflow-hidden">
+      <div className="relative w-full min-h-dvh sm:h-[100dvh] flex flex-col justify-between py-4 sm:py-8 px-0 sm:px-10 overflow-hidden">
 
         {/* Top Header & Telemetry Bar */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-white/10 shrink-0">
+        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-white/10 shrink-0 px-4 sm:px-0">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1.5">
+            <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               <span>02 // HORIZONTAL ARENA SECTORS</span>
             </div>
@@ -222,42 +259,70 @@ export function TracksSection() {
             </h2>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                TRACK POSITION
-              </div>
-              <span
-                ref={counterRef}
-                className="text-lg sm:text-xl font-black font-mono text-cyan-400 tracking-tight"
+          <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 w-full sm:w-auto">
+            {/* Mobile Navigation Arrows */}
+            <div className="flex items-center gap-1.5 sm:hidden">
+              <button
+                type="button"
+                onClick={() => scrollToTrack(Math.max(0, activeTrackIndex - 1))}
+                disabled={activeTrackIndex === 0}
+                aria-label="Previous track"
+                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/30 text-white disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer"
               >
-                01 / 05
-              </span>
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToTrack(Math.min(tracks.length - 1, activeTrackIndex + 1))}
+                disabled={activeTrackIndex === tracks.length - 1}
+                aria-label="Next track"
+                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/30 text-white disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
 
-            {/* Glowing Laser Progress Bar */}
-            <div className="w-32 sm:w-48 h-2 rounded-full bg-white/10 overflow-hidden border border-white/15">
-              <div
-                ref={progressBarRef}
-                className="h-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400 transition-all duration-75 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
-                style={{ width: "20%" }}
-              />
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                  TRACK POSITION
+                </div>
+                <span
+                  ref={counterRef}
+                  className="text-lg sm:text-xl font-black font-mono text-cyan-400 tracking-tight"
+                >
+                  01 / 05
+                </span>
+              </div>
+
+              {/* Glowing Laser Progress Bar */}
+              <div className="w-28 sm:w-48 h-2 rounded-full bg-white/10 overflow-hidden border border-white/15">
+                <div
+                  ref={progressBarRef}
+                  className="h-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400 transition-all duration-150 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
+                  style={{ width: "20%" }}
+                />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Center Horizontal Ribbon of All 5 Tracks */}
-        <div className="relative z-10 w-full flex items-center my-auto overflow-x-auto sm:overflow-visible no-scrollbar py-3 sm:py-4 snap-x snap-mandatory">
+        <div
+          ref={scrollContainerRef}
+          onScroll={handleMobileScroll}
+          className="relative z-10 w-full flex items-center my-auto overflow-x-auto sm:overflow-visible no-scrollbar py-3 sm:py-4 snap-x snap-mandatory scroll-smooth"
+        >
           <div
             ref={trackTrackRef}
-            className="flex items-center gap-4 sm:gap-8 px-3 sm:px-8 shrink-0"
+            className="flex items-center gap-4 sm:gap-8 px-4 sm:px-8 shrink-0"
           >
             {tracks.map((track) => {
               const Icon = track.icon;
               return (
                 <div
                   key={track.id}
-                  className="w-[275px] xs:w-[310px] sm:w-[440px] max-w-[calc(100vw-2.5rem)] h-[440px] sm:h-[490px] shrink-0 luxury-card rounded-3xl p-5 sm:p-8 flex flex-col justify-between relative group select-none overflow-hidden transition-all duration-300 hover:border-white/30 snap-center"
+                  className="track-card w-[calc(100vw-3rem)] max-w-[340px] sm:max-w-none sm:w-[440px] h-[410px] sm:h-[490px] shrink-0 luxury-card rounded-3xl p-5 sm:p-8 flex flex-col justify-between relative group select-none overflow-hidden transition-all duration-300 hover:border-white/30 snap-center"
                 >
                   {/* Giant Watermark Track Number */}
                   <span className="pointer-events-none absolute -bottom-6 -right-3 text-[140px] sm:text-[180px] font-black font-mono text-white/[0.03] select-none leading-none group-hover:text-white/[0.06] transition-colors">
@@ -272,7 +337,7 @@ export function TracksSection() {
 
                   {/* Card Header */}
                   <div>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-3 sm:mb-4">
                       <span
                         className="text-[10px] font-mono tracking-widest uppercase px-2.5 py-1 rounded-md border font-bold"
                         style={{
@@ -288,25 +353,25 @@ export function TracksSection() {
                       </span>
                     </div>
 
-                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug group-hover:text-white">
+                    <h3 className="text-lg sm:text-2xl font-bold text-white tracking-tight leading-snug group-hover:text-white line-clamp-2 sm:line-clamp-none">
                       {track.title}
                     </h3>
 
-                    <p className="mt-3 text-xs sm:text-sm text-zinc-300 font-light leading-relaxed line-clamp-3">
+                    <p className="mt-2.5 text-xs sm:text-sm text-zinc-300 font-light leading-relaxed line-clamp-2 sm:line-clamp-3">
                       {track.core}
                     </p>
                   </div>
 
                   {/* Tech Focus Chips */}
-                  <div className="my-auto py-3">
-                    <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-2 font-semibold">
+                  <div className="my-auto py-2 sm:py-3">
+                    <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1.5 sm:mb-2 font-semibold">
                       ARCHITECTURAL FOCUS
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {track.techFocus.slice(0, 3).map((tech) => (
                         <span
                           key={tech}
-                          className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-zinc-300"
+                          className="text-[10.5px] sm:text-[11px] font-mono px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg bg-white/[0.04] border border-white/10 text-zinc-300 truncate max-w-full"
                         >
                           {tech}
                         </span>
@@ -315,13 +380,13 @@ export function TracksSection() {
                   </div>
 
                   {/* Bottom Action Footer */}
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                  <div className="pt-3 sm:pt-4 border-t border-white/10 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Icon
-                        className="w-5 h-5 text-zinc-400 group-hover:scale-110 transition-transform"
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-hover:scale-110 transition-transform"
                         style={{ color: track.accent }}
                       />
-                      <span className="text-xs font-mono text-zinc-400">
+                      <span className="text-[11px] sm:text-xs font-mono text-zinc-400">
                         Fresh Commits Only
                       </span>
                     </div>
@@ -342,25 +407,33 @@ export function TracksSection() {
         </div>
 
         {/* Bottom Horizontal Guidance Bar */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-white/10 shrink-0 text-xs text-zinc-400">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="font-mono">
-              SCROLL DOWN TO GLIDE HORIZONTALLY · TRANSITIONS TO 24H TIMELINE AT TRACK 05
+        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 pt-3 border-t border-white/10 shrink-0 text-xs text-zinc-400 px-4 sm:px-0">
+          <div className="flex items-center gap-2 text-center sm:text-left">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shrink-0" />
+            <span className="font-mono text-[11px] sm:text-xs">
+              <span className="sm:hidden">SWIPE OR TAP TRACKS TO EXPLORE • TAP FOR DETAILS</span>
+              <span className="hidden sm:inline">SCROLL DOWN TO GLIDE HORIZONTALLY · TRANSITIONS TO 24H TIMELINE AT TRACK 05</span>
             </span>
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-            {tracks.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setSelectedModalTrack(t)}
-                className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-white/5 hover:bg-white/15 text-zinc-400 hover:text-white transition-all cursor-pointer"
-              >
-                {t.number}
-              </button>
-            ))}
+            {tracks.map((t, idx) => {
+              const isActive = idx === activeTrackIndex;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => scrollToTrack(idx)}
+                  className={`px-2.5 py-1 rounded-md text-[10.5px] font-mono font-bold transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-[0_0_10px_rgba(6,182,212,0.3)]"
+                      : "bg-white/5 hover:bg-white/15 text-zinc-400 hover:text-white border border-transparent"
+                  }`}
+                >
+                  {t.number}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
