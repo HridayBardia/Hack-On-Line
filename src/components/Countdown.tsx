@@ -104,29 +104,29 @@ export function Countdown() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
 
         {/* Header Telemetry */}
-        <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2.5 pb-4 mb-4 sm:mb-5 border-b border-white/10 text-xs">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-5 border-b border-white/10 text-xs">
+          <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,1)]" />
             </span>
-            <span className="font-mono uppercase tracking-widest text-[11px] sm:text-xs font-bold text-zinc-200">
+            <span className="font-mono uppercase tracking-widest text-xs font-bold text-zinc-200">
               OFFICIAL COUNTDOWN
             </span>
           </div>
 
-          <div className="font-mono text-cyan-300 text-[11px] sm:text-sm px-3 py-1 rounded-full bg-[#050b14] border border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.25)] font-bold tracking-wider flex items-center gap-2 shrink-0">
+          <div className="font-mono text-cyan-300 text-xs sm:text-sm px-3.5 py-1 rounded-full bg-[#050b14] border border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.25)] font-bold tracking-wider flex items-center gap-2 shrink-0 whitespace-nowrap">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span>30 JAN 2027 • 10:00 AM IST</span>
           </div>
         </div>
 
         {/* Chronometer Grid: Deep Pitch-Black Razor-Sharp Cards */}
-        <div className="grid grid-cols-4 gap-1.5 xs:gap-2.5 sm:gap-4 text-center">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center">
           {units.map((unit, idx) => (
             <div
               key={idx}
-              className="relative flex flex-col items-center justify-center py-3.5 px-1 xs:py-5 xs:px-2 sm:py-7 sm:px-4 rounded-xl sm:rounded-2xl bg-[#07070a] border border-white/15 hover:border-white/30 shadow-[0_12px_36px_rgba(0,0,0,0.95)] group overflow-hidden transition-all duration-200"
+              className="relative flex flex-col items-center justify-center py-4 px-1.5 sm:py-7 sm:px-4 rounded-xl sm:rounded-2xl bg-[#07070a] border border-white/15 hover:border-white/30 shadow-[0_12px_36px_rgba(0,0,0,0.95)] group overflow-hidden transition-all duration-200"
             >
               {/* Luminous Top Accent Stripe */}
               <div
@@ -139,7 +139,7 @@ export function Countdown() {
 
               {/* Razor-Sharp Pure White High-Contrast Digits */}
               <div
-                className="font-mono text-2xl xs:text-3xl sm:text-5xl md:text-7xl font-black tracking-tight text-white mb-1.5 sm:mb-2 select-none"
+                className="font-mono text-3xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-1.5 sm:mb-2 select-none"
                 style={{
                   textShadow: "0 2px 8px rgba(0,0,0,0.95)",
                 }}
@@ -149,7 +149,7 @@ export function Countdown() {
 
               {/* Bold High-Contrast Unit Label Pill */}
               <div
-                className="px-1.5 xs:px-2 sm:px-2.5 py-0.5 sm:py-1 rounded font-mono text-[9px] xs:text-[10px] sm:text-xs tracking-wide sm:tracking-widest font-black uppercase border shadow-sm max-w-full truncate"
+                className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded font-mono text-[10px] sm:text-xs tracking-wider sm:tracking-widest font-black uppercase border shadow-sm max-w-full truncate"
                 style={{
                   color: unit.accent,
                   borderColor: `${unit.accent}60`,
@@ -165,7 +165,7 @@ export function Countdown() {
 
         {/* Footer Strip */}
         <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs w-full">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 xs:gap-2 text-xs sm:text-sm text-zinc-300 text-center sm:text-left">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm text-zinc-300 text-center sm:text-left">
             <span className="size-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)] shrink-0" />
             <span className="font-medium text-zinc-200">
               Problem statements decrypt 15m prior at
