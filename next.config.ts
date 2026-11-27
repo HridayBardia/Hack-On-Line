@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
 const securityHeaders = [
   {
     key: "X-DNS-Prefetch-Control",
@@ -11,7 +13,7 @@ const securityHeaders = [
   },
   {
     key: "X-XSS-Protection",
-    value: "1; mode=block",
+    value: "0",
   },
   {
     key: "X-Frame-Options",
@@ -33,11 +35,15 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+      isDev
+        ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'"
+        : "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https: wss:",
+      isDev
+        ? "connect-src 'self' ws: https:"
+        : "connect-src 'self' https:",
       "frame-ancestors 'none'",
       "object-src 'none'",
       "base-uri 'self'",
