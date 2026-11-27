@@ -2,14 +2,15 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { TextScramble } from "./TextScramble";
 
 interface PillNavProps {
   onOpenRegister?: () => void;
 }
 
-export function PillNav({ onOpenRegister }: PillNavProps) {
+export function PillNav(props: PillNavProps) {
+  void props;
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
   const [activeSection, setActiveSection] = useState("about");
@@ -223,11 +224,11 @@ export function PillNav({ onOpenRegister }: PillNavProps) {
           {/* Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2">
             <button
-              onClick={onOpenRegister}
-              className="luxury-button-primary px-3 sm:px-4 py-2 min-h-11 rounded-full text-xs font-bold text-[#050508] transition-all flex items-center gap-1.5 cursor-pointer"
+              disabled
+              aria-disabled="true"
+              className="luxury-button-primary px-3 sm:px-4 py-2 min-h-11 rounded-full text-xs font-bold text-[#050508] transition-all flex items-center gap-1.5 cursor-default"
             >
-              <span>Register</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>Registration opens soon</span>
             </button>
 
             {/* Mobile Menu Toggle (44px touch target) */}
@@ -271,14 +272,11 @@ export function PillNav({ onOpenRegister }: PillNavProps) {
               ))}
               <div className="pt-3 mt-1 border-t border-white/10">
                 <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    if (onOpenRegister) onOpenRegister();
-                  }}
-                  className="luxury-button-primary w-full min-h-11 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                  disabled
+                  aria-disabled="true"
+                  className="luxury-button-primary w-full min-h-11 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-default shadow-lg"
                 >
-                  <span>Register on Unstop</span>
-                  <ArrowUpRight className="w-4 h-4" />
+                  <span>Registration opens soon</span>
                 </button>
               </div>
             </div>

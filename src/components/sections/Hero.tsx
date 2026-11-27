@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Countdown } from "../Countdown";
 import { TextScramble } from "@/components/common/TextScramble";
 import {
-  ArrowRight,
   Copy,
   Check,
   ChevronDown,
@@ -15,7 +14,8 @@ interface HeroProps {
   onOpenRegister?: () => void;
 }
 
-export function Hero({ onOpenRegister }: HeroProps) {
+export function Hero(props: HeroProps) {
+  void props;
   const [copied, setCopied] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
   const portalUrl = "https://unstop.com/hackathons/hack-on-line-2027";
@@ -97,11 +97,11 @@ export function Hero({ onOpenRegister }: HeroProps) {
           className="mt-9 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4"
         >
           <button
-            onClick={onOpenRegister}
-            className="luxury-button-primary px-7 py-3.5 rounded-2xl text-sm font-bold flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.35)] cursor-pointer"
+            disabled
+            aria-disabled="true"
+            className="luxury-button-primary px-7 py-3.5 rounded-2xl text-sm font-bold flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.35)] cursor-default"
           >
-            <span>Register on Unstop</span>
-            <ArrowRight className="w-4 h-4 text-black" />
+            <span>Registration opens soon</span>
           </button>
 
           <a
