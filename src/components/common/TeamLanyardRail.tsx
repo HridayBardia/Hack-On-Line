@@ -1337,56 +1337,55 @@ export function TeamLanyardRail({
             </svg>
           </button>
 
-          <div className="flex items-center gap-1 sm:gap-2">
-            {items.map((item, i) => (
-              <button
-                key={item.id}
-                type="button"
-                aria-label={`${labels.show} ${item.name}`}
-                aria-current={centerIndex === i}
-                onClick={() => { stop(); setActive(i); }}
-                className="py-3 px-1.5 min-h-11 flex items-center justify-center cursor-pointer group outline-none"
-              >
-                <span
-                  className={`h-2 rounded-full transition-[width,background-color] duration-300 focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none block ${
-                    centerIndex === i
-                      ? "w-8 bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)]"
-                      : "w-2.5 bg-white/30 group-hover:bg-white/50"
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
+            <div className="flex flex-wrap justify-center items-center gap-0.5 sm:gap-1.5">
+              {items.map((item, i) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  aria-label={`${labels.show} ${item.name}`}
+                  aria-current={centerIndex === i}
+                  onClick={() => { stop(); setActive(i); }}
+                  className="py-3 px-1.5 min-h-11 flex items-center justify-center cursor-pointer group outline-none"
+                >
+                  <span
+                    className={`h-2 rounded-full transition-[width,background-color] duration-300 focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none block ${centerIndex === i
+                        ? "w-8 bg-white shadow-[0_0_12px_rgba(255,255,255,0.8)]"
+                        : "w-2.5 bg-white/30 group-hover:bg-white/50"
+                      }`}
+                  />
+                </button>
+              ))}
+            </div>
 
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              stop();
-              const cur = active ?? carouselIndex;
-              const next = (cur + 1) % count;
-              setActive(next);
-            }}
-            aria-label="Next member badge"
-            className="size-11 min-w-11 min-h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-md"
-          >
-            <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-        </div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                stop();
+                const cur = active ?? carouselIndex;
+                const next = (cur + 1) % count;
+                setActive(next);
+              }}
+              aria-label="Next member badge"
+              className="size-11 min-w-11 min-h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-md"
+            >
+              <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
       )}
 
-      <div className="relative z-10 flex flex-col items-center gap-2 px-6 pb-6 pt-4 text-center">
-        <div id={`${uid}-caption`} aria-live="polite" className="min-h-[2.8rem]">
-          <p className="text-base sm:text-lg font-bold text-white tracking-tight">{line1}</p>
-          <p className="mt-1 text-xs sm:text-sm font-mono text-zinc-400">{line2}</p>
-          {showingBack && person?.bio && <span className="sr-only">{person.bio}</span>}
-        </div>
-        {action}
-      </div>
-    </section>
-  );
+          <div className="relative z-10 flex flex-col items-center gap-2 px-6 pb-6 pt-4 text-center">
+            <div id={`${uid}-caption`} aria-live="polite" className="min-h-[2.8rem]">
+              <p className="text-base sm:text-lg font-bold text-white tracking-tight">{line1}</p>
+              <p className="mt-1 text-xs sm:text-sm font-mono text-zinc-400">{line2}</p>
+              {showingBack && person?.bio && <span className="sr-only">{person.bio}</span>}
+            </div>
+            {action}
+          </div>
+        </section>
+      );
 }
 
-export default TeamLanyardRail;
+      export default TeamLanyardRail;

@@ -1,6 +1,6 @@
 export interface CrewSecurityScan {
   url: string;
-  svg: string;
+  svg?: string;
   scanPhrase: string;
 }
 
@@ -44,5 +44,25 @@ export const CREW_SECURITY_DATA: Record<string, CrewSecurityScan> = {
     url: "https://www.instagram.com/_satwikguru_?gwpx=bHh4cDRqMWRxZnE5",
     scanPhrase: "// SCAN FOR RUNTIME LIFESTYLE TELEMETRY",
     svg: "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 35 35\" shape-rendering=\"crispEdges\"><path fill=\"#ffffff\" d=\"M0 0h35v35H0z\"/><path stroke=\"#000000\" d=\"M1 1.5h7m1 0h3m2 0h2m1 0h4m1 0h1m1 0h1m2 0h7M1 2.5h1m5 0h1m1 0h1m1 0h1m1 0h2m2 0h3m2 0h1m1 0h2m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m2 0h4m3 0h1m1 0h3m1 0h1m3 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h1m2 0h2m3 0h1m1 0h4m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m3 0h3m1 0h1m3 0h1m2 0h1m2 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h1m1 0h4m2 0h5m2 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m2 0h2m1 0h1m1 0h2m2 0h1m2 0h2M1 9.5h1m1 0h2m1 0h3m1 0h1m1 0h2m1 0h1m1 0h4m1 0h1m1 0h1m2 0h1m2 0h1m1 0h2M3 10.5h1m1 0h1m2 0h2m1 0h1m3 0h1m1 0h1m1 0h3m1 0h2m2 0h2m1 0h2m1 0h1M5 11.5h3m1 0h1m5 0h1m1 0h1m1 0h1m4 0h1m1 0h1m1 0h3m1 0h2M1 12.5h1m2 0h1m1 0h1m4 0h2m1 0h4m1 0h2m2 0h3m1 0h2m1 0h1m2 0h1M1 13.5h1m1 0h1m3 0h3m2 0h2m2 0h2m3 0h1m1 0h2m1 0h1m2 0h2m2 0h1M1 14.5h3m2 0h1m2 0h1m1 0h1m4 0h1m1 0h3m11 0h1M1 15.5h1m1 0h2m2 0h1m4 0h1m1 0h1m3 0h1m1 0h1m1 0h2m3 0h2m1 0h2M1 16.5h1m3 0h2m1 0h2m1 0h4m1 0h2m2 0h1m1 0h2m1 0h3m1 0h3M3 17.5h2m2 0h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h3m2 0h2m1 0h1m1 0h1M1 18.5h3m6 0h2m1 0h1m2 0h1m4 0h2m1 0h1m2 0h1m1 0h2m1 0h2M4 19.5h4m1 0h1m1 0h9m2 0h1m3 0h1m1 0h2m1 0h2M1 20.5h1m1 0h1m2 0h1m1 0h5m2 0h4m1 0h2m3 0h2m2 0h1m2 0h2M1 21.5h3m3 0h1m1 0h1m1 0h1m1 0h1m2 0h8m1 0h1m2 0h6M1 22.5h1m1 0h1m2 0h1m1 0h2m1 0h2m1 0h5m2 0h4m1 0h2m2 0h2m1 0h1M3 23.5h2m2 0h4m2 0h1m5 0h1m1 0h1m1 0h2m1 0h3m3 0h2M2 24.5h1m3 0h1m3 0h1m1 0h1m1 0h1m1 0h1m2 0h3m1 0h1m3 0h4m1 0h1M1 25.5h1m2 0h5m1 0h2m2 0h2m1 0h2m2 0h1m1 0h1m1 0h6m1 0h2M9 26.5h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m4 0h1m3 0h2M1 27.5h7m1 0h4m2 0h1m4 0h2m2 0h2m1 0h1m1 0h1M1 28.5h1m5 0h1m1 0h1m2 0h4m1 0h1m1 0h4m1 0h2m3 0h5M1 29.5h1m1 0h3m1 0h1m2 0h1m4 0h2m1 0h2m1 0h9m1 0h3M1 30.5h1m1 0h3m1 0h1m1 0h1m4 0h1m1 0h1m1 0h4m1 0h3m2 0h1m4 0h1M1 31.5h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m4 0h2m1 0h5M1 32.5h1m5 0h1m5 0h1m2 0h1m1 0h4m1 0h1m1 0h5m3 0h1M1 33.5h7m1 0h1m2 0h2m1 0h4m1 0h1m1 0h1m1 0h1m2 0h1m1 0h3\"/></svg>"
+  },
+  "crew-09": {
+    url: "https://www.instagram.com/adyyaguptaa?utm_source=ig_web_button_share_sheet&cnvx=ZDNlZDc0MzIxNw==",
+    scanPhrase: "// SCAN TO AUDIT SOCIAL REACH TELEMETRY",
+  },
+  "crew-10": {
+    url: "https://www.instagram.com/rajeswarii26?utm_source=ig_web_button_share_sheet&lqvp=ZDNlZDc0MzIxNw==",
+    scanPhrase: "// SCAN FOR BRAND GROWTH SIGNAL",
+  },
+  "crew-11": {
+    url: "https://www.instagram.com/anshul__kumar09?utm_source=ig_web_button_share_sheet&lqvp=ZDNlZDc0MzIxNw==",
+    scanPhrase: "// SCAN TO INSPECT TECHNICAL LOGS",
+  },
+  "crew-12": {
+    url: "https://www.instagram.com/sumit_kumawat_99?utm_source=ig_web_button_share_sheet&evlk=ZDNlZDc0MzIxNw==",
+    scanPhrase: "// SCAN FOR CAMPAIGN FEED TELEMETRY",
+  },
+  "crew-13": {
+    url: "https://www.instagram.com/ankurraj__21?utm_source=ig_web_button_share_sheet&cnvx=ZDNlZDc0MzIxNw==",
+    scanPhrase: "// SCAN TO AUDIT TREASURY LEDGER",
   },
 };
