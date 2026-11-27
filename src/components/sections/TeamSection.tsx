@@ -5,7 +5,7 @@ import TeamLanyardRail, { LanyardMember } from "@/components/common/TeamLanyardR
 import { Sparkles } from "lucide-react";
 import { CREW_SECURITY_DATA } from "@/lib/crewQrData";
 
-type CommitteeFilter = "ALL" | "TECHNICAL" | "HOSTING" | "FINANCE" | "MARKETING";
+type CommitteeFilter = "ALL" | "MANAGEMENT" | "TECHNICAL" | "HOSTING" | "FINANCE" | "MARKETING";
 
 interface ExtendedCrewMember extends LanyardMember {
   category: Exclude<CommitteeFilter, "ALL">;
@@ -26,13 +26,13 @@ export function TeamSection() {
       {
         id: "crew-01",
         name: "Hriday Bardia",
-        role: "Technical Committee",
+        role: "Management Committee",
         team: "Organizing Crew",
-        category: "TECHNICAL",
-        department: "Technical Architecture & Systems",
+        category: "MANAGEMENT",
+        department: "Event Management & Operations",
         image: createAvatar("HB", "#FF8C66"),
-        bio: "Overseeing technical architecture, platform reliability, submission pipeline engineering, and evaluation infrastructure across the 24H sprint.",
-        tags: ["Technical", "Systems", "Architecture"],
+        bio: "Overseeing overarching hackathon strategy, institutional execution, committee coordination, and 24H event management.",
+        tags: ["Management", "Strategy", "Operations"],
         links: [
           { label: "Email", href: "https://mail.google.com/mail/?view=cm&fs=1&to=hridaybardia07@gmail.com" },
           { label: "GitHub", href: "https://github.com/HridayBardia" },
@@ -121,13 +121,13 @@ export function TeamSection() {
       {
         id: "crew-07",
         name: "Ved Raj",
-        role: "Technical Committee",
+        role: "Management Committee",
         team: "Organizing Crew",
-        category: "TECHNICAL",
-        department: "Technical Support & Tooling",
+        category: "MANAGEMENT",
+        department: "Operations Management & Coordination",
         image: createAvatar("VR", "#06B6D4"),
-        bio: "Directing technical troubleshooting, developer environment diagnostics, repository checks, and submission tooling support.",
-        tags: ["Technical", "Tooling", "Support"],
+        bio: "Directing participant escalation triage, cross-committee operations, schedule execution, and event logistics.",
+        tags: ["Management", "Operations", "Triage"],
         links: [
           { label: "Email", href: "https://mail.google.com/mail/?view=cm&fs=1&to=vedrajhari35035@gmail.com" },
           { label: "GitHub", href: "https://github.com/Dj-coder-glitch" },
@@ -159,13 +159,13 @@ export function TeamSection() {
       {
         id: "crew-08",
         name: "Satwik Kumar Guru",
-        role: "Technical Committee",
+        role: "Management Committee",
         team: "Organizing Crew",
-        category: "TECHNICAL",
-        department: "Runtime Diagnostics & Git Audit",
+        category: "MANAGEMENT",
+        department: "Event Coordination & Ops Management",
         image: createAvatar("SG", "#8B5CF6"),
-        bio: "Supporting builder setups, GitHub submission verification, runtime debugging, and technical helpdesk escalation.",
-        tags: ["Technical", "Git Audit", "Diagnostics"],
+        bio: "Supporting builder onboarding, workflow coordination, team escalations, and real-time operational management.",
+        tags: ["Management", "Coordination", "Operations"],
         links: [
           { label: "Email", href: "https://mail.google.com/mail/?view=cm&fs=1&to=satwikguru895@gmail.com" },
           { label: "GitHub", href: "https://github.com/satwikguru895-source" },
@@ -281,6 +281,7 @@ export function TeamSection() {
 
   const filterOptions: Array<{ id: CommitteeFilter; label: string }> = [
     { id: "ALL", label: `All Crew (${allCrew.length})` },
+    { id: "MANAGEMENT", label: `Management (${allCrew.filter((m) => m.category === "MANAGEMENT").length})` },
     { id: "TECHNICAL", label: `Technical (${allCrew.filter((m) => m.category === "TECHNICAL").length})` },
     { id: "HOSTING", label: `Hosting (${allCrew.filter((m) => m.category === "HOSTING").length})` },
     { id: "FINANCE", label: `Finance (${allCrew.filter((m) => m.category === "FINANCE").length})` },
@@ -294,61 +295,60 @@ export function TeamSection() {
       className="w-full max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-44 pb-16 sm:pb-24 scroll-mt-28 relative z-10 overflow-x-clip"
     >
       {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between pb-8 border-b border-white/10 gap-6 mb-8 mt-2">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-2.5">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-              <span>04 // ORGANIZATIONAL LEADERSHIP &amp; OPERATIONS</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-              Organizing Crew
-            </h2>
-            <p className="mt-2 text-sm sm:text-base text-zinc-400 max-w-2xl">
-              The organizing committees behind Hack On-Line 2027.
-            </p>
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between pb-8 border-b border-white/10 gap-6 mb-8 mt-2">
+        <div>
+          <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-2.5">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span>04 // ORGANIZATIONAL LEADERSHIP &amp; OPERATIONS</span>
           </div>
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+            Organizing Crew
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-zinc-400 max-w-2xl">
+            The organizing committees behind Hack On-Line 2027.
+          </p>
+        </div>
 
-          {/* Filter Pills */}
-                < div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-zinc-950/80 border border-white/15 backdrop-blur-2xl shadow-xl w-full lg:w-auto">
-              {filterOptions.map((opt) => (
+        {/* Filter Pills */}
+        < div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-zinc-950/80 border border-white/15 backdrop-blur-2xl shadow-xl w-full lg:w-auto">
+          {filterOptions.map((opt) => (
             <button
               key={opt.id}
               type="button"
               onClick={() => setActiveTab(opt.id)}
-              className={`flex-1 sm:flex-none text-center px-3 py-2 min-h-11 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center whitespace-nowrap ${
-                activeTab === opt.id
+              className={`flex-1 sm:flex-none text-center px-3 py-2 min-h-11 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center whitespace-nowrap ${activeTab === opt.id
                   ? "bg-white text-zinc-950 shadow-md scale-[1.02]"
                   : "text-zinc-400 hover:text-white"
-              }`}
-                >
-                { opt.label }
+                }`}
+            >
+              {opt.label}
             </button>
           ))}
-          </div>
         </div>
+      </div>
 
-        {/* Interactive Physics Instructions Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-zinc-400 mb-6">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="font-medium text-zinc-300">Physics Simulation:</span>
-            <span>Drag horizontally to slide rail · Pull downwards to stretch lanyard cord</span>
-          </div>
-          <div className="flex items-center gap-2 text-zinc-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>Click any badge to flip 180° for verified credentials &amp; contacts</span>
-          </div>
+      {/* Interactive Physics Instructions Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-zinc-400 mb-6">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+          <span className="font-medium text-zinc-300">Physics Simulation:</span>
+          <span>Drag horizontally to slide rail · Pull downwards to stretch lanyard cord</span>
         </div>
+        <div className="flex items-center gap-2 text-zinc-400">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span>Click any badge to flip 180° for verified credentials &amp; contacts</span>
+        </div>
+      </div>
 
-        {/* Interactive Lanyard Badges Rail */}
-        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 p-2 sm:p-6 backdrop-blur-2xl shadow-2xl overflow-hidden">
-          <TeamLanyardRail
-            key={activeTab} // reset simulation cleanly on tab switch
-            items={displayedMembers}
-            caption="Interact with any badge to inspect credentials, role focus, and direct contact channels."
-            className="bg-transparent border-0"
-          />
-        </div>
+      {/* Interactive Lanyard Badges Rail */}
+      <div className="relative rounded-3xl border border-white/10 bg-gradient-to-b from-zinc-900/60 to-zinc-950/80 p-2 sm:p-6 backdrop-blur-2xl shadow-2xl overflow-hidden">
+        <TeamLanyardRail
+          key={activeTab} // reset simulation cleanly on tab switch
+          items={displayedMembers}
+          caption="Interact with any badge to inspect credentials, role focus, and direct contact channels."
+          className="bg-transparent border-0"
+        />
+      </div>
     </section>
   );
 }
