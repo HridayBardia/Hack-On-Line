@@ -23,11 +23,13 @@ const syne = Syne({
   display: "swap",
 });
 
+const SITE_URL = "https://hackon-line.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hack-on-line.com"),
+  metadataBase: new URL(SITE_URL),
   title: "Hack On-Line // 2027 — Premier 24H Virtual Developer Hackathon",
   description:
-    "Hack On-Line is a professional hackathon organizing company hosting high-velocity virtual engineering sprints. 5 innovation tracks, fresh commits only, real industry peer evaluation.",
+    "Hack On-Line 2027 is a 24-hour virtual developer hackathon on January 30–31, 2027. 5 engineering tracks, free entry, registration on Unstop.",
   keywords: [
     "Hack On-Line",
     "hackathon",
@@ -49,12 +51,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Hack On-Line // 2027 — Premier 24H Virtual Developer Hackathon",
-    description: "30-31 JAN 2027 • 100% Virtual • ₹0 Entry • 5 Problem Tracks.",
-    url: "https://hack-on-line.com",
+    description: "30–31 January 2027 • 100% Virtual • Free Entry • 5 Problem Tracks.",
+    url: SITE_URL,
     siteName: "Hack On-Line",
     images: [
       {
-        url: "/logo.png",
+        url: `${SITE_URL}/logo.png`,
         width: 1024,
         height: 1024,
         alt: "Hack On-Line Logo",
@@ -66,8 +68,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Hack On-Line // 2027 — Premier 24H Virtual Developer Hackathon",
-    description: "30-31 JAN 2027 • 100% Virtual • ₹0 Entry • 5 Problem Tracks.",
-    images: ["/logo.png"],
+    description: "30–31 January 2027 • 100% Virtual • Free Entry • 5 Problem Tracks.",
+    images: [`${SITE_URL}/logo.png`],
   },
 };
 

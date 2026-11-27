@@ -8,7 +8,6 @@ import {
     GitBranch,
     Zap,
     CheckCircle2,
-    Server,
     Binary,
     type LucideIcon,
 } from "lucide-react";
@@ -50,36 +49,6 @@ export function PlatformSection() {
     const smoothScale = useSpring(perspectiveScale, { stiffness: 180, damping: 28 });
 
     const engines: EngineCore[] = [
-        {
-            id: "engine-01",
-            code: "ENGINE_01 // EDGE_GATEWAY",
-            tag: "RUNTIME VERIFICATION",
-            title: "Zero-Mock Edge Verification Gateway",
-            subtitle: "Automated real-time inspection of public cloud endpoints",
-            accent: "#10B981",
-            glow: "rgba(16, 185, 129, 0.4)",
-            icon: Server,
-            metric: "14.2ms",
-            metricLabel: "AVG EDGE PTT",
-            description:
-                "Every project must be live on a public domain with real database persistence. Our automated validation bot verifies HTTP 200 contracts, eliminates static mock arrays, and tests network resilience.",
-            architecturePoints: [
-                "Automated Edge ping across multi-region edge nodes (Vercel, Fly, Railway, AWS)",
-                "Zero-stub assertion: verifies live CRUD operations and real schema mutations",
-                "Cold-start and latency grading with dynamic circuit-breaker fallbacks",
-            ],
-            terminalData: {
-                command: "probe-edge --target=https://app.hackonline.dev/api/v1/healthz --strict",
-                runtimeOutputs: [
-                    { text: "➔ Ingesting target endpoint (DNS resolved: 76.76.21.21)...", color: "text-zinc-400" },
-                    { text: "➔ Testing HTTP/2 SSL handshake & headers...", color: "text-cyan-400" },
-                    { text: "✔ HTTP/2 200 OK | Content-Type: application/json", color: "text-emerald-400 font-bold" },
-                    { text: "✔ Zero-Mock contract assertion: 100% REAL PERSISTENCE", color: "text-emerald-300" },
-                    { text: "✔ Latency: 14.2ms | Edge cache invalidation verified", color: "text-amber-300" },
-                    { text: "★ GATEWAY STATUS: PRODUCTION DEPLOYMENT VALIDATED", color: "text-white font-bold" },
-                ],
-            },
-        },
         {
             id: "engine-02",
             code: "ENGINE_02 // SPRINT_INTEGRITY",
@@ -203,7 +172,7 @@ export function PlatformSection() {
                             The Hack On-Line Platform
                         </h2>
                         <p className="mt-3 text-sm sm:text-base text-zinc-400 max-w-2xl leading-relaxed">
-                            Most hackathons evaluate vanity slide decks. Hack On-Line is engineered on an automated, multi-region runtime matrix that evaluates real code deployed in production.
+                            Most hackathons evaluate vanity slide decks. Every project must be live on a public URL. Our judges review deployed projects manually.
                         </p>
                     </div>
 
@@ -211,16 +180,13 @@ export function PlatformSection() {
                     <div className="flex items-center gap-3 p-2 rounded-2xl bg-zinc-950/80 border border-white/15 backdrop-blur-2xl shadow-xl shrink-0">
                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono font-bold text-zinc-300">
                             <Binary className="size-3.5 text-cyan-400" />
-                            <span>4 CORE ENGINES</span>
+                            <span>3 CORE ENGINES</span>
                         </div>
-                        <span className="text-xs font-mono text-emerald-400 px-2 font-bold">
-                            ● ALL SYSTEMS NOMINAL
-                        </span>
                     </div>
                 </div>
 
                 {/* Engine Selection Tabs (Cybernetic Tab Matrix) */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
                     {engines.map((eng, idx) => {
                         const Icon = eng.icon;
                         const isSelected = activeEngineIdx === idx;
@@ -366,7 +332,7 @@ export function PlatformSection() {
                                         </span>
                                     </div>
                                     <span className="text-[9px] uppercase px-2 py-0.5 rounded bg-white/5 text-zinc-400 border border-white/10">
-                                        TLS 1.3 // LIVE CONSOLE
+                                        STAGE AUDIT CONSOLE
                                     </span>
                                 </div>
 
@@ -392,15 +358,6 @@ export function PlatformSection() {
                                                 </span>
                                             </div>
                                         ))}
-                                    </div>
-
-                                    {/* Terminal Footer Telemetry */}
-                                    <div className="mt-4 pt-3 border-t border-dashed border-white/10 flex items-center justify-between text-[10px] text-zinc-500">
-                                        <span className="flex items-center gap-1.5">
-                                            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                            Runtime verification cluster: ACTIVE
-                                        </span>
-                                        <span className="text-zinc-400 font-mono">0 ERRORS // 0 MOCKS</span>
                                     </div>
                                 </div>
                             </div>

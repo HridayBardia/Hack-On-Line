@@ -15,34 +15,16 @@ import { RulesSection } from "@/components/sections/RulesSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { FooterSection } from "@/components/sections/FooterSection";
 
-// Skeleton placeholder for heavy below-the-fold interactive components
-function SectionSkeleton({ height = "h-96" }: { height?: string }) {
-  return (
-    <div className={`w-full max-w-7xl mx-auto px-4 sm:px-6 my-16 ${height} animate-pulse rounded-3xl bg-white/[0.02] border border-white/5 flex items-center justify-center`}>
-      <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
-        <span className="w-2 h-2 rounded-full bg-cyan-500/50 animate-ping" />
-        <span>Loading interactive module...</span>
-      </div>
-    </div>
-  );
-}
-
 // 1. Heavy GSAP Problem Tracks Section: Lazy-loaded below the fold
 const TracksSection = dynamic(
   () => import("@/components/sections/TracksSection").then((m) => m.TracksSection),
-  {
-    ssr: false,
-    loading: () => <SectionSkeleton height="h-[500px]" />,
-  }
+  { ssr: false }
 );
 
 // 2. Heavy 3D Physics Lanyard Badges: Lazy-loaded below the fold
 const TeamSection = dynamic(
   () => import("@/components/sections/TeamSection").then((m) => m.TeamSection),
-  {
-    ssr: false,
-    loading: () => <SectionSkeleton height="h-[600px]" />,
-  }
+  { ssr: false }
 );
 
 // 3. Conditional Registration Modal: Dynamic chunk loaded on-demand

@@ -192,11 +192,6 @@ export function FooterSection() {
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>All Systems Operational</span>
-            </span>
-
             <button
               onClick={scrollToTop}
               className="min-w-11 min-h-11 flex items-center justify-center p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
