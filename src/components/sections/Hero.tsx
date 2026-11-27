@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Countdown } from "../Countdown";
 import { TextScramble } from "@/components/common/TextScramble";
-import {
-  Copy,
-  Check,
-  ChevronDown,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 interface HeroProps {
   onOpenRegister?: () => void;
@@ -16,9 +12,7 @@ interface HeroProps {
 
 export function Hero(props: HeroProps) {
   void props;
-  const [copied, setCopied] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
-  const portalUrl = "https://unstop.com/hackathons/hack-on-line-2027";
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -26,12 +20,6 @@ export function Hero(props: HeroProps) {
   });
 
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-
-  const copyLink = () => {
-    navigator.clipboard.writeText(portalUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <section
@@ -110,19 +98,6 @@ export function Hero(props: HeroProps) {
           >
             <span>Explore 5 Tracks</span>
           </a>
-
-          <button
-            onClick={copyLink}
-            className="luxury-button-secondary px-4 py-3.5 rounded-2xl text-sm text-zinc-400 hover:text-white flex items-center justify-center cursor-pointer"
-            title="Copy portal registration link"
-            aria-label="Copy portal registration link"
-          >
-            {copied ? (
-              <Check className="w-4 h-4 text-emerald-400" />
-            ) : (
-              <Copy className="w-4 h-4" />
-            )}
-          </button>
         </motion.div>
 
         {/* Event Feature Pillars with Scroll Reveal */}
