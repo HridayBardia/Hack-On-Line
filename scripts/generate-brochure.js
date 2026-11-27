@@ -1633,7 +1633,11 @@ const htmlContent = `<!DOCTYPE html>
 `;
 
 // Write HTML
-const outputHtmlPath = path.join(__dirname, '..', 'public', 'brochure.html');
+const outputDir = path.join(__dirname, '..', 'output');
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
+}
+const outputHtmlPath = path.join(outputDir, 'brochure.html');
 fs.writeFileSync(outputHtmlPath, htmlContent, 'utf8');
 console.log('Luxury cyber brochure HTML written to:', outputHtmlPath);
 

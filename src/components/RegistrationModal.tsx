@@ -2,91 +2,18 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, CheckCircle2, Loader2, Sparkles, AlertCircle } from "lucide-react";
-import confetti from "canvas-confetti";
+import { X, ExternalLink, CheckCircle2 } from "lucide-react";
 
 interface RegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const TRACKS = [
-  { id: "track-01", name: "Track 01: Agriculture & AgTech" },
-  { id: "track-02", name: "Track 02: Medical & Healthcare" },
-  { id: "track-03", name: "Track 03: Space & Aerospace" },
-  { id: "track-04", name: "Track 04: Crypto & Privacy" },
-  { id: "track-05", name: "Track 05: Clean & Green Tech" },
-];
-
 export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
   const unstopUrl = "https://unstop.com";
+  const unstopRegistrationUrl = "https://unstop.com/hackathons/hack-on-line-2027";
 
   const [activeTab, setActiveTab] = useState<"DIRECT" | "OVERVIEW">("DIRECT");
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [registeredTeam, setRegisteredTeam] = useState<{ id: string; name: string } | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const [formData, setFormData] = useState({
-    teamName: "",
-    leaderName: "",
-    leaderEmail: "",
-    githubHandle: "",
-    trackId: "track-01",
-    memberCount: 4,
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMessage(null);
-
-    try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Registration failed. Please check inputs.");
-      }
-
-      setSubmitted(true);
-      setRegisteredTeam({
-        id: data.registrationId || "HL-2027",
-        name: data.team?.name || formData.teamName,
-      });
-
-      // Launch celebratory particle confetti
-      confetti({
-        particleCount: 80,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ["#10b981", "#06b6d4", "#8b5cf6"],
-      });
-    } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : "Network error. Please retry.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleReset = () => {
-    setSubmitted(false);
-    setRegisteredTeam(null);
-    setErrorMessage(null);
-    setFormData({
-      teamName: "",
-      leaderName: "",
-      leaderEmail: "",
-      githubHandle: "",
-      trackId: "track-01",
-      memberCount: 4,
-    });
-  };
 
   return (
     <AnimatePresence>
@@ -163,150 +90,32 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
               </button>
             </div>
 
-            {/* TAB 1: Direct Squad Registration Form */}
+            {/* TAB 1: Registration on Unstop Panel */}
             {activeTab === "DIRECT" && (
-              <div>
-                {submitted && registeredTeam ? (
-                  <div className="py-6 text-center space-y-4">
-                    <div className="size-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                      <Sparkles className="size-6 animate-pulse" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white">Squad Registered!</h3>
-                    <p className="text-xs text-zinc-400 max-w-sm mx-auto">
-                      Your squad <span className="text-white font-semibold">{registeredTeam.name}</span> has been confirmed into the Hack On-Line 2027 builder roster.
-                    </p>
-                    <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 inline-block text-xs font-mono text-cyan-400">
-                      REGISTRATION ID: {registeredTeam.id}
-                    </div>
-                    <div className="pt-2">
-                      <button
-                        type="button"
-                        onClick={handleReset}
-                        className="text-xs text-zinc-400 hover:text-white underline cursor-pointer"
-                      >
-                        Register another team
-                      </button>
-                    </div>
+              <div className="space-y-4 py-2">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center space-y-2">
+                  <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-semibold">
+                    Official Registration Portal
                   </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-3.5">
-                    {errorMessage && (
-                      <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 flex items-center gap-2">
-                        <AlertCircle className="size-4 shrink-0" />
-                        <span>{errorMessage}</span>
-                      </div>
-                    )}
+                  <div className="text-sm font-semibold text-white">
+                    Registration happens on Unstop
+                  </div>
+                  <p className="text-xs text-zinc-400 max-w-sm mx-auto">
+                    All squad registrations, roster confirmations, and track allocations are managed exclusively through the official Unstop platform.
+                  </p>
+                </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-[11px] font-mono text-zinc-400 mb-1">
-                          TEAM / SQUAD NAME *
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.teamName}
-                          onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
-                          placeholder="e.g. ZeroDay Architects"
-                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-mono text-zinc-400 mb-1">
-                          LEAD BUILDER NAME *
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.leaderName}
-                          onChange={(e) => setFormData({ ...formData, leaderName: e.target.value })}
-                          placeholder="e.g. Alex Turing"
-                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-[11px] font-mono text-zinc-400 mb-1">
-                          LEADER EMAIL ADDRESS *
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={formData.leaderEmail}
-                          onChange={(e) => setFormData({ ...formData, leaderEmail: e.target.value })}
-                          placeholder="builder@domain.com"
-                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-mono text-zinc-400 mb-1">
-                          GITHUB USERNAME (OPTIONAL)
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.githubHandle}
-                          onChange={(e) => setFormData({ ...formData, githubHandle: e.target.value })}
-                          placeholder="e.g. octocat"
-                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-white/[0.04] border border-white/10 text-base sm:text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-400 transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-[11px] font-mono text-zinc-400 mb-1">
-                          PROBLEM TRACK *
-                        </label>
-                        <select
-                          value={formData.trackId}
-                          onChange={(e) => setFormData({ ...formData, trackId: e.target.value })}
-                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-[#0e0f14] border border-white/10 text-base sm:text-xs text-white focus:outline-none focus:border-cyan-400 transition-colors"
-                        >
-                          {TRACKS.map((t) => (
-                            <option key={t.id} value={t.id}>
-                              {t.name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-mono text-zinc-400 mb-1">
-                          SQUAD SIZE (1-4) *
-                        </label>
-                        <select
-                          value={formData.memberCount}
-                          onChange={(e) => setFormData({ ...formData, memberCount: Number(e.target.value) })}
-                          className="w-full px-3 py-2.5 min-h-11 rounded-xl bg-[#0e0f14] border border-white/10 text-base sm:text-xs text-white focus:outline-none focus:border-cyan-400 transition-colors"
-                        >
-                          <option value={1}>1 Solo Builder</option>
-                          <option value={2}>2 Builders</option>
-                          <option value={3}>3 Builders</option>
-                          <option value={4}>4 Builders (Full Squad)</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="luxury-button-primary w-full py-3.5 min-h-11 rounded-xl text-sm sm:text-xs font-bold text-zinc-950 flex items-center justify-center gap-2 cursor-pointer mt-2"
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="size-4 animate-spin" />
-                          <span>Persisting Roster Entry...</span>
-                        </>
-                      ) : (
-                        <span>Confirm Squad Registration</span>
-                      )}
-                    </button>
-                  </form>
-                )}
+                <div className="pt-2">
+                  <a
+                    href={unstopRegistrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="luxury-button-primary w-full py-3.5 min-h-11 px-4 rounded-xl text-sm font-bold text-zinc-950 flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                  >
+                    <span>Register on Unstop</span>
+                    <ExternalLink className="w-4 h-4 text-zinc-950" />
+                  </a>
+                </div>
               </div>
             )}
 
