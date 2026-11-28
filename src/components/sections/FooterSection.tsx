@@ -34,7 +34,7 @@ export function FooterSection() {
   };
 
   return (
-    <footer className="relative bg-[#070709] pt-16 pb-12 border-t border-white/[0.08] text-xs font-sans">
+    <footer className="relative bg-[#050607] pt-16 pb-12 border-t border-white/[0.08] text-xs font-sans">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Top Status Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-8 mb-12 border-b border-white/[0.08] text-zinc-400">
@@ -43,10 +43,10 @@ export function FooterSection() {
             <img
               src="/logo.png"
               alt="Hack On-Line"
-              className="h-7 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(6,182,212,0.4)]"
+              className="h-7 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(39,246,87,0.4)]"
             />
             <span className="flex items-center gap-2 font-semibold text-white">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
               <span>Hack On-Line // 2027 Sprint</span>
             </span>
             <span className="hidden sm:inline text-zinc-600">•</span>
@@ -114,11 +114,6 @@ export function FooterSection() {
                 </a>
               </li>
               <li>
-                <a href="#timeline" className="hover:text-white transition-colors">
-                  24-Hour Schedule
-                </a>
-              </li>
-              <li>
                 <a href="#team" className="hover:text-white transition-colors">
                   Organizing Crew
                 </a>
@@ -129,19 +124,9 @@ export function FooterSection() {
           {/* Col 3 */}
           <div>
             <div className="text-xs font-bold text-white uppercase tracking-wider mb-4">
-              Judging & Rubrics
+              Judging Rubrics
             </div>
             <ul className="space-y-2.5 text-zinc-400">
-              <li>
-                <a href="#rules" className="hover:text-white transition-colors">
-                  Round 1: Preliminary Shortlist
-                </a>
-              </li>
-              <li>
-                <a href="#rules" className="hover:text-white transition-colors">
-                  Round 2: Championship Stage
-                </a>
-              </li>
               <li>
                 <a href="#rules" className="hover:text-white transition-colors">
                   100% Evaluation Matrix

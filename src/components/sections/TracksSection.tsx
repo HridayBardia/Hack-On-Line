@@ -1,503 +1,291 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Lock,
-  Zap,
-  HeartPulse,
-  Leaf,
-  Radio,
-  X,
-  ChevronRight,
-  ChevronLeft,
-  type LucideIcon,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { HeartPulse, Leaf, Lock, LockOpen, Plus,Satellite, ShieldCheck, Zap, type LucideIcon } from "lucide-react";
+import { useNow } from "@/hooks/useNow";
+import { TRACKS_RELEASE, formatSpan } from "@/lib/schedule";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-export interface TrackData {
+// Public descriptions only. Never put problem statements in this file before release:
+// everything here is sent to the browser and can be read early.
+interface Track {
   id: string;
-  number: string;
+  name: string;
   title: string;
-  category: string;
-  shortTag: string;
-  core: string;
-  accent: string;
+  summary: string;
   icon: LucideIcon;
-  techFocus: string[];
-  sampleHypotheses: string[];
+  focus: string[];
+  ideas: string[];
 }
+
+const tracks: Track[] = [
+  {
+    id: "agriculture",
+    name: "Agriculture",
+    title: "Precision agriculture, sensor meshes and crop intelligence",
+    summary:
+      "Soil sensor data, automated irrigation, crop disease detection from images, drone data and tools that improve yield in a changing climate.",
+    icon: Leaf,
+    focus: [
+      "IoT sensor networks (MQTT, LoRaWAN)",
+      "Crop disease detection with computer vision",
+      "Local climate and soil moisture data",
+      "Crop mapping from satellite images",
+    ],
+    ideas: [
+      "A crop pest identifier that works offline on a phone",
+      "A solar-powered drip irrigation scheduler driven by soil moisture",
+      "A shared temperature monitor for grain cold storage",
+    ],
+  },
+  {
+    id: "healthcare",
+    name: "Healthcare",
+    title: "Clinical intelligence, healthcare systems and bio-computing",
+    summary:
+      "Diagnosis at the point of care, on-device body signal processing, private patient records, genomic anomaly detection and real-time triage.",
+    icon: HeartPulse,
+    focus: [
+      "Secure clinical data exchange (FHIR, HL7)",
+      "On-device signal processing (ECG, PPG, EEG)",
+      "Privacy-preserving shared medical models",
+      "Decision support for diagnosis",
+    ],
+    ideas: [
+      "Detecting irregular heartbeats from ECG data on the device",
+      "Private emergency room intake with automatic severity scoring",
+      "A verifiable audit record for organ matching and transplants",
+    ],
+  },
+  {
+    id: "space",
+    name: "Space",
+    title: "Orbital mechanics, aerospace telemetry and satellite computing",
+    summary:
+      "Small satellite flight computers, orbit prediction, space debris tracking, delay-tolerant satellite networks and Earth observation.",
+    icon: Satellite,
+    focus: [
+      "Delay-tolerant networking",
+      "Orbit prediction (SGP4)",
+      "Image analysis on board satellites",
+      "Low-power flight controllers (Rust, RTOS)",
+    ],
+    ideas: [
+      "A collision warning tool for satellites in low Earth orbit",
+      "A scheduler for a shared network of ground stations",
+      "Flood mapping from satellite radar images",
+    ],
+  },
+  {
+    id: "privacy",
+    name: "Crypto and privacy",
+    title: "Decentralized protocols, zero-knowledge proofs and cryptographic privacy",
+    summary:
+      "Verifiable computing, zero-knowledge proofs, privacy-preserving rollups, decentralized identity and peer-to-peer protocols that need little trust.",
+    icon: ShieldCheck,
+    focus: [
+      "Zero-knowledge circuits (Circom, Noir)",
+      "Decentralized identity and account abstraction",
+      "State proofs and cross-chain relays",
+      "Encrypted mempools",
+    ],
+    ideas: [
+      "Anonymous proof of eligibility for open-source bounties",
+      "Peer-to-peer code escrow that releases automatically",
+      "A verifiable random source for assigning judges",
+    ],
+  },
+  {
+    id: "clean-tech",
+    name: "Clean and green tech",
+    title: "Clean technology, green energy grids and planetary systems",
+    summary:
+      "Matching energy demand to supply, balancing small power grids, live carbon intensity data, better waste routing and environmental sensor networks.",
+    icon: Zap,
+    focus: [
+      "Time-series data from smart inverters",
+      "Peak load balancing and energy storage",
+      "Live carbon emissions data",
+      "Industrial waste heat recovery",
+    ],
+    ideas: [
+      "A scheduler that runs heavy computing when green power is plentiful",
+      "A simulator for neighbours trading solar power",
+      "Finding urban heat hotspots from satellite and thermal sensor data",
+    ],
+  },
+];
+
+// A short pause so the mouse can pass over a card without opening it
+const HOVER_DELAY_MS = 140;
+const OPEN_MS = 500; // matches the open and close animation below
 
 export function TracksSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const trackTrackRef = useRef<HTMLDivElement>(null);
-  const progressBarRef = useRef<HTMLDivElement>(null);
-  const counterRef = useRef<HTMLSpanElement>(null);
-  const [selectedModalTrack, setSelectedModalTrack] = useState<TrackData | null>(null);
-  const [activeTrackIndex, setActiveTrackIndex] = useState(0);
+  const now = useNow();
+  const released = now !== null && now >= TRACKS_RELEASE;
 
-  const tracks: TrackData[] = [
-    {
-      id: "track-01",
-      number: "01",
-      title: "Precision Agriculture, Sensor Meshes & Crop Intelligence",
-      category: "AGRICULTURE & AGTECH",
-      shortTag: "Agriculture",
-      accent: "#10B981",
-      core: "Precision soil sensor telemetry, automated irrigation dispatch, computer vision crop disease diagnostics, drone payload telemetry, and climate-resilient yield optimization algorithms.",
-      icon: Leaf,
-      techFocus: [
-        "Edge IoT Sensor Meshes (MQTT / LoRaWAN)",
-        "Computer Vision Crop Pathogen Diagnostics",
-        "Micro-Climate & Soil Moisture Telemetry",
-        "Satellite NDVI Biomass Mapping",
-      ],
-      sampleHypotheses: [
-        "Autonomous offline-first crop pest identifier running lightweight MobileNet locally",
-        "Dynamic solar-powered drip irrigation scheduler based on soil water tension",
-        "Decentralized peer-to-peer grain warehouse cold-chain telemetry broker",
-      ],
-    },
-    {
-      id: "track-02",
-      number: "02",
-      title: "Clinical Intelligence, Healthcare Systems & Bio-Computing",
-      category: "MEDICAL & HEALTH",
-      shortTag: "Medical",
-      accent: "#EC4899",
-      core: "Point-of-care clinical diagnostics, on-device biometric signal processing, privacy-preserving patient records, genomic anomaly detection, and real-time medical triage pipelines.",
-      icon: HeartPulse,
-      techFocus: [
-        "FHIR & HL7 Secure Clinical Data Adapters",
-        "Edge Signal DSP (ECG / PPG / EEG Telemetry)",
-        "Privacy-Preserving Federated Medical Models",
-        "Point-of-Care Diagnostic Decision Support",
-      ],
-      sampleHypotheses: [
-        "On-device real-time ECG arrhythmia classification using quantised TensorFlow Lite",
-        "Privacy-preserving emergency room intake triage with automated severity scoring",
-        "Decentralized verifiable organ match and transplant telemetry audit ledger",
-      ],
-    },
-    {
-      id: "track-03",
-      number: "03",
-      title: "Orbital Mechanics, Aerospace Telemetry & Satellite Compute",
-      category: "SPACE & AEROSPACE",
-      shortTag: "Space",
-      accent: "#06B6D4",
-      core: "CubeSat flight computer architectures, orbital trajectory prediction, open space debris tracking, delay-tolerant satellite mesh communications, and hyperspectral Earth observation pipelines.",
-      icon: Radio,
-      techFocus: [
-        "Delay-Tolerant Networking (DTN / Bundle Protocol)",
-        "Orbital Mechanics & SGP4 Ephemeris Propagation",
-        "On-Board Edge AI for Hyperspectral Imaging",
-        "Low-Power Embedded Flight Controllers (Rust/RTOS)",
-      ],
-      sampleHypotheses: [
-        "Autonomous low-Earth-orbit collision avoidance and conjunction assessment engine",
-        "Distributed ground station network scheduler for open CubeSat telemetry reception",
-        "Real-time orbital synthetic aperture radar (SAR) flood inundation mapper",
-      ],
-    },
-    {
-      id: "track-04",
-      number: "04",
-      title: "Decentralized Protocols, Zero-Knowledge & Cryptographic Privacy",
-      category: "CRYPTO & PRIVACY",
-      shortTag: "Crypto and Privacy",
-      accent: "#8B5CF6",
-      core: "High-integrity verifiable computation, zero-knowledge proofs, privacy-preserving rollups, decentralized identity schemes, encrypted state transitions, and trust-minimized peer-to-peer protocols.",
-      icon: Lock,
-      techFocus: [
-        "Zero-Knowledge Circuit Synthesis (Circom / Noir)",
-        "Decentralized Identity & Account Abstraction",
-        "State Proofs & Trustless Cross-Chain Relays",
-        "Encrypted Mempools & MEV Mitigation",
-      ],
-      sampleHypotheses: [
-        "Zk-SNARK credential gate for anonymous open-source bounties & audits",
-        "Encrypted peer-to-peer code escrow with automated smart contract release",
-        "Verifiable cryptographic random beacon for decentralized judging allocations",
-      ],
-    },
-    {
-      id: "track-05",
-      number: "05",
-      title: "Clean Tech, Green Energy Grids & Planetary Systems",
-      category: "CLEAN & GREEN TECH",
-      shortTag: "Clean and green tech",
-      accent: "#F59E0B",
-      core: "Renewable energy demand-response dispatch, distributed micro-grid load balancing, real-time carbon intensity telemetry, circular waste stream routing, and planetary sensor meshes.",
-      icon: Zap,
-      techFocus: [
-        "Time-Series Telemetry & Smart Inverter MQTT",
-        "Grid Peak-Load Balancing & Storage Dispatch",
-        "Real-time Marginal Carbon Emissions API Ingest",
-        "Autonomous Industrial Waste Heat Recovery Telemetry",
-      ],
-      sampleHypotheses: [
-        "Dynamic compute scheduler routing heavy computational jobs to green grid surplus hours",
-        "Local micro-solar peer-to-peer power trade and storage balancing simulator",
-        "Satellite and thermal sensor-assisted urban heat island mitigation router",
-      ],
-    },
-  ];
+  // Hovering a card previews its track. Clicking keeps a track open until it is clicked again.
+  const [previewId, setPreviewId] = useState<string | null>(null);
+  const [keptOpen, setKeptOpen] = useState<string[]>([]);
+  const hoverTimer = useRef<number | undefined>(undefined);
+  const pendingId = useRef<string | null>(null);
+  const settledAt = useRef(0);
+  useEffect(() => () => window.clearTimeout(hoverTimer.current), []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const section = sectionRef.current;
-    const trackTrack = trackTrackRef.current;
-    if (!section || !trackTrack) return;
-
-    const mm = gsap.matchMedia();
-
-    mm.add("(min-width: 768px)", () => {
-      let cachedDistance = Math.max(100, trackTrack.scrollWidth - window.innerWidth + 160);
-
-      const trigger = ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: () => `+=${cachedDistance}`,
-        pin: true,
-        scrub: 0.8,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onRefresh: () => {
-          cachedDistance = Math.max(100, trackTrack.scrollWidth - window.innerWidth + 160);
-        },
-        onUpdate: (self) => {
-          trackTrack.style.transform = `translate3d(${-self.progress * cachedDistance}px, 0, 0)`;
-
-          if (progressBarRef.current) {
-            progressBarRef.current.style.width = `${(self.progress * 100).toFixed(1)}%`;
-          }
-
-          if (counterRef.current) {
-            const idx = Math.min(4, Math.floor(self.progress * 5));
-            counterRef.current.innerText = `0${idx + 1} / 05`;
-            setActiveTrackIndex(idx);
-          }
-        },
-      });
-
-      return () => {
-        trigger.kill();
-        trackTrack.style.transform = "";
-      };
-    });
-
-    return () => mm.revert();
-  }, []);
-
-  const handleMobileScroll = () => {
-    if (typeof window === "undefined" || window.innerWidth >= 768) return;
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    const scrollLeft = container.scrollLeft;
-    const card = container.querySelector(".track-card") as HTMLElement | null;
-    if (!card) return;
-    const cardWidth = card.offsetWidth + 16;
-    const idx = Math.min(tracks.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
-    if (idx !== activeTrackIndex) {
-      setActiveTrackIndex(idx);
-      if (counterRef.current) {
-        counterRef.current.innerText = `0${idx + 1} / 05`;
-      }
-      if (progressBarRef.current) {
-        progressBarRef.current.style.width = `${((idx + 1) / 5) * 100}%`;
-      }
-    }
+  const cancelHover = () => {
+    window.clearTimeout(hoverTimer.current);
+    pendingId.current = null;
   };
 
-  const scrollToTrack = (index: number) => {
-    setActiveTrackIndex(index);
-    if (counterRef.current) {
-      counterRef.current.innerText = `0${index + 1} / 05`;
-    }
-    if (progressBarRef.current) {
-      progressBarRef.current.style.width = `${((index + 1) / 5) * 100}%`;
-    }
-    if (typeof window !== "undefined" && window.innerWidth < 768 && scrollContainerRef.current) {
-      const cards = scrollContainerRef.current.querySelectorAll<HTMLElement>(".track-card");
-      if (cards[index]) {
-        cards[index].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      }
-    } else {
-      setSelectedModalTrack(tracks[index]);
-    }
+  // Listens for mouse movement, not "enter": rows sliding under a resting mouse
+  // while a card opens must not open the next one.
+  const startHover = (e: React.PointerEvent, id: string) => {
+    if (e.pointerType !== "mouse" || pendingId.current === id || previewId === id) return;
+    cancelHover();
+    pendingId.current = id;
+    // Also wait for any card that is still opening or closing to settle
+    const wait = Math.max(HOVER_DELAY_MS, settledAt.current - e.timeStamp);
+    const openedAt = e.timeStamp + wait;
+    hoverTimer.current = window.setTimeout(() => {
+      pendingId.current = null;
+      settledAt.current = openedAt + OPEN_MS;
+      setPreviewId(id);
+    }, wait);
+  };
+
+  // The preview closes only on leaving the whole list. Closing it when leaving one row
+  // would move the rows under the mouse and make them flicker.
+  const endPreview = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse") return;
+    cancelHover();
+    setPreviewId(null);
+  };
+
+  const toggle = (id: string) => {
+    cancelHover();
+    setPreviewId(null);
+    setKeptOpen((ids) => (ids.includes(id) ? ids.filter((other) => other !== id) : [...ids, id]));
   };
 
   return (
-    <section
-      ref={sectionRef}
-      id="tracks"
-      aria-label="5 Problem Tracks"
-      className="relative w-full min-h-screen bg-[#050508] text-white overflow-hidden"
-    >
-      {/* Sticky Fullscreen Container */}
-      <div className="relative w-full min-h-dvh sm:h-[100dvh] flex flex-col justify-between py-4 sm:py-8 px-0 sm:px-10 overflow-hidden">
-
-        {/* Top Header & Telemetry Bar */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-white/10 shrink-0 px-4 sm:px-0">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>02 // HORIZONTAL ARENA SECTORS</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
-              <span>5 Problem Tracks</span>
-              <span className="hidden sm:inline-block text-xs font-mono font-medium px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-zinc-300">
-                LOCKED UNTIL T-15M
-              </span>
-            </h2>
-          </div>
-
-          <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 w-full sm:w-auto">
-            {/* Mobile Navigation Arrows */}
-            <div className="flex items-center gap-1.5 sm:hidden">
-              <button
-                type="button"
-                onClick={() => scrollToTrack(Math.max(0, activeTrackIndex - 1))}
-                disabled={activeTrackIndex === 0}
-                aria-label="Previous track"
-                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/30 text-white disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToTrack(Math.min(tracks.length - 1, activeTrackIndex + 1))}
-                disabled={activeTrackIndex === tracks.length - 1}
-                aria-label="Next track"
-                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/30 text-white disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="text-right">
-                <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                  TRACK POSITION
-                </div>
-                <span
-                  ref={counterRef}
-                  className="text-lg sm:text-xl font-black font-mono text-cyan-400 tracking-tight"
-                >
-                  01 / 05
-                </span>
-              </div>
-
-              {/* Glowing Laser Progress Bar */}
-              <div className="w-28 sm:w-48 h-2 rounded-full bg-white/10 overflow-hidden border border-white/15">
-                <div
-                  ref={progressBarRef}
-                  className="h-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400 transition-all duration-150 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
-                  style={{ width: "20%" }}
-                />
-              </div>
-            </div>
-          </div>
+    <section id="tracks" aria-labelledby="tracks-heading" className="mx-auto w-full max-w-6xl scroll-mt-28 px-4 sm:px-6 py-16 md:py-24">
+      <div data-scroll="rise" className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h2 id="tracks-heading" className="text-3xl sm:text-5xl text-foreground">
+            Five problem tracks
+          </h2>
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-text-muted">
+            See the topics now. The problem statements stay locked until 30 January 2027 at 9:45 AM IST.
+          </p>
         </div>
-
-        {/* Center Horizontal Ribbon of All 5 Tracks */}
-        <div
-          ref={scrollContainerRef}
-          onScroll={handleMobileScroll}
-          className="relative z-10 w-full flex items-center my-auto overflow-x-auto sm:overflow-visible no-scrollbar py-3 sm:py-4 snap-x snap-mandatory scroll-smooth"
-        >
-          <div
-            ref={trackTrackRef}
-            className="flex items-center gap-4 sm:gap-8 px-4 sm:px-8 shrink-0"
-          >
-            {tracks.map((track) => {
-              const Icon = track.icon;
-              return (
-                <div
-                  key={track.id}
-                  className="track-card w-[calc(100vw-3rem)] max-w-[340px] sm:max-w-none sm:w-[440px] h-[410px] sm:h-[490px] shrink-0 luxury-card rounded-3xl p-5 sm:p-8 flex flex-col justify-between relative group select-none overflow-hidden transition-all duration-300 hover:border-white/30 snap-center"
-                >
-                  {/* Giant Watermark Track Number */}
-                  <span className="pointer-events-none absolute -bottom-6 -right-3 text-[140px] sm:text-[180px] font-black font-mono text-white/[0.03] select-none leading-none group-hover:text-white/[0.06] transition-colors">
-                    {track.number}
-                  </span>
-
-                  {/* Corner Accent Glow */}
-                  <div
-                    className="absolute -top-12 -right-12 w-44 h-44 rounded-full blur-3xl pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity"
-                    style={{ backgroundColor: track.accent }}
-                  />
-
-                  {/* Card Header */}
-                  <div>
-                    <div className="flex items-center justify-between mb-3 sm:mb-4">
-                      <span
-                        className="text-[10px] font-mono tracking-widest uppercase px-2.5 py-1 rounded-md border font-bold"
-                        style={{
-                          borderColor: `${track.accent}45`,
-                          backgroundColor: `${track.accent}15`,
-                          color: track.accent,
-                        }}
-                      >
-                        {track.category}
-                      </span>
-                      <span className="text-xs font-mono font-bold text-zinc-500">
-                        TRACK #{track.number}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg sm:text-2xl font-bold text-white tracking-tight leading-snug group-hover:text-white line-clamp-2 sm:line-clamp-none">
-                      {track.title}
-                    </h3>
-
-                    <p className="mt-2.5 text-xs sm:text-sm text-zinc-300 font-light leading-relaxed line-clamp-2 sm:line-clamp-3">
-                      {track.core}
-                    </p>
-                  </div>
-
-                  {/* Tech Focus Chips */}
-                  <div className="my-auto py-2 sm:py-3">
-                    <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1.5 sm:mb-2 font-semibold">
-                      ARCHITECTURAL FOCUS
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {track.techFocus.slice(0, 3).map((tech) => (
-                        <span
-                          key={tech}
-                          className="text-[10.5px] sm:text-[11px] font-mono px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg bg-white/[0.04] border border-white/10 text-zinc-300 truncate max-w-full"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bottom Action Footer */}
-                  <div className="pt-3 sm:pt-4 border-t border-white/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Icon
-                        className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-hover:scale-110 transition-transform"
-                        style={{ color: track.accent }}
-                      />
-                      <span className="text-[11px] sm:text-xs font-mono text-zinc-400">
-                        Fresh Commits Only
-                      </span>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setSelectedModalTrack(track)}
-                      className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white text-xs font-bold text-white hover:text-black transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-                    >
-                      <span>Explore</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Bottom Horizontal Guidance Bar */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 pt-3 border-t border-white/10 shrink-0 text-xs text-zinc-400 px-4 sm:px-0">
-          <div className="flex items-center gap-2 text-center sm:text-left">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shrink-0" />
-            <span className="font-mono text-[11px] sm:text-xs">
-              <span className="sm:hidden">SWIPE OR TAP TRACKS TO EXPLORE • TAP FOR DETAILS</span>
-              <span className="hidden sm:inline">SCROLL DOWN TO GLIDE HORIZONTALLY · TRANSITIONS TO 24H TIMELINE AT TRACK 05</span>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-            {tracks.map((t, idx) => {
-              const isActive = idx === activeTrackIndex;
-              return (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => scrollToTrack(idx)}
-                  className={`px-2.5 py-1 rounded-md text-[10.5px] font-mono font-bold transition-all cursor-pointer ${
-                    isActive
-                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 shadow-[0_0_10px_rgba(6,182,212,0.3)]"
-                      : "bg-white/5 hover:bg-white/15 text-zinc-400 hover:text-white border border-transparent"
-                  }`}
-                >
-                  {t.number}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <p className="flex items-center gap-2 font-display text-lg font-semibold text-brand-cyan">
+          {released ? <LockOpen className="size-5" aria-hidden="true" /> : <Lock className="size-5" aria-hidden="true" />}
+          {released
+            ? "Problem statements are out on Unstop"
+            : now === null
+              ? "Statements are locked"
+              : `Statements unlock in ${formatSpan(TRACKS_RELEASE - now)}`}
+        </p>
       </div>
 
-      {/* Track Detail Modal */}
-      {selectedModalTrack && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xl animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl luxury-card p-5 sm:p-8 rounded-3xl border border-white/20 shadow-2xl overflow-y-auto max-h-[90dvh]">
-            <button
-              onClick={() => setSelectedModalTrack(null)}
-              aria-label="Close track detail modal"
-              className="absolute top-4 right-4 min-w-11 min-h-11 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer flex items-center justify-center z-10"
+      <ul className="mt-10 border-t border-white/10" onPointerLeave={endPreview}>
+        {tracks.map((track) => {
+          const kept = keptOpen.includes(track.id);
+          const open = kept || previewId === track.id;
+          const Icon = track.icon;
+          return (
+            <li
+              key={track.id}
+              data-scroll="rise"
+              onPointerMove={(e) => startHover(e, track.id)}
+              onPointerLeave={cancelHover}
+              className={`relative border-b border-white/10 transition-colors ${open ? "bg-surface" : ""}`}
             >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center gap-2 mb-3">
+              {/* Circuit line lights up on the open row */}
               <span
-                className="text-xs font-mono font-bold px-2.5 py-1 rounded uppercase tracking-wider"
-                style={{
-                  backgroundColor: `${selectedModalTrack.accent}20`,
-                  color: selectedModalTrack.accent,
-                }}
+                aria-hidden="true"
+                className={`absolute inset-y-0 left-0 w-0.5 origin-top bg-brand-cyan transition-transform duration-500 motion-reduce:transition-none ${
+                  open ? "scale-y-100" : "scale-y-0"
+                }`}
+              />
+              <h3>
+                <button
+                  type="button"
+                  onClick={() => toggle(track.id)}
+                  title={kept ? "Click to close" : "Click to keep open"}
+                  aria-expanded={open}
+                  aria-controls={`track-${track.id}`}
+                  className="group flex w-full cursor-pointer items-center gap-4 px-3 sm:px-6 py-5 sm:py-7 text-left"
+                >
+                  <Icon className="size-6 sm:size-8 shrink-0 text-brand-cyan" aria-hidden="true" />
+                  <span className="min-w-0 flex-1 md:flex md:items-baseline md:gap-6">
+                    <span className="block font-display text-2xl sm:text-3xl font-bold text-foreground transition-transform duration-300 group-hover:translate-x-1.5 motion-reduce:transition-none md:w-80 md:shrink-0">
+                      {track.name}
+                    </span>
+                    <span className="block text-sm font-sans font-normal leading-snug text-text-muted">{track.title}</span>
+                  </span>
+                  {/* Becomes an "Open" label once the track is clicked */}
+                  <span
+                    aria-hidden="true"
+                    className={`flex h-11 shrink-0 items-center justify-center overflow-hidden border font-display text-base font-bold transition-all duration-300 motion-reduce:transition-none ${
+                      kept
+                        ? "w-20 border-brand-green bg-brand-green text-black shadow-[0_0_18px_rgba(39,246,87,0.45)]"
+                        : open
+                          ? "w-11 border-brand-green text-brand-green"
+                          : "w-11 border-white/15 text-foreground group-hover:border-brand-green group-hover:text-brand-green"
+                    }`}
+                  >
+                    {kept ? (
+                      "Open"
+                    ) : (
+                      <Plus
+                        className={`size-5 transition-transform duration-300 motion-reduce:transition-none ${open ? "rotate-45" : ""}`}
+                      />
+                    )}
+                  </span>
+                </button>
+              </h3>
+
+              {/* Animating grid rows opens to the content's own height */}
+              <div
+                id={`track-${track.id}`}
+                inert={!open}
+                className={`grid transition-[grid-template-rows] duration-500 ease-out motion-reduce:transition-none ${
+                  open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
               >
-                TRACK #{selectedModalTrack.number} {"//"} {selectedModalTrack.category}
-              </span>
-            </div>
-
-            <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              {selectedModalTrack.title}
-            </h3>
-
-            <p className="mt-4 text-sm sm:text-base text-zinc-300 font-light leading-relaxed">
-              {selectedModalTrack.core}
-            </p>
-
-            <div className="mt-6 pt-6 border-t border-white/10">
-              <div className="text-xs font-mono text-zinc-400 uppercase tracking-widest font-bold mb-3">
-                SAMPLE PROBLEM HYPOTHESES
+                <div className="overflow-hidden">
+                  <div className="grid gap-8 px-3 sm:px-6 pb-8 pt-1 lg:grid-cols-3">
+                    <div>
+                      <p className="leading-relaxed text-foreground">{track.summary}</p>
+                      <p className="mt-4 flex items-start gap-2 text-sm text-brand-cyan">
+                        {released ? <LockOpen className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <Lock className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
+                        {released ? "Problem statement: see Unstop" : "Problem statement unlocks 30 Jan, 9:45 AM IST"}
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="text-lg text-foreground">Areas to build in</h4>
+                      <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-text-muted marker:text-brand-cyan">
+                        {track.focus.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="text-lg text-foreground">Example ideas</h4>
+                      <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-text-muted marker:text-brand-cyan">
+                        {track.ideas.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                      <p className="mt-3 text-xs text-text-muted">These are examples, not the problem statement.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <ul className="space-y-2">
-                {selectedModalTrack.sampleHypotheses.map((hypo, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-zinc-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 shrink-0" />
-                    <span>{hypo}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between">
-              <div className="text-xs font-mono text-zinc-400">
-                Evaluation: Git Timestamps + Live URL
-              </div>
-              <button
-                onClick={() => setSelectedModalTrack(null)}
-                className="px-5 py-2.5 rounded-xl bg-white text-zinc-950 font-bold text-xs hover:bg-zinc-200 transition-colors cursor-pointer"
-              >
-                Close Protocol
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }

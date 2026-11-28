@@ -1,68 +1,53 @@
 @import "tailwindcss";
 
+/*
+ * Theme from the logo. Green = actions. Cyan = information and navigation.
+ * Older sections still use inline values (#27F657 / 39,246,87 and
+ * #02E2F8 / 2,226,248), so changing a token here does not update those.
+ */
+@theme {
+  --color-brand-green: #27F657;
+  --color-brand-green-soft: #9BFFB3;
+  --color-brand-cyan: #02E2F8;
+  --color-brand-cyan-soft: #94F3FF;
+  --color-surface: #101417;
+  --color-surface-raised: #171D21;
+  --color-text-muted: #9BA7AD;
+  --color-danger: #FF5C5C;
+  --color-danger-soft: #FFA8A8;
+
+  /* Lanyard rail tokens */
+  --color-background: #050607;
+  --color-foreground: #F2F7F5;
+  --color-card: #101417;
+  --color-card-foreground: #F2F7F5;
+  --color-muted: #171D21;
+  --color-muted-foreground: #9BA7AD;
+  --color-ring: #02E2F8;
+  --color-chart-1: #27F657;
+  --color-chart-2: #02E2F8;
+  --color-chart-3: #F2F7F5;
+  --color-chart-4: #8CFFA8;
+  --color-chart-5: #6FEFFF;
+}
+
+/* next/font variables are set on <html> in layout.tsx */
+@theme inline {
+  --font-sans: var(--font-plex), system-ui, sans-serif;
+  --font-display: var(--font-chakra), var(--font-plex), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* "clip", not "hidden": hidden turns the page into a scroll box, which breaks position: sticky */
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
 }
 
 :root {
-  --bg: #050508;
-  --bg-elevated: #0C0D12;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-hover: rgba(255, 255, 255, 0.08);
-  --border: rgba(255, 255, 255, 0.1);
-  --border-strong: rgba(255, 255, 255, 0.22);
-  --text: #F8FAFC;
-  --text-muted: #94A3B8;
-  --accent: #FFFFFF;
-
-  /* Design System & Lanyard Rail Tokens */
-  --background: #050508;
-  --foreground: #F8FAFC;
-  --color-background: #050508;
-  --color-foreground: #F8FAFC;
-  --card: #0E0F16;
-  --color-card: #0E0F16;
-  --card-foreground: #F8FAFC;
-  --color-card-foreground: #F8FAFC;
-  --muted: #181924;
-  --color-muted: #181924;
-  --muted-foreground: #94A3B8;
-  --color-muted-foreground: #94A3B8;
-  --color-border: rgba(255, 255, 255, 0.12);
-  --ring: #6366F1;
-  --color-ring: #6366F1;
-  --chart-1: #FF8C66;
-  --chart-2: #06B6D4;
-  --chart-3: #8B5CF6;
-  --chart-4: #10B981;
-  --chart-5: #F59E0B;
-  --color-chart-1: #FF8C66;
-  --color-chart-2: #06B6D4;
-  --color-chart-3: #8B5CF6;
-  --color-chart-4: #10B981;
-  --color-chart-5: #F59E0B;
-}
-
-.text-chart-1 {
-  color: #FF8C66 !important;
-}
-
-.text-chart-2 {
-  color: #06B6D4 !important;
-}
-
-.text-chart-3 {
-  color: #8B5CF6 !important;
-}
-
-.text-chart-4 {
-  color: #10B981 !important;
-}
-
-.text-chart-5 {
-  color: #F59E0B !important;
+  --bg: #050607;
+  --text: #F2F7F5;
 }
 
 @layer base {
@@ -74,9 +59,8 @@ body {
 
   body {
     background-color: var(--bg);
-    background: #050508;
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter Variable", Inter, system-ui, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -94,15 +78,436 @@ body {
   h4,
   h5,
   h6 {
+    font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ---------- Intro screen ---------- */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-surface);
+  cursor: pointer;
+  clip-path: circle(150% at 50% 50%);
+  transition: clip-path 750ms cubic-bezier(0.76, 0, 0.24, 1);
+  /* safety net: never leave the page covered if scripts fail */
+  animation: intro-failsafe 0s linear 6s forwards;
+}
+
+.intro-exit {
+  clip-path: circle(0% at 50% 50%);
+  pointer-events: none;
+}
+
+@keyframes intro-failsafe {
+  to {
+    visibility: hidden;
+  }
+}
+
+.intro-marquee {
+  position: absolute;
+  inset-inline: 0;
+  display: flex;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 700;
+  color: rgba(2, 226, 248, 0.16);
+}
+
+.intro-marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  animation: marquee-left 18s linear infinite;
+}
+
+.intro-marquee-track span {
+  padding-inline: 2.5rem;
+}
+
+.intro-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-width: 15rem;
+  padding: 1.25rem 3rem;
+  border-radius: 100px;
+  border: 1px solid rgba(2, 226, 248, 0.4);
+  background: #050607;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  box-shadow: 0 0 60px rgba(2, 226, 248, 0.25);
+  transition: background-color 300ms ease, color 300ms ease, transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.intro-pill-done {
+  background: var(--color-brand-green);
+  border-color: var(--color-brand-green);
+  color: #050607;
+  transform: scale(1.1);
+}
+
+.intro-percent {
+  min-width: 3.5ch;
+  color: var(--color-brand-green);
+  font-variant-numeric: tabular-nums;
+}
+
+.intro-caret {
+  width: 0.6rem;
+  height: 1.25rem;
+  background: var(--color-brand-cyan);
+  animation: intro-blink 1s steps(2, start) infinite;
+}
+
+@keyframes intro-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* ---------- Custom cursor ---------- */
+/* !important beats the cursor-pointer and cursor-grab utility classes */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* Text fields keep the I-beam so typing positions stay clear */
+html.has-custom-cursor :is(input, textarea, [contenteditable="true"]) {
+  cursor: text !important;
+}
+
+.cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 110; /* above the intro screen and menus */
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-brand-cyan);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  opacity: 0;
+  transition: width 200ms ease, height 200ms ease, opacity 200ms ease, scale 150ms ease;
+}
+
+/* Centre dot marks the exact click point, also while the circle is enlarged */
+.cursor-follower::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-follower[data-visible="true"] {
+  opacity: 0.95;
+}
+
+.cursor-follower[data-hover="true"] {
+  width: 52px;
+  height: 52px;
+  background: rgba(2, 226, 248, 0.45);
+}
+
+.cursor-follower[data-down="true"] {
+  scale: 0.75;
+}
+
+/* ---------- Rolling link letters ---------- */
+.roll-text {
+  display: inline-flex;
+  height: 1.3em;
+  line-height: 1.3em;
+  overflow: hidden;
+  white-space: pre;
+}
+
+.roll-char {
+  position: relative;
+  display: inline-block;
+  transition: transform 300ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.roll-char::after {
+  content: attr(data-char);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  color: var(--color-brand-cyan);
+}
+
+.roll-trigger:hover .roll-char,
+.roll-trigger:focus-visible .roll-char {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    display: none;
+  }
+
+  .cursor-follower {
+    display: none;
+  }
+
+  .roll-char {
+    transition: none;
+  }
+}
+
+/* Primary and secondary buttons with cut corners, like the logo letters */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.btn-primary {
+  background: var(--color-brand-green);
+  color: #050607;
+}
+
+.btn-primary:hover {
+  background: var(--color-brand-green-soft);
+}
+
+.btn-secondary {
+  background: var(--color-surface-raised);
+  color: var(--color-foreground);
+}
+
+.btn-secondary:hover {
+  background: var(--color-brand-cyan);
+  color: #050607;
+}
+
+/* clip-path would cut off an outside outline, so focus is drawn inside */
+.btn:focus-visible {
+  outline: 3px solid var(--color-foreground);
+  outline-offset: -6px;
+}
+
+.btn-primary:focus-visible {
+  outline-color: #050607;
+}
+
+/* ---------- Sections that hold on screen while scrolling moves through them ---------- */
+.pin-view {
+  padding-block: 4rem;
+}
+
+.journey-stage {
+  height: 40rem;
+}
+
+.floors-scene {
+  height: 26rem;
+}
+
+@media (min-width: 1024px) {
+  .floors-scene {
+    height: auto;
+    min-height: 38rem;
+  }
+}
+
+/* Same query as PINNED_QUERY in usePinnedScroll. Short screens and reduced motion get normal sections. */
+@media (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+  /* One screen to hold the view, plus the scroll distance for the steps */
+  .floors-track {
+    height: 360svh;
+  }
+
+  .journey-track {
+    height: 420svh;
+  }
+
+  .pin-view {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    padding-top: 5.75rem; /* room for the navbar */
+    padding-bottom: 1rem;
+  }
+
+  .journey-stage,
+  .floors-stage {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    max-height: 46rem;
+  }
+
+  .floors-scene {
+    height: auto;
+    min-height: 0;
+  }
+
+  @media (max-width: 1023px) {
+    .floors-stage {
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .floors-jump {
+      display: flex;
+    }
+
+    .floors-other {
+      display: none;
+    }
+  }
+
+  @media (max-height: 700px) and (min-width: 1024px) {
+    .floors-points {
+      display: none;
+    }
+  }
+}
+/* Each part of the time bar fills as the clock approaches its stage. --step is set while scrolling. */
+.journey-fill {
+  transform: scaleX(clamp(0, calc(var(--step, 0) - var(--i) + 1), 1));
+}
+/* ---------- Countdown dial ---------- */
+.dial::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(2, 226, 248, 0.14), transparent 70%);
+  animation: dial-breathe 4s ease-in-out infinite;
+}
+
+.dial-orbit {
+  fill: none;
+  stroke: rgba(2, 226, 248, 0.55);
+  stroke-width: 1.5;
+  stroke-dasharray: 90 40 8 40 160 120 8 40 60 358;
+  transform-origin: 150px 150px;
+  animation: dial-spin 24s linear infinite;
+}
+
+.dial-tick {
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 3;
+  transition: stroke 300ms ease;
+}
+
+.dial-tick-lit {
+  stroke: rgba(39, 246, 87, 0.75);
+}
+
+.dial-tick-head {
+  stroke: #ffffff;
+  filter: drop-shadow(0 0 6px #27f657);
+}
+
+.dial-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 4;
+}
+
+.dial-arc {
+  fill: none;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 4px rgba(2, 226, 248, 0.7));
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.dial-ping {
+  fill: none;
+  stroke: #27f657;
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-origin: 150px 150px;
+  animation: dial-ping 900ms ease-out;
+}
+
+.dial-colon {
+  animation: dial-blink 1s steps(2, start) infinite;
+}
+
+@keyframes dial-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dial-ping {
+  from {
+    opacity: 0.6;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes dial-breathe {
+  50% {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes dial-blink {
+  to {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dial::before,
+  .dial-orbit,
+  .dial-colon {
+    animation: none;
+  }
+
+  .dial-ping {
+    display: none;
+  }
+
+  .dial-tick,
+  .dial-arc {
+    transition: none;
+    transition-delay: 0ms !important;
   }
 }
 
 /* Luxury Glass Card with Specular Highlight */
 .luxury-card {
   position: relative;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(14, 15, 22, 0.9);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(10, 12, 11, 0.9);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -124,7 +529,7 @@ body {
 
 /* Floating Navigation Bar */
 .luxury-nav {
-  background: rgba(9, 10, 15, 0.94);
+  background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(28px) saturate(200%);
   -webkit-backdrop-filter: blur(28px) saturate(200%);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -135,8 +540,8 @@ body {
 
 /* Active Nav Pill */
 .nav-pill-active {
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(2, 226, 248, 0.12);
+  border: 1px solid rgba(2, 226, 248, 0.4);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   border-radius: 9999px;
 }
@@ -146,24 +551,25 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 100%) !important;
-  color: #050508 !important;
+  background: var(--color-brand-green) !important;
+  color: #050607 !important;
   font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.9) !important;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.4),
-    0 4px 16px rgba(255, 255, 255, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+  border: 1px solid var(--color-brand-green) !important;
+  box-shadow: 0 4px 18px rgba(39, 246, 87, 0.3) !important;
   transition: all 200ms ease !important;
   cursor: pointer;
 }
 
-.luxury-button-primary:hover {
-  background: #FFFFFF !important;
+.luxury-button-primary:not(:disabled):hover {
+  background: var(--color-brand-green-soft) !important;
   transform: translateY(-1.5px);
-  box-shadow:
-    0 6px 24px rgba(255, 255, 255, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 6px 28px rgba(39, 246, 87, 0.55) !important;
+}
+
+/* Disabled buttons keep the brand colour but drop the glow and hover lift. */
+.luxury-button-primary:disabled {
+  box-shadow: none !important;
+  cursor: default;
 }
 
 /* Secondary Button */
@@ -183,9 +589,9 @@ body {
 }
 
 .luxury-button-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.28);
-  color: #FFFFFF;
+  background: rgba(2, 226, 248, 0.08);
+  border-color: var(--color-brand-cyan);
+  color: var(--color-brand-cyan);
   transform: translateY(-1px);
 }
 
@@ -214,7 +620,7 @@ body {
   width: 90vw;
   max-width: 1200px;
   height: 600px;
-  background: radial-gradient(circle, rgba(120, 119, 198, 0.2) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(39, 246, 87, 0.08) 0%, rgba(2, 226, 248, 0.05) 40%, transparent 70%);
   filter: blur(90px);
   pointer-events: none;
   z-index: 0;
@@ -226,7 +632,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #050508;
+  background: #050607;
 }
 
 ::-webkit-scrollbar-thumb {

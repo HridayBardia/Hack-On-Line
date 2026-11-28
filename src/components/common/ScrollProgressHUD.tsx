@@ -150,10 +150,10 @@ export function ScrollProgressHUD() {
 
   // Velocity status classification
   const getVelocityTier = () => {
-    if (velocityDisplay > 2500) return { label: "HYPER-SPEED", color: "text-rose-400", bg: "bg-rose-500", glow: "shadow-[0_0_12px_rgba(244,63,94,0.6)]" };
-    if (velocityDisplay > 1200) return { label: "WARP FLUX", color: "text-amber-400", bg: "bg-amber-400", glow: "shadow-[0_0_12px_rgba(251,191,36,0.6)]" };
-    if (velocityDisplay > 400) return { label: "CRUISING", color: "text-cyan-400", bg: "bg-cyan-400", glow: "shadow-[0_0_12px_rgba(6,182,212,0.6)]" };
-    return { label: "NOMINAL", color: "text-emerald-400", bg: "bg-emerald-400", glow: "shadow-[0_0_8px_rgba(16,185,129,0.5)]" };
+    if (velocityDisplay > 2500) return { label: "HYPER-SPEED", color: "text-brand-cyan", bg: "bg-brand-cyan", glow: "shadow-[0_0_12px_rgba(2,226,248,0.6)]" };
+    if (velocityDisplay > 1200) return { label: "WARP FLUX", color: "text-brand-cyan", bg: "bg-brand-cyan", glow: "shadow-[0_0_12px_rgba(2,226,248,0.6)]" };
+    if (velocityDisplay > 400) return { label: "CRUISING", color: "text-brand-green", bg: "bg-brand-green", glow: "shadow-[0_0_12px_rgba(39,246,87,0.6)]" };
+    return { label: "NOMINAL", color: "text-brand-green", bg: "bg-brand-green", glow: "shadow-[0_0_8px_rgba(39,246,87,0.5)]" };
   };
 
   const tier = getVelocityTier();
@@ -177,7 +177,7 @@ export function ScrollProgressHUD() {
             {/* Header Telemetry Status */}
             <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
               <div className="flex items-center gap-2">
-                <Radio className="size-3.5 text-cyan-400 animate-pulse" />
+                <Radio className="size-3.5 text-brand-green animate-pulse" />
                 <span className="text-[10px] font-bold tracking-widest text-zinc-300 uppercase">
                   MISSION NAVIGATION
                 </span>
@@ -215,7 +215,7 @@ export function ScrollProgressHUD() {
                 </div>
                 <div className="mt-1.5 h-1 w-full bg-white/10 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-cyan-400 via-violet-400 to-amber-400 transition-all duration-100"
+                    className="h-full bg-gradient-to-r from-brand-green via-brand-green to-brand-cyan transition-all duration-100"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -237,7 +237,7 @@ export function ScrollProgressHUD() {
                       type="button"
                       onClick={() => scrollTo(sec.id)}
                       className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[10px] font-medium transition-all text-left cursor-pointer border ${isActive
-                        ? "bg-white text-zinc-950 font-bold border-white shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                        ? "bg-brand-green text-black font-bold border-brand-green shadow-[0_0_12px_rgba(39,246,87,0.45)]"
                         : "bg-white/[0.03] text-zinc-400 hover:text-white border-white/5 hover:border-white/15"
                         }`}
                     >
@@ -253,7 +253,7 @@ export function ScrollProgressHUD() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="mt-3 w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-amber-500/20 border border-white/20 text-white text-[11px] font-bold hover:border-white/40 active:scale-95 transition-all cursor-pointer shadow-lg"
+              className="mt-3 w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-gradient-to-r from-brand-green/20 via-brand-green/20 to-brand-cyan/20 border border-white/20 text-white text-[11px] font-bold hover:border-white/40 active:scale-95 transition-all cursor-pointer shadow-lg"
             >
               <ChevronUp className="size-3.5" />
               <span>WARP TO STRATOSPHERE (TOP)</span>
@@ -284,7 +284,7 @@ export function ScrollProgressHUD() {
             />
             {/* Luminous Animated Gauge */}
             <path
-              className="text-cyan-400 stroke-current transition-all duration-150 drop-shadow-[0_0_6px_rgba(6,182,212,0.9)]"
+              className="text-brand-green stroke-current transition-all duration-150 drop-shadow-[0_0_6px_rgba(39,246,87,0.9)]"
               strokeDasharray={`${progressPercent}, 100`}
               strokeWidth="3.2"
               strokeLinecap="round"

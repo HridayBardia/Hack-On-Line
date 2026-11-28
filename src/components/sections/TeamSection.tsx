@@ -18,7 +18,7 @@ export function TeamSection() {
   // Generate crisp high-resolution SVG avatars with initials and luxury glow
   const createAvatar = (initials: string, color: string) => {
     const encodedColor = encodeURIComponent(color);
-    return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><defs><radialGradient id="bg" cx="50%" cy="38%" r="62%"><stop offset="0%" stop-color="%231f2334"/><stop offset="100%" stop-color="%23090a0f"/></radialGradient><linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${encodedColor}"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0.2"/></linearGradient></defs><rect width="240" height="240" fill="url(%23bg)"/><circle cx="120" cy="120" r="106" fill="none" stroke="url(%23ring)" stroke-width="6"/><circle cx="120" cy="120" r="96" fill="none" stroke="%23ffffff" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="10 8"/><text x="50%" y="54%" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="64" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle" letter-spacing="3">${initials}</text></svg>`;
+    return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><defs><radialGradient id="bg" cx="50%" cy="38%" r="62%"><stop offset="0%" stop-color="%23101417"/><stop offset="100%" stop-color="%23050607"/></radialGradient><linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${encodedColor}"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0.2"/></linearGradient></defs><rect width="240" height="240" fill="url(%23bg)"/><circle cx="120" cy="120" r="106" fill="none" stroke="url(%23ring)" stroke-width="6"/><circle cx="120" cy="120" r="96" fill="none" stroke="%23ffffff" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="10 8"/><text x="50%" y="54%" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="64" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle" letter-spacing="3">${initials}</text></svg>`;
   };
 
   const allCrew: ExtendedCrewMember[] = useMemo(
@@ -30,7 +30,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "MANAGEMENT",
         department: "Event Management & Operations",
-        image: createAvatar("HB", "#FF8C66"),
+        image: createAvatar("HB", "#02E2F8"),
         bio: "Overseeing overarching hackathon strategy, institutional execution, committee coordination, and 24H event management.",
         tags: ["Management", "Strategy", "Operations"],
         links: [
@@ -49,7 +49,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "HOSTING",
         department: "Event Hosting & Operations",
-        image: createAvatar("KS", "#06B6D4"),
+        image: createAvatar("KS", "#8CFFA8"),
         bio: "Directing live virtual event hosting, synchronous schedule coordination, speaker sessions, and seamless 24H stage execution.",
         tags: ["Hosting", "Operations", "Schedule"],
         links: [
@@ -68,7 +68,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "FINANCE",
         department: "Treasury, Grants & Prize Allocation",
-        image: createAvatar("KR", "#8B5CF6"),
+        image: createAvatar("KR", "#F2F7F5"),
         bio: "Managing hackathon budgeting, prize pool allocation, sponsorship accounting, and transparent financial governance.",
         tags: ["Finance", "Treasury", "Budgeting"],
         links: [
@@ -87,7 +87,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "FINANCE",
         department: "Sponsorship Operations & Budgeting",
-        image: createAvatar("VK", "#10B981"),
+        image: createAvatar("VK", "#27F657"),
         bio: "Coordinating sponsor financial agreements, operational expense tracking, and reward disbursement pipelines.",
         tags: ["Finance", "Sponsors", "Operations"],
         links: [
@@ -106,7 +106,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "HOSTING",
         department: "Community Hosting & Builder Support",
-        image: createAvatar("NP", "#F59E0B"),
+        image: createAvatar("NP", "#6FEFFF"),
         bio: "Leading participant onboarding, virtual stage moderation, mentor coordination, and round-the-clock community support.",
         tags: ["Hosting", "Community", "Mentorship"],
         links: [
@@ -125,7 +125,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "MANAGEMENT",
         department: "Operations Management & Coordination",
-        image: createAvatar("VR", "#06B6D4"),
+        image: createAvatar("VR", "#8CFFA8"),
         bio: "Directing participant escalation triage, cross-committee operations, schedule execution, and event logistics.",
         tags: ["Management", "Operations", "Triage"],
         links: [
@@ -144,7 +144,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "TECHNICAL",
         department: "Engineering & Platform Reliability",
-        image: createAvatar("AC", "#FF8C66"),
+        image: createAvatar("AC", "#02E2F8"),
         bio: "Building core event web systems, deployment workflows, automated project review utilities, and track integrations.",
         tags: ["Technical", "Engineering", "Platform"],
         links: [
@@ -163,7 +163,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "MANAGEMENT",
         department: "Event Coordination & Ops Management",
-        image: createAvatar("SG", "#8B5CF6"),
+        image: createAvatar("SG", "#F2F7F5"),
         bio: "Supporting builder onboarding, workflow coordination, team escalations, and real-time operational management.",
         tags: ["Management", "Coordination", "Operations"],
         links: [
@@ -182,7 +182,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "MARKETING",
         department: "Social Campaigns & Outreach",
-        image: createAvatar("AG", "#FF8C66"),
+        image: createAvatar("AG", "#02E2F8"),
         bio: "Driving digital campaigns, social media storytelling, creator outreach, and nationwide developer community growth.",
         tags: ["Marketing", "Social", "Outreach"],
         links: [
@@ -201,7 +201,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "MARKETING",
         department: "Brand Communications & Content",
-        image: createAvatar("AR", "#06B6D4"),
+        image: createAvatar("AR", "#8CFFA8"),
         bio: "Crafting hackathon brand communications, event announcements, partner spotlights, and participant engagement.",
         tags: ["Marketing", "Content", "Brand"],
         links: [
@@ -220,7 +220,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "TECHNICAL",
         department: "Technical Infrastructure & Web Ops",
-        image: createAvatar("AK", "#10B981"),
+        image: createAvatar("AK", "#27F657"),
         bio: "Contributing to frontend engineering, hackathon web tooling, deployment checks, and live participant technical support.",
         tags: ["Technical", "Web Ops", "Tooling"],
         links: [
@@ -239,7 +239,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "MARKETING",
         department: "Digital Promotion & Campus Reach",
-        image: createAvatar("SK", "#F59E0B"),
+        image: createAvatar("SK", "#6FEFFF"),
         bio: "Amplifying Hack On-Line across developer chapters, campus networks, social channels, and live event highlights.",
         tags: ["Marketing", "Promotion", "Community"],
         links: [
@@ -258,7 +258,7 @@ export function TeamSection() {
         team: "Organizing Crew",
         category: "FINANCE",
         department: "Financial Planning & Partner Ops",
-        image: createAvatar("AR", "#8B5CF6"),
+        image: createAvatar("AR", "#F2F7F5"),
         bio: "Supporting budget planning, partner coordination, resource allocation, and transparent prize fulfillment logistics.",
         tags: ["Finance", "Planning", "Logistics"],
         links: [
@@ -298,7 +298,7 @@ export function TeamSection() {
       <div className="flex flex-col lg:flex-row lg:items-end justify-between pb-8 border-b border-white/10 gap-6 mb-8 mt-2">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-2.5">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse" />
             <span>04 // ORGANIZATIONAL LEADERSHIP &amp; OPERATIONS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
@@ -317,7 +317,7 @@ export function TeamSection() {
               type="button"
               onClick={() => setActiveTab(opt.id)}
               className={`flex-1 sm:flex-none text-center px-3 py-2 min-h-11 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center whitespace-nowrap ${activeTab === opt.id
-                  ? "bg-white text-zinc-950 shadow-md scale-[1.02]"
+                  ? "bg-brand-green text-black shadow-md scale-[1.02]"
                   : "text-zinc-400 hover:text-white"
                 }`}
             >
@@ -330,12 +330,12 @@ export function TeamSection() {
       {/* Interactive Physics Instructions Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-zinc-400 mb-6">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+          <Sparkles className="w-3.5 h-3.5 text-brand-green" />
           <span className="font-medium text-zinc-300">Physics Simulation:</span>
           <span>Drag horizontally to slide rail · Pull downwards to stretch lanyard cord</span>
         </div>
         <div className="flex items-center gap-2 text-zinc-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
           <span>Click any badge to flip 180° for verified credentials &amp; contacts</span>
         </div>
       </div>

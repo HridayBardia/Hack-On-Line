@@ -1,150 +1,112 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { TextScramble } from "./TextScramble";
+import { RollText } from "@/components/fx/RollText";
+import { CALENDAR_URL } from "@/lib/event";
 
-interface PillNavProps {
-  onOpenRegister?: () => void;
-}
+const navItems = [
+  { id: "tracks", label: "Tracks" },
+  { id: "about", label: "About" },
+  { id: "rules", label: "Rubrics" },
+  { id: "faq", label: "FAQ" },
+  { id: "team", label: "Crew" },
+];
 
-export function PillNav(props: PillNavProps) {
-  void props;
+type LenisLike = {
+  scrollTo: (target: HTMLElement | number, opts?: { offset?: number; duration?: number }) => void;
+  stop: () => void;
+  start: () => void;
+};
+
+const getLenis = () => (window as Window & { __lenis?: LenisLike }).__lenis;
+
+const NAV_OFFSET = -110;
+
+export function PillNav() {
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
-  const [activeSection, setActiveSection] = useState("about");
+  const [activeSection, setActiveSection] = useState("");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
-  // Lock body scroll when mobile menu is open
+  // While the mobile menu is open: lock scrolling and close on Escape
   useEffect(() => {
-    if (mobileMenuOpen) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = originalOverflow;
-      };
-    }
-  }, [mobileMenuOpen]);
+    if (!mobileMenuOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    getLenis()?.stop();
 
-  // Close mobile menu on Escape key
-  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-      }
+      if (e.key === "Escape") setMobileMenuOpen(false);
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      getLenis()?.start();
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [mobileMenuOpen]);
 
-  const navItems = [
-    { id: "about", label: "About", href: "#about" },
-    { id: "platform", label: "Platform", href: "#platform" },
-    { id: "tracks", label: "5 Tracks", href: "#tracks" },
-    { id: "timeline", label: "Timeline", href: "#timeline" },
-    { id: "team", label: "Crew", href: "#team" },
-    { id: "rules", label: "Judging", href: "#rules" },
-    { id: "faq", label: "FAQ", href: "#faq" },
-  ];
-
   useEffect(() => {
-    let ticking = false;
-    let cachedOffsets: Array<{ id: string; top: number; height: number }> = [];
+    let frame = 0;
 
-    const measureSections = () => {
-      const sections = ["about", "platform", "tracks", "timeline", "team", "rules", "faq"];
-      cachedOffsets = sections
-        .map((id) => {
-          const el = document.getElementById(id);
-          if (!el) return null;
-          return { id, top: el.offsetTop, height: el.offsetHeight };
-        })
-        .filter(Boolean) as Array<{ id: string; top: number; height: number }>;
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      setScrolled(y > 40);
+
+      // Hide on scroll down, show on scroll up
+      if (y <= 120 || y < lastScrollY.current - 8) setNavVisible(true);
+      else if (y > lastScrollY.current + 8) setNavVisible(false);
+      lastScrollY.current = y;
+
+      // Positions are read live because Crew loads late and tracks expand, changing the page height
+      const line = window.innerHeight * 0.4;
+      const current = navItems.find(({ id }) => {
+        const rect = document.getElementById(id)?.getBoundingClientRect();
+        return !!rect && rect.top <= line && rect.bottom > line;
+      });
+      setActiveSection(current?.id ?? "");
     };
 
-    measureSections();
-    window.addEventListener("resize", measureSections, { passive: true });
-
-    let localScrolled = false;
-    let localNavVisible = true;
-    let localActive = "";
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          const isNowScrolled = currentScrollY > 40;
-          if (isNowScrolled !== localScrolled) {
-            localScrolled = isNowScrolled;
-            setScrolled(isNowScrolled);
-          }
-
-          // Auto-hide navbar on scroll down, reveal on scroll up
-          let shouldShow = true;
-          if (currentScrollY > 120) {
-            if (currentScrollY > lastScrollY.current + 8) {
-              shouldShow = false;
-            } else if (currentScrollY < lastScrollY.current - 8) {
-              shouldShow = true;
-            } else {
-              shouldShow = localNavVisible;
-            }
-          }
-          if (shouldShow !== localNavVisible) {
-            localNavVisible = shouldShow;
-            setNavVisible(shouldShow);
-          }
-          lastScrollY.current = currentScrollY;
-
-          // Active section tracking from cached offsets (zero forced layout reflows!)
-          const scrollPosition = currentScrollY + 280;
-          let matched = "";
-          for (let i = 0; i < cachedOffsets.length; i++) {
-            const { id, top, height } = cachedOffsets[i];
-            if (scrollPosition >= top && scrollPosition < top + height) {
-              matched = id;
-              break;
-            }
-          }
-          if (matched && matched !== localActive) {
-            localActive = matched;
-            setActiveSection(matched);
-          }
-
-          ticking = false;
-        });
-        ticking = true;
-      }
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", measureSections);
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
-  // Smooth scroll handler with offset for Lenis or native scroll
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const goTo = (e: React.MouseEvent, id: string | null) => {
     e.preventDefault();
-    const targetId = href.replace("#", "");
-    const target = document.getElementById(targetId);
-    if (!target) return;
+    const target = id ? document.getElementById(id) : null;
+    if (id && !target) return;
 
-    // Keep navbar visible when deliberately navigating
     setNavVisible(true);
     setMobileMenuOpen(false);
 
-    const lenis = (window as Window & { __lenis?: { scrollTo: (target: HTMLElement | number, opts?: { offset?: number; duration?: number }) => void } }).__lenis;
-    if (lenis) {
-      lenis.scrollTo(target, { offset: -110, duration: 1.2 });
-    } else {
-      const targetPos = target.getBoundingClientRect().top + window.pageYOffset - 110;
-      window.scrollTo({ top: targetPos, behavior: "smooth" });
-    }
+    // Wait two frames so the menu's scroll lock is released first
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        const lenis = getLenis();
+        if (lenis) {
+          lenis.scrollTo(target ?? 0, { offset: target ? NAV_OFFSET : 0, duration: 1.2 });
+        } else {
+          const top = target ? target.getBoundingClientRect().top + window.scrollY + NAV_OFFSET : 0;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      });
+    });
   };
 
   const currentBubbleId = hoveredId || activeSection;
@@ -152,68 +114,68 @@ export function PillNav(props: PillNavProps) {
   return (
     <>
       <header
-        className={`fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300 ${navVisible ? "translate-y-0 opacity-100" : "-translate-y-24 opacity-0"
-          }`}
+        className={`fixed top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300 focus-within:translate-y-0 focus-within:opacity-100 ${
+          navVisible || mobileMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-24 opacity-0"
+        }`}
       >
         <nav
           aria-label="Primary Navigation"
-          className={`pointer-events-auto flex items-center gap-2 p-1.5 rounded-full luxury-nav transition-all duration-300 ${scrolled ? "py-1.5 px-3 shadow-2xl scale-[0.98]" : "py-2 px-4 shadow-xl"
-            }`}
+          className={`pointer-events-auto flex items-center gap-2 p-1.5 rounded-full luxury-nav transition-all duration-300 ${
+            scrolled ? "py-1.5 px-3 shadow-2xl scale-[0.98]" : "py-2 px-4 shadow-xl"
+          }`}
         >
           {/* Brand Mark */}
           <a
             href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              const lenis = (window as Window & { __lenis?: { scrollTo: (target: HTMLElement | number, opts?: { offset?: number; duration?: number }) => void } }).__lenis;
-              if (lenis) lenis.scrollTo(0, { duration: 1.2 });
-              else window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="flex items-center gap-2 pl-2 pr-3 py-1 text-sm font-bold tracking-tight text-white hover:opacity-95 transition-opacity group cursor-pointer"
+            onClick={(e) => goTo(e, null)}
+            className="flex items-center gap-2 pl-2 pr-1 sm:pr-3 py-1 text-sm font-bold tracking-tight text-white hover:opacity-95 transition-opacity group cursor-pointer"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.png"
               alt="Hack On-Line"
-              className="h-6 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(6,182,212,0.8)] transition-all duration-300"
+              className="h-6 w-auto object-contain drop-shadow-[0_0_8px_rgba(39,246,87,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(2,226,248,0.8)] transition-all duration-300"
             />
-            <TextScramble
-              text="Hack On-Line"
-              className="tracking-tight text-white font-bold text-sm hidden sm:inline-block"
-              speed={22}
-              cyclesPerChar={2}
-            />
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+            {/* The wrapper hides the name on phones: TextScramble always sets its own display */}
+            <span className="hidden sm:block">
+              <TextScramble
+                text="Hack On-Line"
+                className="tracking-tight text-white font-bold text-sm whitespace-nowrap"
+                speed={22}
+                cyclesPerChar={2}
+              />
+            </span>
+            <span className="hidden min-[360px]:inline text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-green/10 text-brand-green border border-brand-green/20 shadow-[0_0_8px_rgba(39,246,87,0.2)]">
               2027
             </span>
           </a>
 
-          <div className="h-4 w-px bg-white/15 mx-1 hidden md:block" />
+          <div className="h-4 w-px bg-white/15 mx-1 hidden lg:block" />
 
           {/* Desktop Nav Items */}
-          <div className="hidden md:flex items-center gap-0.5 relative">
+          <div className="hidden lg:flex items-center gap-0.5 relative">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
-              const isBubbleTarget = currentBubbleId === item.id;
-
               return (
                 <a
                   key={item.id}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  href={`#${item.id}`}
+                  onClick={(e) => goTo(e, item.id)}
                   onMouseEnter={() => setHoveredId(item.id)}
                   onMouseLeave={() => setHoveredId(null)}
-                  className={`relative px-3.5 py-1.5 text-xs font-medium transition-colors z-10 ${isActive ? "text-white font-semibold" : "text-zinc-400 hover:text-white"
-                    }`}
+                  aria-current={isActive ? "location" : undefined}
+                  className={`roll-trigger relative px-3 py-1.5 text-[13px] font-medium whitespace-nowrap transition-colors z-10 ${
+                    isActive ? "text-white font-semibold" : "text-zinc-400 hover:text-white"
+                  }`}
                 >
-                  {isBubbleTarget && (
+                  {currentBubbleId === item.id && (
                     <motion.div
                       layoutId="nav-pill-bubble"
                       transition={{ type: "spring", stiffness: 420, damping: 32 }}
                       className="absolute inset-0 nav-pill-active -z-10"
                     />
                   )}
-                  <span>{item.label}</span>
+                  <RollText text={item.label} />
                 </a>
               );
             })}
@@ -223,18 +185,19 @@ export function PillNav(props: PillNavProps) {
 
           {/* Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <button
-              disabled
-              aria-disabled="true"
-              className="luxury-button-primary px-3 sm:px-4 py-2 min-h-11 rounded-full text-xs font-bold text-[#050508] transition-all flex items-center gap-1.5 cursor-default"
+            <a
+              href={CALENDAR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="luxury-button-primary px-3 sm:px-4 py-2 min-h-11 rounded-full text-xs whitespace-nowrap"
             >
-              <span>Registration opens soon</span>
-            </button>
+              Add to calendar
+            </a>
 
-            {/* Mobile Menu Toggle (44px touch target) */}
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden min-w-11 min-h-11 flex items-center justify-center p-2 rounded-full text-zinc-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="lg:hidden min-w-11 min-h-11 flex items-center justify-center p-2 rounded-full text-zinc-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Toggle Menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -249,36 +212,29 @@ export function PillNav(props: PillNavProps) {
         <>
           <div
             onClick={() => setMobileMenuOpen(false)}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden animate-in fade-in duration-200"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
             aria-hidden="true"
           />
           <div
             role="dialog"
-            aria-modal="true"
             aria-label="Mobile Navigation Menu"
-            className="fixed top-20 inset-x-3 sm:inset-x-4 z-50 md:hidden luxury-card rounded-3xl p-4 sm:p-5 shadow-2xl border border-white/15 max-h-[calc(100dvh-6rem)] overflow-y-auto"
+            data-lenis-prevent
+            className="fixed! top-24 inset-x-3 sm:inset-x-4 z-50 lg:hidden luxury-card rounded-3xl p-4 sm:p-5 shadow-2xl max-h-[calc(100dvh-7rem)] overflow-y-auto"
           >
             <div className="flex flex-col gap-1">
               {navItems.map((item) => (
                 <a
                   key={item.id}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className="px-4 py-3 min-h-11 rounded-xl text-sm font-medium text-zinc-200 hover:text-white hover:bg-white/10 flex items-center justify-between transition-colors cursor-pointer"
+                  href={`#${item.id}`}
+                  onClick={(e) => goTo(e, item.id)}
+                  className="px-4 py-3 min-h-11 rounded-xl text-sm font-medium text-zinc-200 hover:text-white hover:bg-white/10 flex items-center transition-colors cursor-pointer"
                 >
-                  <span>{item.label}</span>
-                  <span className="text-xs text-zinc-500 font-mono">→</span>
+                  {item.label}
                 </a>
               ))}
-              <div className="pt-3 mt-1 border-t border-white/10">
-                <button
-                  disabled
-                  aria-disabled="true"
-                  className="luxury-button-primary w-full min-h-11 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-default shadow-lg"
-                >
-                  <span>Registration opens soon</span>
-                </button>
-              </div>
+              <p className="pt-3 mt-1 border-t border-white/10 text-center text-sm text-text-muted">
+                Registration opens soon.
+              </p>
             </div>
           </div>
         </>

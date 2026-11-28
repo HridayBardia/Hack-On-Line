@@ -45,8 +45,8 @@ function MarqueeRow({
         {items.map((item, idx) => (
           <div key={`a-${idx}`} className="flex items-center gap-4 shrink-0">
             {item.badge && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-mono font-bold tracking-widest bg-white/[0.08] border border-white/20 text-cyan-300 shadow-[0_0_16px_rgba(6,182,212,0.3)]">
-                <span className="size-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-mono font-bold tracking-widest bg-white/[0.08] border border-white/20 text-brand-green-soft shadow-[0_0_16px_rgba(39,246,87,0.3)]">
+                <span className="size-1.5 rounded-full bg-brand-green animate-pulse" />
                 {item.badge}
               </span>
             )}
@@ -80,8 +80,8 @@ function MarqueeRow({
         {items.map((item, idx) => (
           <div key={`b-${idx}`} className="flex items-center gap-4 shrink-0">
             {item.badge && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-mono font-bold tracking-widest bg-white/[0.08] border border-white/20 text-cyan-300 shadow-[0_0_16px_rgba(6,182,212,0.3)]">
-                <span className="size-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-mono font-bold tracking-widest bg-white/[0.08] border border-white/20 text-brand-green-soft shadow-[0_0_16px_rgba(39,246,87,0.3)]">
+                <span className="size-1.5 rounded-full bg-brand-green animate-pulse" />
                 {item.badge}
               </span>
             )}
@@ -116,11 +116,11 @@ export function VelocityMarquee() {
       className="relative w-full py-8 sm:py-14 overflow-hidden bg-gradient-to-b from-transparent via-zinc-950/80 to-transparent border-y border-white/10 z-10"
     >
       {/* Edge gradient mask for seamless infinite fade */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-48 bg-gradient-to-r from-[#050508] to-transparent z-20" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-48 bg-gradient-to-l from-[#050508] to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-48 bg-gradient-to-r from-[#050607] to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-48 bg-gradient-to-l from-[#050607] to-transparent z-20" />
 
       {/* Ambient Backlight Beam */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-24 bg-gradient-to-r from-cyan-500/10 via-violet-500/15 to-amber-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-24 bg-gradient-to-r from-brand-green/10 via-brand-green/15 to-brand-cyan/10 blur-3xl pointer-events-none" />
 
       {/* Row 1: Leftward Ribbon flowing in its own constant slow speed */}
       <MarqueeRow items={row1} direction="left" duration={45} />

@@ -1,199 +1,168 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Calendar, Check } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, MotionConfig, motion } from "framer-motion";
+import { useInView } from "@/hooks/useInView";
+import { useNow } from "@/hooks/useNow";
+import { EVENT_END, EVENT_START } from "@/lib/event";
 
-interface TimeRemaining {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  isComplete: boolean;
+const START = Date.parse(EVENT_START);
+const END = Date.parse(EVENT_END);
+
+const TICKS = Array.from({ length: 60 }, (_, i) => i);
+const BOOT_MS = 2000;
+
+/** A digit that rolls: the new one drops in while the old one falls away */
+function Digit({ value }: { value: string }) {
+  return (
+    <span className="relative inline-block h-[1.15em] w-[0.68em] overflow-hidden leading-[1.15em]">
+      <AnimatePresence initial={false}>
+        <motion.span
+          key={value}
+          className="absolute inset-0 text-center"
+          initial={{ y: "-100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "100%", opacity: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {value}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
 }
 
-export function Countdown() {
-  // Target: January 30, 2027, 10:00:00 AM IST (UTC+05:30)
-  const targetDate = new Date("2027-01-30T10:00:00+05:30").getTime();
+function Roll({ value }: { value: string }) {
+  return (
+    <span className="inline-flex">
+      {/* Keys count from the right so digits keep their place when the length changes */}
+      {Array.from(value).map((digit, i) => (
+        <Digit key={value.length - i} value={digit} />
+      ))}
+    </span>
+  );
+}
 
-  const [timeLeft, setTimeLeft] = useState<TimeRemaining>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    isComplete: false,
-  });
-  const [copiedCal, setCopiedCal] = useState(false);
+/** An arc that shows how much of a unit is left */
+function Arc({ radius, fraction, className }: { radius: number; fraction: number; className: string }) {
+  return (
+    <>
+      <circle cx="150" cy="150" r={radius} className="dial-track" />
+      <circle
+        cx="150"
+        cy="150"
+        r={radius}
+        pathLength={100}
+        strokeDasharray="100 100"
+        strokeDashoffset={100 - fraction * 100}
+        transform="rotate(-90 150 150)"
+        className={`dial-arc ${className}`}
+      />
+    </>
+  );
+}
 
+/** `ready` turns true when the intro screen starts to close, so the dial powers up in view. */
+export function Countdown({ ready }: { ready: boolean }) {
+  const now = useNow(1000);
+
+  // The dial powers down when it leaves the screen, so it powers up again every time it returns
+  const dialRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(dialRef, 0.3);
+  const on = ready && inView;
+
+  // During power-up the ticks light one after another
+  const [booted, setBooted] = useState(false);
   useEffect(() => {
-    const calculateTime = () => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
+    const timer = window.setTimeout(() => setBooted(on), on ? BOOT_MS : 0);
+    return () => window.clearTimeout(timer);
+  }, [on]);
 
-      if (difference <= 0) {
-        setTimeLeft({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-          isComplete: true,
-        });
-        return;
-      }
+  if (now !== null && now >= END) {
+    return <p className="font-display text-2xl font-bold text-brand-cyan">The hackathon has ended</p>;
+  }
 
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+  // Before the start it counts to the start; during the event, to the code freeze
+  const live = now !== null && now >= START;
+  const known = now !== null && on;
+  const left = now === null ? 0 : Math.max(0, (live ? END : START) - now);
+  const total = Math.ceil(left / 1000);
+  const days = Math.floor(total / 86_400);
+  const hours = Math.floor(total / 3600) % 24;
+  const minutes = Math.floor(total / 60) % 60;
+  const seconds = total % 60;
 
-      setTimeLeft({
-        days,
-        hours,
-        minutes,
-        seconds,
-        isComplete: false,
-      });
-    };
-
-    calculateTime();
-    const interval = setInterval(calculateTime, 1000);
-    return () => clearInterval(interval);
-  }, [targetDate]);
-
-  const padZero = (num: number) => String(num).padStart(2, "0");
-
-  const units = [
-    { label: "DAYS", value: padZero(timeLeft.days), accent: "#FF8C66", glow: "rgba(255, 140, 102, 0.4)" },
-    { label: "HOURS", value: padZero(timeLeft.hours), accent: "#A78BFA", glow: "rgba(167, 139, 250, 0.4)" },
-    { label: "MINUTES", value: padZero(timeLeft.minutes), accent: "#22D3EE", glow: "rgba(34, 211, 238, 0.4)" },
-    { label: "SECONDS", value: padZero(timeLeft.seconds), accent: "#34D399", glow: "rgba(52, 211, 153, 0.4)" },
-  ];
-
-  const handleAddToCalendar = () => {
-    const title = encodeURIComponent("Hack On-Line 2027 — Premier 24H Virtual Developer Hackathon");
-    const details = encodeURIComponent(
-      "Hack On-Line 2027 is a 24-hour virtual developer hackathon across 5 engineering tracks.\n\n" +
-      "⏰ Official Sprint Timeline (IST):\n" +
-      "• Jan 30, 09:45 AM: 5 Problem Tracks Decryption\n" +
-      "• Jan 30, 10:00 AM: Sprint Kickoff & Genesis Commits Start\n" +
-      "• Jan 31, 10:00 AM: Code Freeze & Submissions Close\n" +
-      "• Jan 31, 11:30 AM: Round 1 Preliminary Evaluation\n" +
-      "• Jan 31, 04:30 PM: Round 2 Championship Live Stage\n" +
-      "• Jan 31, 06:30 PM: Awards & Recognition Ceremony\n\n" +
-      "📍 Virtual: Unstop & GitHub\n" +
-      "🔗 Portal: https://unstop.com/hackathons/hack-on-line-2027"
-    );
-    const location = encodeURIComponent("Virtual // Unstop Portal");
-    const startTime = "20270130T043000Z";
-    const endTime = "20270131T043000Z";
-
-    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}`;
-
-    window.open(gcalUrl, "_blank", "noopener,noreferrer");
-
-    setCopiedCal(true);
-    setTimeout(() => setCopiedCal(false), 3000);
-  };
+  const pad = (n: number) => (now === null ? "--" : String(n).padStart(2, "0"));
+  const label = live ? "Code freeze in" : "Hacking starts in";
 
   return (
-    <div className="w-full max-w-3xl sm:max-w-[840px] mx-auto mt-8 sm:mt-10 relative z-10">
-      {/* Sleek Deep Obsidian Container */}
-      <div className="relative rounded-3xl bg-[#030305] border border-white/20 p-5 sm:p-8 shadow-[0_24px_80px_rgba(0,0,0,1)]">
-        {/* Subtle Edge Ambient Highlight */}
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
+    <div>
+      <p className="text-center text-sm text-text-muted">
+        {live && <span className="mr-2 inline-block size-2 rounded-full bg-brand-green" aria-hidden="true" />}
+        {label}
+      </p>
+      <p className="sr-only">
+        {now === null ? "Loading countdown" : `${days} days, ${hours} hours, ${minutes} minutes`}
+      </p>
 
-        {/* Header Telemetry */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-5 border-b border-white/10 text-xs">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,1)]" />
-            </span>
-            <span className="font-mono uppercase tracking-widest text-xs font-bold text-zinc-200">
-              OFFICIAL COUNTDOWN
-            </span>
-          </div>
+      <MotionConfig reducedMotion="user">
+        <div ref={dialRef} aria-hidden="true" className="dial relative mx-auto mt-3 aspect-square w-full max-w-[19rem]">
+          <svg viewBox="0 0 300 300" className="absolute inset-0 size-full">
+            {/* Slowly turning outer ring */}
+            <circle cx="150" cy="150" r="147" className="dial-orbit" />
 
-          <div className="font-mono text-cyan-300 text-xs sm:text-sm px-3.5 py-1 rounded-full bg-[#050b14] border border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.25)] font-bold tracking-wider flex items-center gap-2 shrink-0 whitespace-nowrap">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span>30 JAN 2027 • 10:00 AM IST</span>
-          </div>
-        </div>
+            {/* One tick for each second left in the minute */}
+            {TICKS.map((i) => {
+              const lit = known && i < (seconds || 60);
+              const head = known && i === (seconds || 60) - 1;
+              return (
+                <line
+                  key={i}
+                  x1="150"
+                  x2="150"
+                  y1={head ? 7 : 11}
+                  y2="24"
+                  transform={`rotate(${(i + 1) * 6} 150 150)`}
+                  className={`dial-tick ${lit ? "dial-tick-lit" : ""} ${head ? "dial-tick-head" : ""}`}
+                  style={booted ? undefined : { transitionDelay: `${i * 22}ms` }}
+                />
+              );
+            })}
 
-        {/* Chronometer Grid: Deep Pitch-Black Razor-Sharp Cards */}
-        <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center">
-          {units.map((unit, idx) => (
-            <div
-              key={idx}
-              className="relative flex flex-col items-center justify-center py-4 px-1.5 sm:py-7 sm:px-4 rounded-xl sm:rounded-2xl bg-[#07070a] border border-white/15 hover:border-white/30 shadow-[0_12px_36px_rgba(0,0,0,0.95)] group overflow-hidden transition-all duration-200"
-            >
-              {/* Luminous Top Accent Stripe */}
-              <div
-                className="absolute top-0 inset-x-0 h-1"
-                style={{
-                  backgroundColor: unit.accent,
-                  boxShadow: `0 0 12px ${unit.accent}`,
-                }}
-              />
+            <Arc radius={116} fraction={known ? minutes / 60 : 0} className="stroke-brand-cyan" />
+            <Arc radius={106} fraction={known ? hours / 24 : 0} className="stroke-brand-cyan-soft" />
 
-              {/* Razor-Sharp Pure White High-Contrast Digits */}
-              <div
-                className="font-mono text-3xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-1.5 sm:mb-2 select-none"
-                style={{
-                  textShadow: "0 2px 8px rgba(0,0,0,0.95)",
-                }}
-              >
-                {unit.value}
-              </div>
+            {/* A ping goes out every second; the key restarts the animation */}
+            {booted && <circle key={seconds} cx="150" cy="150" r="126" className="dial-ping" />}
+          </svg>
 
-              {/* Bold High-Contrast Unit Label Pill */}
-              <div
-                className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded font-mono text-[10px] sm:text-xs tracking-wider sm:tracking-widest font-black uppercase border shadow-sm max-w-full truncate"
-                style={{
-                  color: unit.accent,
-                  borderColor: `${unit.accent}60`,
-                  backgroundColor: `${unit.accent}18`,
-                  textShadow: `0 0 10px ${unit.glow}`,
-                }}
-              >
-                {unit.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Footer Strip */}
-        <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs w-full">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm text-zinc-300 text-center sm:text-left">
-            <span className="size-2 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)] shrink-0" />
-            <span className="font-medium text-zinc-200">
-              Problem statements decrypt 15m prior at
-            </span>
-            <span className="px-2 py-0.5 rounded-md bg-amber-400/15 border border-amber-400/40 text-amber-300 font-mono font-bold text-xs sm:text-sm shrink-0">
-              09:45 AM IST
-            </span>
-          </div>
-
-          <button
-            onClick={handleAddToCalendar}
-            className="w-full sm:w-auto min-h-11 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] border border-white/20 hover:border-cyan-400 text-xs sm:text-sm font-mono font-bold text-white transition-all duration-200 cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(6,182,212,0.25)] active:scale-95 shrink-0"
-          >
-            {copiedCal ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center font-display font-bold tabular-nums text-foreground">
+            {!live && (
               <>
-                <Check className="size-4 text-emerald-400" />
-                <span className="text-emerald-300">Calendar Opened</span>
-              </>
-            ) : (
-              <>
-                <Calendar className="size-4 text-cyan-400" />
-                <span>Add to Google Calendar</span>
-                <span className="text-zinc-400 font-normal">↗</span>
+                <span className="text-5xl sm:text-6xl">{now === null ? "--" : <Roll value={String(days)} />}</span>
+                <span className="-mt-1 text-sm font-medium text-brand-cyan">days</span>
               </>
             )}
-          </button>
+            <div className={`flex items-start ${live ? "text-3xl sm:text-4xl" : "mt-2 text-2xl"}`}>
+              {[
+                { value: pad(hours), unit: "hrs" },
+                { value: pad(minutes), unit: "min" },
+                { value: pad(seconds), unit: "sec" },
+              ].map((part, i) => (
+                <div key={part.unit} className="flex items-start">
+                  {i > 0 && <span className="dial-colon px-0.5 text-brand-cyan">:</span>}
+                  <span className="flex flex-col items-center">
+                    <span className={part.unit === "sec" ? "text-brand-green" : ""}>
+                      <Roll value={part.value} />
+                    </span>
+                    <span className="font-sans text-[11px] font-normal text-text-muted">{part.unit}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
+      </MotionConfig>
     </div>
   );
 }
