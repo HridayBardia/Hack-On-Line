@@ -1,4 +1,7 @@
-// Event times shared by the navigation and hero.
+// Event details shared across the site.
+
+export const SITE_URL = "https://hackon-line.co.in";
+
 export const EVENT_START = "2027-01-30T10:00:00+05:30";
 export const EVENT_END = "2027-01-31T10:00:00+05:30";
 
@@ -15,7 +18,7 @@ const calendarParams = new URLSearchParams({
     "31 Jan, 4:30 PM: final round",
     "31 Jan, 6:30 PM: awards",
     "",
-    "https://hackon-line.vercel.app",
+    SITE_URL,
   ].join("\n"),
 });
 

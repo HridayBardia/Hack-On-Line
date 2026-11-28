@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Chakra_Petch, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import { SITE_URL } from "@/lib/event";
 import "./globals.css";
 
 const chakraPetch = Chakra_Petch({
@@ -22,8 +23,6 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
-
-const SITE_URL = "https://hackon-line.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
