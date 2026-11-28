@@ -1,9 +1,12 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/event";
+
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://hackon-line.vercel.app",
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1.0,
