@@ -44,13 +44,13 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                 <img
                   src="/logo.png"
                   alt="Hack On-Line"
-                  className="h-8 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]"
+                  className="h-8 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(39,246,87,0.5)]"
                 />
                 <div>
                   <div className="font-semibold text-sm text-white">
                     Register for Hack On-Line 2027
                   </div>
-                  <div className="text-[11px] text-emerald-400 font-mono">
+                  <div className="text-[11px] text-brand-green font-mono">
                     ● 24H Virtual Sprint Registration
                   </div>
                 </div>
@@ -71,7 +71,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                 onClick={() => setActiveTab("DIRECT")}
                 className={`flex-1 py-2.5 min-h-11 rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                   activeTab === "DIRECT"
-                    ? "bg-white text-zinc-950 font-bold shadow-md"
+                    ? "bg-brand-green text-black font-bold shadow-md"
                     : "text-zinc-400 hover:text-white"
                 }`}
               >
@@ -82,7 +82,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                 onClick={() => setActiveTab("OVERVIEW")}
                 className={`flex-1 py-2.5 min-h-11 rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                   activeTab === "OVERVIEW"
-                    ? "bg-white text-zinc-950 font-bold shadow-md"
+                    ? "bg-brand-green text-black font-bold shadow-md"
                     : "text-zinc-400 hover:text-white"
                 }`}
               >
@@ -94,7 +94,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
             {activeTab === "DIRECT" && (
               <div className="space-y-4 py-2">
                 <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center space-y-2">
-                  <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider font-semibold">
+                  <div className="text-xs font-mono text-brand-green uppercase tracking-wider font-semibold">
                     Official Registration Portal
                   </div>
                   <div className="text-sm font-semibold text-white">
@@ -136,15 +136,15 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
 
                 <div className="space-y-2 text-xs text-zinc-300">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-brand-green shrink-0" />
                     <span>5 Engineering Problem Tracks (decrypt at 09:45 AM IST)</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-brand-green shrink-0" />
                     <span>Two-Round Judging (Preliminary Shortlist & Championship Finals)</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-brand-green shrink-0" />
                     <span>100% Builder IP Retention (You own all your code)</span>
                   </div>
                 </div>
@@ -154,7 +154,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
                     href={unstopUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="apple-button-primary w-full py-3.5 min-h-11 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
+                    className="luxury-button-primary w-full py-3.5 min-h-11 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
                   >
                     <span>View Portal on Unstop</span>
                     <ExternalLink className="w-4 h-4" />

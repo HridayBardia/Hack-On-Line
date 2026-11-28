@@ -1,154 +1,148 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
+import { Calendar } from "lucide-react";
 import { Countdown } from "../Countdown";
-import { TextScramble } from "@/components/common/TextScramble";
-import { ChevronDown } from "lucide-react";
+import { CALENDAR_URL } from "@/lib/event";
 
-interface HeroProps {
-  onOpenRegister?: () => void;
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(SplitText);
 }
 
-export function Hero(props: HeroProps) {
-  void props;
-  const containerRef = useRef<HTMLElement>(null);
+const facts = [
+  { label: "Entry", value: "Free" },
+  { label: "Team size", value: "1–4" },
+  { label: "Problem tracks", value: "5" },
+];
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
+const rotatingPhrases = ["5 problem tracks.", "Free to enter.", "Teams of 1 to 4.", "100% online."];
 
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+/** `ready` turns true when the intro screen starts to close. */
+export function Hero({ ready }: { ready: boolean }) {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!ready || !ref.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let splits: SplitText[] = [];
+    const ctx = gsap.context((self) => {
+      const q = self.selector!;
+      const headline = new SplitText(q("[data-hero-headline]"), { type: "words,chars" });
+      const phrases = (q("[data-hero-phrase]") as HTMLElement[]).map(
+        (el) => new SplitText(el, { type: "words,chars" })
+      );
+      splits = [headline, ...phrases];
+
+      // Letters rise out of a blur
+      gsap.fromTo(
+        headline.chars,
+        { opacity: 0, y: 80, filter: "blur(5px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, ease: "power3.inOut", stagger: 0.025, delay: 0.2 }
+      );
+      gsap.fromTo(
+        q("[data-hero-fade]"),
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, ease: "power2.out", stagger: 0.12, delay: 0.4 }
+      );
+
+      // Rotating line: one phrase leaves upwards as the next arrives from below
+      gsap.set(q("[data-hero-phrase]"), { autoAlpha: 1 });
+      phrases.forEach((p, i) => {
+        if (i > 0) gsap.set(p.chars, { yPercent: 110 });
+      });
+      const loop = gsap.timeline({ repeat: -1, delay: 1.4 });
+      phrases.forEach((current, i) => {
+        const next = phrases[(i + 1) % phrases.length];
+        loop
+          .to(current.chars, { yPercent: -110, duration: 0.8, ease: "power3.inOut", stagger: 0.025 }, "+=1.8")
+          .fromTo(
+            next.chars,
+            { yPercent: 110 },
+            { yPercent: 0, duration: 0.8, ease: "power3.inOut", stagger: 0.025, immediateRender: false },
+            "<0.15"
+          );
+      });
+    }, ref);
+
+    return () => {
+      ctx.revert();
+      splits.forEach((s) => s.revert());
+    };
+  }, [ready]);
 
   return (
     <section
       id="hero"
-      ref={containerRef}
-      className="relative min-h-[92dvh] pt-24 pb-12 sm:pt-36 sm:pb-24 px-3 sm:px-4 flex flex-col items-center justify-between text-center overflow-x-clip"
+      ref={ref}
+      className="mx-auto w-full max-w-6xl px-4 sm:px-6 pt-28 md:pt-36 pb-16 md:pb-24"
     >
-      <motion.div
-        style={{ y: heroY }}
-        className="max-w-5xl mx-auto relative z-10 flex flex-col items-center w-full"
-      >
-        {/* Event Status Ribbon */}
-        <motion.div
-          initial={{ opacity: 0, y: -14, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-violet-950/70 via-zinc-900/90 to-cyan-950/70 border border-white/15 shadow-[0_0_24px_rgba(139,92,246,0.3)] mb-6 text-[11px] sm:text-xs text-zinc-200 backdrop-blur-xl max-w-full text-center"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo.png"
-            alt="Hack On-Line"
-            className="w-4 h-4 object-contain filter drop-shadow-[0_0_6px_rgba(16,185,129,0.5)] shrink-0"
-          />
-          <span className="text-zinc-200 font-normal whitespace-nowrap">
-            January 30–31, 2027
-          </span>
-          <span className="text-white/30 hidden sm:inline">•</span>
-          <span className="text-zinc-300 font-normal whitespace-nowrap">24H VIRTUAL SPRINT</span>
-          <span className="text-white/30 hidden sm:inline">•</span>
-          <span className="text-emerald-400 font-medium whitespace-nowrap">₹0 FREE ENTRY</span>
-        </motion.div>
-
-        {/* Monolithic Hero Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="relative inline-block my-2 max-w-full overflow-hidden"
-        >
-          <h1 className="text-4xl sm:text-8xl md:text-9xl font-black tracking-tight sm:tracking-tighter uppercase leading-[0.95] sm:leading-[0.9] select-none text-white drop-shadow-[0_4px_30px_rgba(255,255,255,0.3)] cursor-pointer break-words">
-            <TextScramble text="HACK ON-LINE" speed={25} cyclesPerChar={2} />
+      <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16 lg:items-center">
+        <div data-scroll="depth">
+          <h1>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              data-hero-fade
+              src="/logo.png"
+              alt="Hack On-Line 2027"
+              width={700}
+              height={475}
+              fetchPriority="high"
+              className="h-auto w-full max-w-[17rem] sm:max-w-md"
+            />
+            <span data-hero-headline className="mt-6 block text-3xl sm:text-5xl leading-tight text-foreground text-balance">
+              Build and ship in 24 hours.
+            </span>
           </h1>
-          {/* Subtle luminous neon trace below title */}
-          <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400/80 via-violet-400/80 to-transparent mt-3 shadow-[0_0_12px_rgba(6,182,212,0.8)]" />
-        </motion.div>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-          className="mt-5 sm:mt-6 text-base sm:text-2xl text-zinc-300 max-w-3xl font-light leading-relaxed text-pretty px-2"
-        >
-          The premier 24-hour virtual developer hackathon. 5 engineering sectors, fresh commits only, and rigorous peer review by active industry engineers.
-        </motion.p>
-
-        {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4"
-        >
-          <button
-            disabled
-            aria-disabled="true"
-            className="luxury-button-primary px-7 py-3.5 rounded-2xl text-sm font-bold flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.35)] cursor-default"
+          {/* Phrases are stacked in one grid cell, so the height never jumps */}
+          <p className="sr-only">{rotatingPhrases.join(" ")}</p>
+          <div
+            aria-hidden="true"
+            data-hero-fade
+            className="mt-2 grid overflow-hidden font-display text-2xl sm:text-3xl font-semibold text-brand-cyan"
           >
-            <span>Registration opens soon</span>
-          </button>
-
-          <a
-            href="#tracks"
-            className="luxury-button-secondary px-6 py-3.5 rounded-2xl text-sm font-semibold hover:border-white/40 flex items-center gap-2 cursor-pointer"
-          >
-            <span>Explore 5 Tracks</span>
-          </a>
-        </motion.div>
-
-        {/* Event Feature Pillars with Scroll Reveal */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3.5 w-full max-w-4xl text-left"
-        >
-          <div className="p-4 rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 backdrop-blur-md shadow-sm hover:border-white/20 transition-all hover:-translate-y-0.5">
-            <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest font-bold">Format</div>
-            <div className="text-base font-bold text-white mt-1">24-Hour Virtual</div>
-            <div className="text-xs text-zinc-400 mt-0.5">Online & GitHub Sprints</div>
+            {rotatingPhrases.map((phrase, i) => (
+              <span key={phrase} data-hero-phrase className={`[grid-area:1/1] ${i === 0 ? "" : "invisible"}`}>
+                {phrase}
+              </span>
+            ))}
           </div>
 
-          <div className="p-4 rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 backdrop-blur-md shadow-sm hover:border-white/20 transition-all hover:-translate-y-0.5">
-            <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest font-bold">Problem Arenas</div>
-            <div className="text-base font-bold text-white mt-1">5 Tracks</div>
-            <div className="text-xs text-zinc-400 mt-0.5">T-15m Decryption</div>
-          </div>
+          <p data-hero-fade className="mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-text-muted">
+            A virtual developer hackathon on 30–31 January 2027, from 10:00 AM to 10:00 AM IST.
+          </p>
 
-          <div className="p-4 rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 backdrop-blur-md shadow-sm hover:border-white/20 transition-all hover:-translate-y-0.5">
-            <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest font-bold">Evaluation</div>
-            <div className="text-base font-bold text-white mt-1">2-Round Judging</div>
-            <div className="text-xs text-zinc-400 mt-0.5">Top 10 Finalist Stage</div>
+          <div data-hero-fade className="mt-7 flex flex-wrap items-center gap-3">
+            <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              <Calendar className="size-4" aria-hidden="true" />
+              Add to calendar
+            </a>
+            <a href="#tracks" className="btn btn-secondary">
+              View tracks
+            </a>
           </div>
-
-          <div className="p-4 rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 backdrop-blur-md shadow-sm hover:border-white/20 transition-all hover:-translate-y-0.5">
-            <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest font-bold">Intellectual Property</div>
-            <div className="text-base font-bold text-white mt-1">100% Builder IP</div>
-            <div className="text-xs text-zinc-400 mt-0.5">0% Equity / Open Rights</div>
-          </div>
-        </motion.div>
-
-        {/* Integrated Real Chronometer */}
-        <div className="w-full mt-4">
-          <Countdown />
+          <p data-hero-fade className="mt-3 text-sm text-text-muted">Registration opens soon.</p>
         </div>
-      </motion.div>
 
-      {/* Floating Scroll Cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0.4, 0.9, 0.4] }}
-        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-        className="relative z-10 mt-8 mb-2 flex flex-col items-center gap-1.5 text-zinc-500 font-mono text-[11px] tracking-widest uppercase pointer-events-none"
-      >
-        <span>Scroll to Explore</span>
-        <ChevronDown className="w-4 h-4 text-zinc-400 animate-bounce" />
-      </motion.div>
+        {/* Outer element moves with scroll, inner one fades in on load */}
+        <div data-scroll="depth">
+        <div data-hero-fade className="bg-surface p-5 sm:p-7">
+          <Countdown ready={ready} />
+          <dl className="mt-6 divide-y divide-white/10 border-t border-white/10">
+            {facts.map((fact) => (
+              <div key={fact.label} className="flex items-baseline justify-between gap-4 py-3">
+                <dt className="text-text-muted">{fact.label}</dt>
+                <dd className="font-display text-xl font-semibold text-foreground">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        </div>
+      </div>
+
     </section>
   );
 }

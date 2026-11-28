@@ -1,35 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
-import { AmbientBackground } from "@/components/common/AmbientBackground";
+import { useScrollScenes } from "@/hooks/useScrollScenes";
+import { IntroLoader } from "@/components/fx/IntroLoader";
+import { CursorFollower } from "@/components/fx/CursorFollower";
+import { CommitGraphBackdrop } from "@/components/fx/CommitGraphBackdrop";
 import { PillNav } from "@/components/common/PillNav";
-import { ScrollProgressHUD } from "@/components/common/ScrollProgressHUD";
 import { Hero } from "@/components/sections/Hero";
-import { VelocityMarquee } from "@/components/sections/VelocityMarquee";
+import { JourneySection } from "@/components/sections/JourneySection";
 import { AboutSection } from "@/components/sections/AboutSection";
-import { PlatformSection } from "@/components/sections/PlatformSection";
-import { TimelineSection } from "@/components/sections/TimelineSection";
+import { TracksSection } from "@/components/sections/TracksSection";
 import { RulesSection } from "@/components/sections/RulesSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { FooterSection } from "@/components/sections/FooterSection";
 
-// 1. Heavy GSAP Problem Tracks Section: Lazy-loaded below the fold
-const TracksSection = dynamic(
-  () => import("@/components/sections/TracksSection").then((m) => m.TracksSection),
-  { ssr: false }
-);
-
-// 2. Heavy 3D Physics Lanyard Badges: Lazy-loaded below the fold
+// Heavy 3D Physics Lanyard Badges: Lazy-loaded below the fold
 const TeamSection = dynamic(
   () => import("@/components/sections/TeamSection").then((m) => m.TeamSection),
-  { ssr: false }
-);
-
-// 3. Conditional Registration Modal: Dynamic chunk loaded on-demand
-const RegistrationModal = dynamic(
-  () => import("@/components/RegistrationModal").then((m) => m.RegistrationModal),
   { ssr: false }
 );
 
@@ -37,59 +26,45 @@ export default function Home() {
   // Initialize smooth scrolling
   useSmoothScroll();
 
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  // Page animations start when the intro screen begins to close
+  const [ready, setReady] = useState(false);
+  const handleIntroDone = useCallback(() => setReady(true), []);
+  useScrollScenes(ready);
 
   return (
-    <div className="relative min-h-dvh bg-[#070709] text-[#F4F4F6] selection:bg-white selection:text-black overflow-x-clip">
-      {/* Ambient Backdrop */}
-      <AmbientBackground />
+    <div className="relative min-h-dvh bg-background text-foreground selection:bg-brand-green selection:text-black overflow-x-clip">
+      <IntroLoader onDone={handleIntroDone} />
+      <CursorFollower />
 
-      {/* Modern Navigation Header */}
-      <PillNav
-        onOpenRegister={() => setIsRegisterModalOpen(true)}
-      />
+      {/* Live git history behind every section */}
+      <CommitGraphBackdrop />
+
+      <PillNav />
 
       {/* Main Content Flow */}
       <main className="relative z-10 w-full overflow-x-clip">
-        {/* 1. Hero (Above the fold: immediate render) */}
-        <Hero onOpenRegister={() => setIsRegisterModalOpen(true)} />
+        <Hero ready={ready} />
 
-        {/* 2. Kinetic Velocity Marquee Ticker */}
-        <VelocityMarquee />
+        {/* Scroll through the 24 hours */}
+        <JourneySection />
 
-        {/* 3. About Us (Split-screen Blueprint Chamber) */}
-        <AboutSection />
-
-        {/* 4. Platform (3D Perspective Virtual Runtime Architecture) */}
-        <PlatformSection />
-
-        {/* 5. 5 Problem Tracks (Lazy loaded GSAP) */}
+        {/* 5 Problem Tracks */}
         <TracksSection />
 
-        {/* 6. 24-Hour Timeline */}
-        <TimelineSection />
+        <AboutSection />
 
-        {/* 7. Organizing Crew (Lazy loaded 3D Physics Rail) */}
-        <TeamSection />
-
-        {/* 8. Two-Round Judging & Evaluation */}
+        {/* Judging rubrics and fair-play protocols */}
         <RulesSection />
 
-        {/* 9. FAQ */}
+        {/* FAQ */}
         <FaqSection />
-      </main>
 
-      {/* Floating Tactical Scroll Telemetry HUD */}
-      <ScrollProgressHUD />
+        {/* Organizing Crew (Lazy loaded 3D Physics Rail) */}
+        <TeamSection />
+      </main>
 
       {/* Footer */}
       <FooterSection />
-
-      {/* Interactive Registration Modal (Loaded on-demand) */}
-      <RegistrationModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-      />
     </div>
   );
 }

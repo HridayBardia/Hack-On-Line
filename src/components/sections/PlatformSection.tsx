@@ -55,8 +55,8 @@ export function PlatformSection() {
             tag: "ORIGINAL CODE ONLY",
             title: "Fresh Commits & Fair Play",
             subtitle: "Verification that every project is built fresh during the 24-hour sprint",
-            accent: "#8B5CF6",
-            glow: "rgba(139, 92, 246, 0.4)",
+            accent: "#F2F7F5",
+            glow: "rgba(39, 246, 87, 0.4)",
             icon: GitBranch,
             metric: "100%",
             metricLabel: "FRESH CODE CHECK",
@@ -71,10 +71,10 @@ export function PlatformSection() {
                 command: "git log --since='2027-01-30 10:00:00' --stat",
                 runtimeOutputs: [
                     { text: "➔ Checking repository commit timestamps & author log...", color: "text-zinc-400" },
-                    { text: "➔ Natural commit progress detected across 24h sprint window", color: "text-violet-300" },
-                    { text: "✔ First commit: 2027-01-30 10:04:12 IST (Created after kickoff)", color: "text-emerald-400" },
-                    { text: "✔ Zero pre-existing commits detected before start time", color: "text-cyan-300" },
-                    { text: "✔ Steady commit history: Authentic team collaboration", color: "text-amber-300" },
+                    { text: "➔ Natural commit progress detected across 24h sprint window", color: "text-brand-green-soft" },
+                    { text: "✔ First commit: 2027-01-30 10:04:12 IST (Created after kickoff)", color: "text-brand-green" },
+                    { text: "✔ Zero pre-existing commits detected before start time", color: "text-brand-green-soft" },
+                    { text: "✔ Steady commit history: Authentic team collaboration", color: "text-brand-cyan-soft" },
                     { text: "★ VERDICT: 100% SPRINT-NATIVE ORIGINAL PROJECT", color: "text-white font-bold" },
                 ],
             },
@@ -85,8 +85,8 @@ export function PlatformSection() {
             tag: "EVALUATION RIGOR",
             title: "Active Industry Peer Review Grid",
             subtitle: "Evaluated by software engineers who ship code daily",
-            accent: "#06B6D4",
-            glow: "rgba(6, 182, 212, 0.4)",
+            accent: "#8CFFA8",
+            glow: "rgba(39, 246, 87, 0.4)",
             icon: Cpu,
             metric: "Stage 01",
             metricLabel: "DIRECT CODE AUDIT",
@@ -101,11 +101,11 @@ export function PlatformSection() {
                 command: "run-peer-eval --pr=24 --auditors=staff-infra-panel --depth=full",
                 runtimeOutputs: [
                     { text: "➔ Assigning PR #24 to Staff Infrastructure Panel...", color: "text-zinc-400" },
-                    { text: "➔ Inspecting TypeScript typings, database indices & error handling...", color: "text-cyan-400" },
-                    { text: "✔ Type coverage: 99.4% (Zero explicit 'any' escapes detected)", color: "text-emerald-400" },
-                    { text: "✔ SQL connection pooling & parameterized query checks: PASSED", color: "text-cyan-300" },
-                    { text: "✔ Security review: Strict CSP headers, CORS isolation verified", color: "text-violet-300" },
-                    { text: "★ AUDIT SCORE: 94.5/100 -> QUALIFIED FOR TOP 5 DEFENSE", color: "text-emerald-400 font-bold" },
+                    { text: "➔ Inspecting TypeScript typings, database indices & error handling...", color: "text-brand-green" },
+                    { text: "✔ Type coverage: 99.4% (Zero explicit 'any' escapes detected)", color: "text-brand-green" },
+                    { text: "✔ SQL connection pooling & parameterized query checks: PASSED", color: "text-brand-green-soft" },
+                    { text: "✔ Security review: Strict CSP headers, CORS isolation verified", color: "text-brand-green-soft" },
+                    { text: "★ AUDIT SCORE: 94.5/100 -> QUALIFIED FOR TOP 5 DEFENSE", color: "text-brand-green font-bold" },
                 ],
             },
         },
@@ -115,8 +115,8 @@ export function PlatformSection() {
             tag: "STAGE 02 INTERROGATION",
             title: "Live Defense Interrogation Matrix",
             subtitle: "Top 5 teams undergo live architectural cross-examination",
-            accent: "#FF8C66",
-            glow: "rgba(255, 140, 102, 0.4)",
+            accent: "#02E2F8",
+            glow: "rgba(2, 226, 248, 0.4)",
             icon: Zap,
             metric: "Stage 02",
             metricLabel: "LIVE DEFENSE",
@@ -131,11 +131,11 @@ export function PlatformSection() {
                 command: "initiate-stage-02-defense --session=top-5-finalists --interrogation=live",
                 runtimeOutputs: [
                     { text: "➔ Connecting live video link to Senior Industry Judging Panel...", color: "text-zinc-400" },
-                    { text: "➔ Finalist team presents 5M live production screen share...", color: "text-amber-300" },
-                    { text: "➔ Judge question: 'How does your state sync handle split-brain partitions?'", color: "text-rose-400 font-bold" },
-                    { text: "➔ Finalist demonstrates CRDT deterministic conflict resolution live", color: "text-cyan-300" },
-                    { text: "✔ Technical Defense Verdict: Highly proficient architectural rigor", color: "text-emerald-400" },
-                    { text: "★ FINAL STANDING: HACK ON-LINE 2027 OVERALL WINNER", color: "text-amber-400 font-bold" },
+                    { text: "➔ Finalist team presents 5M live production screen share...", color: "text-brand-cyan-soft" },
+                    { text: "➔ Judge question: 'How does your state sync handle split-brain partitions?'", color: "text-brand-cyan font-bold" },
+                    { text: "➔ Finalist demonstrates CRDT deterministic conflict resolution live", color: "text-brand-green-soft" },
+                    { text: "✔ Technical Defense Verdict: Highly proficient architectural rigor", color: "text-brand-green" },
+                    { text: "★ FINAL STANDING: HACK ON-LINE 2027 OVERALL WINNER", color: "text-brand-cyan font-bold" },
                 ],
             },
         },
@@ -165,7 +165,7 @@ export function PlatformSection() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between pb-8 border-b border-white/10 gap-6 mb-10">
                     <div>
                         <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-widest mb-2.5">
-                            <span className="size-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                            <span className="size-2 rounded-full bg-brand-green animate-pulse shadow-[0_0_8px_rgba(39,246,87,0.8)]" />
                             <span>03 // DISTRIBUTED RUNTIME ARCHITECTURE</span>
                         </div>
                         <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white">
@@ -179,7 +179,7 @@ export function PlatformSection() {
                     {/* Quick Engine Counter Badge */}
                     <div className="flex items-center gap-3 p-2 rounded-2xl bg-zinc-950/80 border border-white/15 backdrop-blur-2xl shadow-xl shrink-0">
                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-mono font-bold text-zinc-300">
-                            <Binary className="size-3.5 text-cyan-400" />
+                            <Binary className="size-3.5 text-brand-green" />
                             <span>3 CORE ENGINES</span>
                         </div>
                     </div>
@@ -267,7 +267,7 @@ export function PlatformSection() {
                                 <h3 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
                                     {currentEngine.title}
                                 </h3>
-                                <p className="mt-2 text-sm sm:text-base font-medium text-cyan-300">
+                                <p className="mt-2 text-sm sm:text-base font-medium text-brand-green-soft">
                                     {currentEngine.subtitle}
                                 </p>
 
@@ -312,7 +312,7 @@ export function PlatformSection() {
                                 </div>
 
                                 <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-zinc-300">
-                                    <ShieldCheck className="size-3.5 text-emerald-400" />
+                                    <ShieldCheck className="size-3.5 text-brand-green" />
                                     <span>PRODUCTION RUNTIME VERIFIED</span>
                                 </div>
                             </div>
@@ -324,9 +324,9 @@ export function PlatformSection() {
                                 {/* Terminal Window Chrome */}
                                 <div className="flex items-center justify-between px-4 py-3 bg-zinc-900/90 border-b border-white/10">
                                     <div className="flex items-center gap-2">
-                                        <span className="size-2.5 rounded-full bg-rose-500/80" />
-                                        <span className="size-2.5 rounded-full bg-amber-500/80" />
-                                        <span className="size-2.5 rounded-full bg-emerald-500/80" />
+                                        <span className="size-2.5 rounded-full bg-zinc-700" />
+                                        <span className="size-2.5 rounded-full bg-zinc-600" />
+                                        <span className="size-2.5 rounded-full bg-brand-green" />
                                         <span className="ml-2 text-[10px] text-zinc-400 font-medium truncate">
                                             hackonline-runtime // {currentEngine.id}
                                         </span>
@@ -339,7 +339,7 @@ export function PlatformSection() {
                                 {/* Terminal Command Prompt */}
                                 <div className="p-4 sm:p-5 text-xs">
                                     <div className="flex items-start gap-2 text-zinc-400 pb-3 border-b border-white/10 mb-4 break-all">
-                                        <span className="text-emerald-400 font-bold shrink-0">$</span>
+                                        <span className="text-brand-green font-bold shrink-0">$</span>
                                         <span className="text-zinc-200 font-bold break-all">{currentEngine.terminalData.command}</span>
                                     </div>
 

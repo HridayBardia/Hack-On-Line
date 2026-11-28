@@ -3,12 +3,12 @@ import { Terminal, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#070709] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#050607] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
       {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-md w-full text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-cyan-400">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-brand-green">
           <Terminal className="w-3.5 h-3.5 animate-pulse" />
           <span>ERROR_CODE: 404_SECTOR_NOT_FOUND</span>
         </div>
@@ -29,7 +29,7 @@ export default function NotFound() {
         <div className="pt-2">
           <Link
             href="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-zinc-950 font-bold text-sm hover:bg-zinc-200 transition-all shadow-[0_0_24px_rgba(255,255,255,0.2)]"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-green text-black font-bold text-sm hover:bg-brand-green-soft transition-all shadow-[0_0_24px_rgba(39,246,87,0.3)]"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Mission Control</span>

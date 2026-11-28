@@ -247,7 +247,7 @@ function cardEdge(s: Sim, g: EdgeGeometry, i: number, side: 1 | -1) {
 function LinkIcon({ label }: { label: string }) {
   if (/mail|@/i.test(label)) {
     return (
-      <svg aria-hidden="true" viewBox="0 0 16 16" className="size-3.5 shrink-0 text-cyan-300" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+      <svg aria-hidden="true" viewBox="0 0 16 16" className="size-3.5 shrink-0 text-brand-green-soft" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
         <rect x="2" y="3.5" width="12" height="9" rx="1.6" />
         <path d="M2.6 4.6 8 8.9l5.4-4.3" />
       </svg>
@@ -328,7 +328,7 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
         data-face="front"
         className="absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-[0.85em] border border-white/15 px-3.5 pb-3 text-card-foreground select-none"
         style={{
-          backgroundColor: "#0C0D14",
+          backgroundColor: "#101417",
           transform: "translateZ(2px)",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
@@ -380,20 +380,20 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
           onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
           title={`Click or scan to view ${item.name}'s verified dossier`}
-          className="group/barcode shrink-0 block w-full border-t border-dashed border-white/15 pt-2 z-10 cursor-pointer transition-all hover:border-cyan-400/40"
+          className="group/barcode shrink-0 block w-full border-t border-dashed border-white/15 pt-2 z-10 cursor-pointer transition-all hover:border-brand-green/40"
         >
           <svg
             aria-hidden="true"
             viewBox={`0 0 ${bars.width} 20`}
             preserveAspectRatio="none"
-            className="block h-5 w-full text-foreground/80 group-hover/barcode:text-cyan-300 transition-colors"
+            className="block h-5 w-full text-foreground/80 group-hover/barcode:text-brand-green-soft transition-colors"
           >
             <path d={bars.d} fill="currentColor" />
           </svg>
           <span className="mt-1 block text-center font-mono text-[9px] tracking-[0.32em] text-zinc-400 group-hover/barcode:text-zinc-300 transition-colors">
             {digits}
           </span>
-          <span className="mt-1.5 block text-center font-mono text-[9px] font-bold uppercase tracking-wider text-amber-300/95 group-hover/barcode:text-amber-200 transition-colors leading-tight">
+          <span className="mt-1.5 block text-center font-mono text-[9px] font-bold uppercase tracking-wider text-brand-cyan-soft/95 group-hover/barcode:text-brand-cyan-soft transition-colors leading-tight">
             {item.scanPhrase || "// SCAN TO AUDIT OFF-DUTY COMMITS"}
           </span>
         </a>
@@ -405,7 +405,7 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
         data-face="back"
         className="absolute inset-0 flex flex-col justify-between overflow-hidden rounded-[0.85em] border border-white/15 px-4 pt-9 pb-3.5 text-card-foreground select-none pointer-events-auto"
         style={{
-          backgroundColor: "#0C0D14",
+          backgroundColor: "#101417",
           transform: "rotateY(180deg) translateZ(2px)",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
@@ -417,8 +417,8 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
         {/* Top Header & Security Status: pinned at top */}
         <div className="shrink-0 border-b border-white/10 pb-2.5 z-10">
           <div className="flex items-center justify-between text-[10px] font-mono mb-1.5">
-            <span className="flex items-center gap-1.5 font-bold text-emerald-400 uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="flex items-center gap-1.5 font-bold text-brand-green uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
               Verified Crew
             </span>
             <span className="px-2 py-0.5 rounded font-mono font-bold text-[9.5px] uppercase tracking-wider bg-white/10 text-zinc-300 border border-white/10">
@@ -428,7 +428,7 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
           <span className="block text-[15px] font-black text-white leading-tight tracking-tight">
             {item.name}
           </span>
-          <span className="block text-xs font-bold text-cyan-300 leading-snug mt-0.5">
+          <span className="block text-xs font-bold text-brand-green-soft leading-snug mt-0.5">
             {item.role}
           </span>
         </div>
@@ -437,7 +437,7 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
         <div className="flex-1 flex flex-col justify-between py-2.5 z-10 min-h-0">
           <div className="space-y-2">
             {item.department && (
-              <p className="text-[10.5px] font-mono text-cyan-400/90 tracking-wider uppercase font-semibold leading-snug">
+              <p className="text-[10.5px] font-mono text-brand-green/90 tracking-wider uppercase font-semibold leading-snug">
                 {item.department}
               </p>
             )}
@@ -466,7 +466,7 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
         <div className="shrink-0 pt-2.5 border-t border-white/10 z-10">
           <div className="flex items-center justify-between text-[9.5px] font-mono uppercase tracking-wider text-zinc-400 mb-2 font-bold">
             <span>Verified Channels</span>
-            <span className="text-emerald-400 font-bold">● Active</span>
+            <span className="text-brand-green font-bold">● Active</span>
           </div>
           <div className="flex items-center gap-2 w-full">
             {links.map((link) => (
@@ -481,7 +481,7 @@ const BadgeFaces = React.memo(function BadgeFaces({ item, tone }: { item: Lanyar
                 onClick={(event) => {
                   event.stopPropagation();
                 }}
-                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 hover:bg-white/20 active:scale-95 py-2.5 px-2 text-[11px] font-mono font-semibold text-white transition-all cursor-pointer shadow-sm hover:border-cyan-400/50"
+                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 hover:bg-white/20 active:scale-95 py-2.5 px-2 text-[11px] font-mono font-semibold text-white transition-all cursor-pointer shadow-sm hover:border-brand-green/50"
               >
                 <LinkIcon label={link.label} />
                 <span className="whitespace-nowrap">{link.label}</span>

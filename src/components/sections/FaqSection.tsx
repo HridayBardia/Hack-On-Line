@@ -73,7 +73,7 @@ export function FaqSection() {
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className="flex flex-col sm:flex-row sm:items-end justify-between pb-8 border-b border-white/[0.08] gap-4 mb-10"
       >
@@ -97,7 +97,7 @@ export function FaqSection() {
               key={faq.id}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{
                 duration: 0.5,
                 delay: idx * 0.06,
@@ -151,12 +151,12 @@ export function FaqSection() {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: false }}
         transition={{ duration: 0.6, delay: 0.2 }}
         className="mt-8 p-5 rounded-2xl bg-zinc-950/40 border border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400"
       >
         <div className="flex items-center gap-2.5">
-          <Mail className="w-4 h-4 text-emerald-400" />
+          <Mail className="w-4 h-4 text-brand-green" />
           <span>Have queries, need help, or exploring collaborations? Reach out anytime:</span>
         </div>
         <a

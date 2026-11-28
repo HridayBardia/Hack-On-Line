@@ -1,9 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, JetBrains_Mono, Syne } from "next/font/google";
+import { Chakra_Petch, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const chakraPetch = Chakra_Petch({
+  variable: "--font-chakra",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
@@ -13,13 +20,6 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["700", "800"],
   display: "swap",
 });
 
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070709",
+  themeColor: "#050607",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -89,9 +89,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${syne.variable} scroll-smooth`}
+      className={`${chakraPetch.variable} ${plexSans.variable} ${jetbrainsMono.variable} scroll-smooth`}
     >
-      <body className="min-h-dvh bg-[#070709] text-[#EDEDEF] font-sans antialiased selection:bg-white selection:text-black relative overflow-x-clip">
+      <body className="min-h-dvh bg-[#050607] text-[#F2F7F5] font-sans antialiased selection:bg-brand-green selection:text-black relative overflow-x-clip">
         {children}
       </body>
     </html>

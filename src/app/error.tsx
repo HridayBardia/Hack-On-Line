@@ -15,11 +15,11 @@ export default function ErrorBoundary({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-[#070709] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-rose-500/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="min-h-screen bg-[#050607] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-danger/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 max-w-md w-full text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-xs font-mono text-rose-400">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-danger/10 border border-danger/20 text-xs font-mono text-danger">
           <AlertTriangle className="w-3.5 h-3.5" />
           <span>RUNTIME_FAULT_INTERCEPTED</span>
         </div>
@@ -35,7 +35,7 @@ export default function ErrorBoundary({
         <div className="pt-2">
           <button
             onClick={() => reset()}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-zinc-950 font-bold text-sm hover:bg-zinc-200 transition-all shadow-[0_0_24px_rgba(255,255,255,0.2)] cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-green text-black font-bold text-sm hover:bg-brand-green-soft transition-all shadow-[0_0_24px_rgba(39,246,87,0.3)] cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Re-initialize State</span>
